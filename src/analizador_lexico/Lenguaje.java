@@ -17,7 +17,7 @@ public class Lenguaje {
 //    private static final List<String> OPERADORES = new ArrayList();
 //    private static final List<String> SIMBOLOS = new ArrayList();
 //    private static final List<String> TIPOS_DATOS = new ArrayList();
-    private static final Map<String,String> PAL_RESERVADAS = new HashMap();
+    public static final Map<String,String> PAL_RESERVADAS = new HashMap();
     private static final Map<String,String> OP_ARITMETICOS = new HashMap();
     private static final List<String> SIMBOLOS = new ArrayList();
     private static final List<String> TIPOS_DATOS = new ArrayList();

@@ -89,7 +89,7 @@ public class Analizador_Lexico {
                                 i++; //Aumentar contador para ir al siguiente caracter
                             }
                             if(l.isPalReservada(aux)){
-                                Token t = new Token("Palabra reservada",aux);
+                                Token t = new Token(Lenguaje.PAL_RESERVADAS.get(aux),aux);
                                 tokens.add(t);
                             }
                             else if(l.isTipoDato(aux)){
