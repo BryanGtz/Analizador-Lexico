@@ -113,8 +113,18 @@ public class Analizador_Lexico {
                             tokens.add(t);
                             i++;
                         }
-                        else if(l.isOperador(String.valueOf(caract))){
-                            Token t = new Token(l.getTipoOperador(String.valueOf(caract)),String.valueOf(caract));
+                        else if(l.isOperadorAritmetico(String.valueOf(caract))){
+                            Token t = new Token(l.getTipoOperadorAritmetico(String.valueOf(caract)),String.valueOf(caract));
+                            tokens.add(t);
+                            i++;
+                        }
+                        else if(l.isOperadorLogicos(String.valueOf(caract))){
+                            Token t = new Token(l.getTipoOperadorLogico(String.valueOf(caract)),String.valueOf(caract));
+                            tokens.add(t);
+                            i++;
+                        }
+                        else if(l.isOperadorRelacional(String.valueOf(caract))){
+                            Token t = new Token(l.getTipoOperadorRelacional(String.valueOf(caract)),String.valueOf(caract));
                             tokens.add(t);
                             i++;
                         }

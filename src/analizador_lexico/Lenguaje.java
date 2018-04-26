@@ -64,7 +64,7 @@ public class Lenguaje {
         return PAL_RESERVADAS.containsKey(p.toLowerCase());
     }
     
-    public boolean isOperador(String o){
+    public boolean isOperadorAritmetico(String o){
         return OP_ARITMETICOS.containsKey(o);
     }
     
@@ -100,11 +100,19 @@ public class Lenguaje {
         return t.startsWith(TEXTO);
     }
     
+    public boolean isOperadorLogicos(String o){
+        return OP_LOGICOS.containsKey(o);
+    }
+    
+    public boolean isOperadorRelacional(String o){
+        return OP_RELACIONALES.containsKey(o);
+    }
+    
     public String getTipoPalabraReservada(String palabra){
         return PAL_RESERVADAS.get(palabra);
     }
     
-    public String getTipoOperador(String operador){
+    public String getTipoOperadorAritmetico(String operador){
         return OP_ARITMETICOS.get(operador);
     }
     
@@ -114,6 +122,14 @@ public class Lenguaje {
     
     public String getTipoSimbolo(String simbolo){
         return SIMBOLOS.get(simbolo);
+    }
+    
+    public String getTipoOperadorLogico(String operador){
+        return OP_LOGICOS.get(operador);
+    }
+    
+    public String getTipoOperadorRelacional(String operador){
+        return OP_RELACIONALES.get(operador);
     }
     
 }
