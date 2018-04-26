@@ -22,7 +22,7 @@ public class Lenguaje {
     private static final Map<String,String> SIMBOLOS = new HashMap();
     private static final Map<String,String> TIPOS_DATOS = new HashMap();
     private static final String IDENTIFICADOR = "[A-Za-z_][A-Za-z0-9_]*";
-    private static final String CONSTANTES = "[0-9][\\\\.0-9]*";
+    private static final String CONSTANTES = "[0-9]+([\\\\.]){0,1}([0-9])*";
     private static final String COMENTARIOS = "#";
     private static final String TEXTO = "\"";
     
@@ -76,6 +76,14 @@ public class Lenguaje {
     
     public boolean isConstante(String n){
         return n.matches(CONSTANTES);
+    }
+    
+    public boolean isNumero(String n){
+        return n.matches("\\d");
+    }
+    
+    public boolean isNumeroOPunto(String n){
+        return n.matches("[\\d||\\\\.]");
     }
     //si el string comienza con # se toma como comentario y se omite
     public boolean isComentario(String c){

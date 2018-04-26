@@ -70,14 +70,21 @@ public class Analizador_Lexico {
                             aux="";
                             i++;
                         }
-                        else if(l.isConstante(String.valueOf(caract))){ //Comprobamos que sea un numero
+                        else if(l.isNumero(String.valueOf(caract))){ //Comprobamos que sea un numero
                             aux+=caract;
                             i++;//Incrementamos para pasar al siguiente caracter
-                            while (l.isConstante(aux+=linea.charAt(i))&&i<linea.length()) { //itrear mientas el 
+                            while (l.isNumeroOPunto(String.valueOf(caract=linea.charAt(i)))&&i<linea.length()){
+                                aux+=caract;//Mientras sea un numero o punto concatenamos
                                 i++; //Aumentar contador para ir al siguiente caracter
                             }
-                            Token t = new Token("NUMERO",aux);
-                            tokens.add(t);
+                            if(l.isConstante(aux)){
+                                Token t = new Token("NUMERO",aux);
+                                tokens.add(t);
+                            }
+                            else{
+                                Token t = new Token("DESCONOCIDO",aux);
+                                tokens.add(t);
+                            }
                             aux="";
                         }
                         else if(Character.isLetter(caract)){
