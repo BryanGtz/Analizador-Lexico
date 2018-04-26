@@ -39,7 +39,7 @@ public class Analizador_Lexico {
                 linea = linea.trim(); //Elimina espacios en blanco al inicio y al final del string dejando los de enmedio
                 if(l.isComentario(linea)){
                     //Si la linea corresponde a un comentario, se termina la iteracion actual y se continua con la sig linea
-                    Token t = new Token("Comentario",linea);
+                    Token t = new Token("COMENTARIO",linea);
                     tokens.add(t);
                     continue;
                 }
@@ -53,7 +53,7 @@ public class Analizador_Lexico {
                         //si se encuentra un comentario despues del primer caracter, igualmente se omite el resto de la linea
                         if(l.isComentario(String.valueOf(caract))){
                             String comentario = linea.substring(i);
-                            Token t = new Token("Comentario",comentario);
+                            Token t = new Token("COMENTARIO",comentario);
                             tokens.add(t);
                             break;
                         }
@@ -93,7 +93,7 @@ public class Analizador_Lexico {
                                 tokens.add(t);
                             }
                             else if(l.isTipoDato(aux)){
-                                Token t = new Token("Tipo de dato",aux);
+                                Token t = new Token(l.getTipoDato(aux),aux);
                                 tokens.add(t);
                             }
                             else if(l.isID(aux)){
