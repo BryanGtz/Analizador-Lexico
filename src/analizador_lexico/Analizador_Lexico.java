@@ -89,7 +89,7 @@ public class Analizador_Lexico {
                                 i++; //Aumentar contador para ir al siguiente caracter
                             }
                             if(l.isPalReservada(aux)){
-                                Token t = new Token(Lenguaje.PAL_RESERVADAS.get(aux),aux);
+                                Token t = new Token(l.getTipoPalabraReservada(aux),aux);
                                 tokens.add(t);
                             }
                             else if(l.isTipoDato(aux)){
@@ -108,7 +108,7 @@ public class Analizador_Lexico {
                             i++;
                         }
                         else if(l.isOperador(String.valueOf(caract))){
-                            Token t = new Token("Operador",String.valueOf(caract));
+                            Token t = new Token(l.getTipoOperador(String.valueOf(caract)),String.valueOf(caract));
                             tokens.add(t);
                             i++;
                         }

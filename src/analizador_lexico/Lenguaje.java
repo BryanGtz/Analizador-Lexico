@@ -17,7 +17,7 @@ public class Lenguaje {
 //    private static final List<String> OPERADORES = new ArrayList();
 //    private static final List<String> SIMBOLOS = new ArrayList();
 //    private static final List<String> TIPOS_DATOS = new ArrayList();
-    public static final Map<String,String> PAL_RESERVADAS = new HashMap();
+    private static final Map<String,String> PAL_RESERVADAS = new HashMap();
     private static final Map<String,String> OP_ARITMETICOS = new HashMap();
     private static final List<String> SIMBOLOS = new ArrayList();
     private static final List<String> TIPOS_DATOS = new ArrayList();
@@ -47,7 +47,6 @@ public class Lenguaje {
     }
     
     public boolean isPalReservada(String p){
-//        return PAL_RESERVADAS.contains(p.toLowerCase());
         return PAL_RESERVADAS.containsKey(p.toLowerCase());
     }
     
@@ -60,7 +59,7 @@ public class Lenguaje {
     }
     
     public boolean isTipoDato(String t){
-        return TIPOS_DATOS.contains(t);
+        return TIPOS_DATOS.contains(t.toLowerCase());
     }
     
     public boolean isID(String i){
@@ -79,24 +78,11 @@ public class Lenguaje {
         return t.startsWith(TEXTO);
     }
     
-    public String reconocer(String p){
-        if(isPalReservada(p)){
-            return "Palabra reservada";
-        }
-        else if(isTipoDato(p)){
-            return "Tipo de dato";
-        }
-        else if(isID(p)){
-            return "Identificador";
-        }
-        else if(isOperador(p)){
-            return "Operador";
-        }
-        else if(isSimbolo(p)){
-            return "Simbolo";
-        }
-        else{
-            return "Desconocido";
-        }
+    public String getTipoPalabraReservada(String palabra){
+        return PAL_RESERVADAS.get(palabra);
+    }
+    
+    public String getTipoOperador(String operador){
+        return OP_ARITMETICOS.get(operador);
     }
 }
