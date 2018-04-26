@@ -1,6 +1,6 @@
 	starto(){
 		outo("Hola"); #imprime en pantalla
-		dec    a1 = 1.3;
+		dec    a1 = 1.35;
 		int  a2 = 4;
 		int   a3 = 0;
 		string t1 = "suma";

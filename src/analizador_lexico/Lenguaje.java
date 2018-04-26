@@ -22,7 +22,7 @@ public class Lenguaje {
     private static final List<String> SIMBOLOS = new ArrayList();
     private static final Map<String,String> TIPOS_DATOS = new HashMap();
     private static final String IDENTIFICADOR = "[A-Za-z_][A-Za-z0-9_]*";
-    private static final String CONSTANTES = "[0-9][0-9\\.]*";
+    private static final String CONSTANTES = "[0-9][\\\\.0-9]*";
     private static final String COMENTARIOS = "#";
     private static final String TEXTO = "\"";
     

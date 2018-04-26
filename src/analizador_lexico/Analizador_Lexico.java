@@ -72,12 +72,9 @@ public class Analizador_Lexico {
                         }
                         else if(l.isConstante(String.valueOf(caract))){ //Comprobamos que sea un numero
                             aux+=caract;
-                            i++;
-                            aux+=linea.charAt(i);
-                            while (l.isConstante(aux)&&i<linea.length()) { 
-                                aux+=caract;//Mientras sea un numero concatenamos
+                            i++;//Incrementamos para pasar al siguiente caracter
+                            while (l.isConstante(aux+=linea.charAt(i))&&i<linea.length()) { //itrear mientas el 
                                 i++; //Aumentar contador para ir al siguiente caracter
-                                aux+=linea.charAt(i);//Concatenamos el siguiente caracter para comparar
                             }
                             Token t = new Token("Numero",aux);
                             tokens.add(t);
