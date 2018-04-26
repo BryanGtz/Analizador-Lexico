@@ -57,6 +57,7 @@ public class Analizador_Lexico {
                             tokens.add(t);
                             break;
                         }
+                        //si se encuentran comillas
                         else if(l.isComillas(String.valueOf(caract))){
                             aux+=caract;
                             i++;
