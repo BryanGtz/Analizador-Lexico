@@ -19,7 +19,7 @@ public class Lenguaje {
 //    private static final List<String> TIPOS_DATOS = new ArrayList();
     private static final Map<String,String> PAL_RESERVADAS = new HashMap();
     private static final Map<String,String> OP_ARITMETICOS = new HashMap();
-    private static final List<String> SIMBOLOS = new ArrayList();
+    private static final Map<String,String> SIMBOLOS = new HashMap();
     private static final Map<String,String> TIPOS_DATOS = new HashMap();
     private static final String IDENTIFICADOR = "[A-Za-z_][A-Za-z0-9_]*";
     private static final String CONSTANTES = "[0-9][\\\\.0-9]*";
@@ -42,7 +42,11 @@ public class Lenguaje {
         OP_ARITMETICOS.put("*", "MULTIPLICACION");
         OP_ARITMETICOS.put("/", "DIVISION");
         OP_ARITMETICOS.put("=", "ASIGNACION");
-        SIMBOLOS.addAll(Arrays.asList("(",")","{","}",";","#","/*","*/"));
+        SIMBOLOS.put("(","PARENTESIS_APERTURA");
+        SIMBOLOS.put(")","PARENTESIS_CERRADURA");
+        SIMBOLOS.put("{","INICIO_BLOQUE");
+        SIMBOLOS.put("}","FIN_BLOQUE");
+        SIMBOLOS.put(";","FIN_SENTENCIA");
         TIPOS_DATOS.put("int","ENTERO");
         TIPOS_DATOS.put("bool", "BOLEANO");
         TIPOS_DATOS.put("char", "CARACTER");
@@ -59,7 +63,7 @@ public class Lenguaje {
     }
     
     public boolean isSimbolo(String s){
-        return SIMBOLOS.contains(s);
+        return SIMBOLOS.containsKey(s);
     }
     
     public boolean isTipoDato(String t){
@@ -93,4 +97,9 @@ public class Lenguaje {
     public String getTipoDato(String tipo){
         return TIPOS_DATOS.get(tipo);
     }
+    
+    public String getTipoSimbolo(String simbolo){
+        return SIMBOLOS.get(simbolo);
+    }
+    
 }

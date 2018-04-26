@@ -76,7 +76,7 @@ public class Analizador_Lexico {
                             while (l.isConstante(aux+=linea.charAt(i))&&i<linea.length()) { //itrear mientas el 
                                 i++; //Aumentar contador para ir al siguiente caracter
                             }
-                            Token t = new Token("Numero",aux);
+                            Token t = new Token("NUMERO",aux);
                             tokens.add(t);
                             aux="";
                         }
@@ -96,13 +96,13 @@ public class Analizador_Lexico {
                                 tokens.add(t);
                             }
                             else if(l.isID(aux)){
-                                Token t = new Token("Identificador",aux);
+                                Token t = new Token("IDENTIFICADOR",aux);
                                 tokens.add(t);
                             }
                             aux="";
                         }
                         else if(l.isSimbolo(String.valueOf(caract))){
-                            Token t = new Token("Simbolo",String.valueOf(caract));
+                            Token t = new Token(l.getTipoSimbolo(String.valueOf(caract)),String.valueOf(caract));
                             tokens.add(t);
                             i++;
                         }
