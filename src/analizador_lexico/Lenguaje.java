@@ -13,35 +13,41 @@ import java.util.*;
  */
 public class Lenguaje {
     
-//    private static final List<String> PAL_RESERVADAS = new ArrayList();
-//    private static final List<String> OPERADORES = new ArrayList();
-//    private static final List<String> SIMBOLOS = new ArrayList();
-//    private static final List<String> TIPOS_DATOS = new ArrayList();
     private static final Map<String,String> PAL_RESERVADAS = new HashMap();
     private static final Map<String,String> OP_ARITMETICOS = new HashMap();
+    private static final Map<String,String> OP_LOGICOS = new HashMap();
+    private static final Map<String,String> OP_RELACIONALES = new HashMap();
     private static final Map<String,String> SIMBOLOS = new HashMap();
     private static final Map<String,String> TIPOS_DATOS = new HashMap();
     private static final String IDENTIFICADOR = "[A-Za-z_][A-Za-z0-9_]*";
     private static final String CONSTANTES = "[0-9]+([\\\\.]){0,1}([0-9])*";
     private static final String COMENTARIOS = "#";
     private static final String TEXTO = "\"";
+    private static final String CARACTER = "'";
     
     public Lenguaje(){
-//        PAL_RESERVADAS.addAll(Arrays.asList("starto", "outo", "from", "to", "inc"));
-//        OPERADORES.addAll(Arrays.asList("+","-","*","/","%",">","<","="));
-//        SIMBOLOS.addAll(Arrays.asList("(",")","{","}",";","#","/*","*/"));
-//        TIPOS_DATOS.addAll(Arrays.asList("int","dec","char","string","bool"));
         PAL_RESERVADAS.put("starto", "INICIO");
         PAL_RESERVADAS.put("outo", "IMPRIMIR");
         PAL_RESERVADAS.put("from", "INICIO_FOR");
         PAL_RESERVADAS.put("to", "FIN_FOR");
         PAL_RESERVADAS.put("inc", "INCREMENTO_FOR");
-        PAL_RESERVADAS.put("if", "CONDICIONAL");
+        PAL_RESERVADAS.put("if", "SI");
+        PAL_RESERVADAS.put("else", "DE_OTRA_FORMA");
         OP_ARITMETICOS.put("+", "SUMA");
         OP_ARITMETICOS.put("-", "RESTA");
         OP_ARITMETICOS.put("*", "MULTIPLICACION");
         OP_ARITMETICOS.put("/", "DIVISION");
-        OP_ARITMETICOS.put("=", "ASIGNACION");
+        OP_ARITMETICOS.put("%", "MODULO");
+        OP_ARITMETICOS.put("=", "IGUAL");
+        OP_LOGICOS.put("and", "Y");
+        OP_LOGICOS.put("or", "O");
+        OP_LOGICOS.put("not", "NO");
+        OP_RELACIONALES.put("<", "MENOR_QUE");
+        OP_RELACIONALES.put(">", "MAYOR_QUE");
+        OP_RELACIONALES.put("<=", "MENOR_IGUAL_QUE");
+        OP_RELACIONALES.put(">=", "MENOR_IGUAL_QUE");
+        OP_RELACIONALES.put("==", "IGUAL_QUE");
+        OP_RELACIONALES.put("!=", "DIFERENTE_QUE");
         SIMBOLOS.put("(","PARENTESIS_APERTURA");
         SIMBOLOS.put(")","PARENTESIS_CERRADURA");
         SIMBOLOS.put("{","INICIO_BLOQUE");
