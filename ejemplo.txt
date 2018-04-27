@@ -9,4 +9,25 @@
 		}
 		outo( t1+a3 );
 		
+		# Condiciones
+		
+		if(a1 < a2){
+			outo("a1 es menor que a2");
+		}
+		else{
+			outo("a1 es mayor que a2");
+		}
+		
+		if(a2 == a3){
+			outo("a2 es igual a a3");
+		}
+		
+		if(a3 > a1){
+			outo("a3 es mayor o igual que a1");
+		}
+		
+		if(a2 != a3){
+			outo("a2 es diferente que a3");
+		}
+		
 	}

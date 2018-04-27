@@ -48,6 +48,7 @@ public class Lenguaje {
         OP_RELACIONALES.put(">=", "MENOR_IGUAL_QUE");
         OP_RELACIONALES.put("==", "IGUAL_QUE");
         OP_RELACIONALES.put("!=", "DIFERENTE_QUE");
+        OP_RELACIONALES.put("!", "DIFERENTE_QUE"); // Necesito este elemento para concatenar con un = [Ana]
         SIMBOLOS.put("(","PARENTESIS_APERTURA");
         SIMBOLOS.put(")","PARENTESIS_CERRADURA");
         SIMBOLOS.put("{","INICIO_BLOQUE");
