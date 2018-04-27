@@ -79,6 +79,7 @@ public class Analizador_Lexico {
                             i++;
                         }
                         //Si se encuentra un apostrofo
+						//Considera solo un caracter
                         else if(l.isApostrofo(String.valueOf(caract))){
                             aux+=caract;
                             i++;
