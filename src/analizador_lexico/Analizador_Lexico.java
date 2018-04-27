@@ -119,6 +119,7 @@ public class Analizador_Lexico {
 									i++;
 									Token t = new Token(l.getTipoOperadorRelacional(aux), aux);
 									tokens.add(t);
+									aux = "";
 								}
 								else {
 									// En caso contrario solo se encuentra con un operador
