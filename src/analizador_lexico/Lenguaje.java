@@ -33,6 +33,8 @@ public class Lenguaje {
         PAL_RESERVADAS.put("inc", "INCREMENTO_FOR");
         PAL_RESERVADAS.put("if", "SI");
         PAL_RESERVADAS.put("else", "DE_OTRA_FORMA");
+        PAL_RESERVADAS.put("true", "VERDADERO");
+        PAL_RESERVADAS.put("false", "FALSO");
         OP_ARITMETICOS.put("+", "SUMA");
         OP_ARITMETICOS.put("-", "RESTA");
         OP_ARITMETICOS.put("*", "MULTIPLICACION");
