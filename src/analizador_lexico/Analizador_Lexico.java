@@ -58,19 +58,54 @@ public class Analizador_Lexico {
 							tokens.add(t);
 							break;
 						}
-						// si se encuentran comillas
-						else if (l.isComillas(String.valueOf(caract))) {
-							aux += caract;
-							i++;
-							while (!l.isComillas(String.valueOf(linea.charAt(i)))) {
-								caract = linea.charAt(i);
-								aux += caract;
-								i++;
-							}
-							Token t = new Token("Cadena de caracteres", aux + "\"");
-							tokens.add(t);
-							aux = "";
-							i++;
+						//si se encuentran comillas
+                        else if(l.isComillas(String.valueOf(caract))){
+                            aux+=caract;
+                            i++;
+                            //Recorre la linea mientras i se menor al tamaño de la linea o encuentre comillas de cierre
+                            while (i<linea.length()&&!l.isComillas(String.valueOf(linea.charAt(i)))) {
+                                caract = linea.charAt(i);
+                                aux+=caract;                     
+                                i++;
+                            }//Si encontro comillas de cierre
+                            if(i!=linea.length()) {
+                            	Token t = new Token("Cadena de caracteres",aux+"\"");
+                            	tokens.add(t);
+                            }else {
+                            	Token t = new Token("DESCONOCIDO",aux);
+                                tokens.add(t);
+                            }                            	
+                            aux="";
+                            i++;
+                        }
+                        //Si se encuentra un apostrofo
+						//Considera solo un caracter
+                        else if(l.isApostrofo(String.valueOf(caract))){
+                            aux+=caract;
+                            i++;
+                            if(i<linea.length()) {
+                            	aux+=String.valueOf(linea.charAt(i));
+                            	if(l.isApostrofo(String.valueOf(linea.charAt(i)))) {                            		
+                            		Token t = new Token("CARACTER",aux);
+                            		tokens.add(t);
+                            	}else{
+                            		i++;
+                            		if(i<linea.length()&&l.isApostrofo(String.valueOf(linea.charAt(i)))) {
+                            			aux+=String.valueOf(linea.charAt(i));
+                            			Token t = new Token("CARACTER",aux);
+                                		tokens.add(t);
+                            		}else {
+                            			if(i<linea.length())
+                            				aux+=String.valueOf(linea.charAt(i));
+                            			Token t = new Token("DESCONOCIDO",aux);
+                                        tokens.add(t);
+                            		}
+                            	}
+                            }else{
+                            	Token t = new Token("DESCONOCIDO",aux);
+                                tokens.add(t);
+                            }                             
+                            i++;                        
 						} else if (l.isNumero(String.valueOf(caract))) { // Comprobamos que sea un numero
 							aux += caract;
 							i++;// Incrementamos para pasar al siguiente caracter
@@ -176,4 +211,5 @@ public class Analizador_Lexico {
 			JOptionPane.showMessageDialog(null, "Error al leer el archivo", "Error", JOptionPane.ERROR_MESSAGE);
 		}
 	}
+
 }

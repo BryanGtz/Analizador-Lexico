@@ -103,6 +103,10 @@ public class Lenguaje {
         return t.startsWith(TEXTO);
     }
     
+    public boolean isApostrofo(String t){
+    	return t.startsWith(CARACTER);
+    }
+    
     public boolean isOperadorLogicos(String o){
         return OP_LOGICOS.containsKey(o);
     }

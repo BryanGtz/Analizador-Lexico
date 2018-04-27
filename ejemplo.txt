@@ -1,6 +1,17 @@
 	starto(){
+		outo("Hola"); #imprime en pantalla
+		dec    a1 = 1.3;
+		int  a2 = 4;
+		int   a3 = 0;
+		string t1 = "hola";
+		char a4='a';
+		from(a1 )to(a2) inc( 1){
+			a3 = a3+ a1;
+		}
+		outo( t1+a3 );
+
 		# Logicos
-		
+				
 		bool v1 = true;
 		bool v2 = false;
 		
