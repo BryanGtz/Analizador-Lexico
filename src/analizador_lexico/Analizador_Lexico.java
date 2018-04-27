@@ -109,9 +109,9 @@ public class Analizador_Lexico {
 							tokens.add(t);
 							i++;
 						} else if (l.isOperadorAritmetico(String.valueOf(caract))) {
+							aux += caract;
 							// Esta condicion es para observar si es la condicion ==
 							if (String.valueOf(caract).equals("=")) {
-								aux += caract;
 								i++;
 								caract = linea.charAt(i);
 								if (String.valueOf(caract).equals("=")) {
@@ -119,19 +119,23 @@ public class Analizador_Lexico {
 									i++;
 									Token t = new Token(l.getTipoOperadorRelacional(aux), aux);
 									tokens.add(t);
-									aux = "";
-									i--;
 								}
 								else {
-									i--;aux = "";
-									caract = linea.charAt(i);
+									// En caso contrario solo se encuentra con un operador
+									Token t = new Token(l.getTipoOperadorAritmetico(String.valueOf(aux)),
+											String.valueOf(aux));
+									tokens.add(t);
+									i++;aux = "";
 								}
 							}
-							// En caso contrario solo se encuentra con un operador
-							Token t = new Token(l.getTipoOperadorAritmetico(String.valueOf(caract)),
-									String.valueOf(caract));
-							tokens.add(t);
-							i++;
+							else
+							{
+								// En caso contrario solo se encuentra con un operador
+								Token t = new Token(l.getTipoOperadorAritmetico(String.valueOf(aux)),
+										String.valueOf(aux));
+								tokens.add(t);
+								i++;aux = "";
+							}
 						} else if (l.isOperadorLogicos(String.valueOf(caract))) {
 							Token t = new Token(l.getTipoOperadorLogico(String.valueOf(caract)),
 									String.valueOf(caract));
@@ -140,14 +144,17 @@ public class Analizador_Lexico {
 						} else if (l.isOperadorRelacional(String.valueOf(caract))) {
 							aux += caract;
 							i++;
+							caract = linea.charAt(i);
 							// Mientras que sean simbolos relacionales se concatenan
-							while (l.isOperadorRelacional(String.valueOf(caract))) {
-								caract = linea.charAt(i);
+							if (String.valueOf(caract).equals("=")) {
 								aux += caract;
 							}
-							System.out.println(aux);
+							if(String.valueOf(aux).equals("!")) {
+								if (String.valueOf(caract).equals("=")) {
+									aux += caract;
+								}
+							}
 							Token t = new Token(l.getTipoOperadorRelacional(aux), aux);
-							System.out.println(l.getTipoOperadorRelacional("<"));
 							tokens.add(t);
 							aux = "";
 							i++;
