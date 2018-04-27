@@ -112,6 +112,11 @@ public class Analizador_Lexico {
                             tokens.add(t);
                             i++;
                         }
+                        else if(l.isRelacional(String.valueOf(caract))){
+                            Token t = new Token("Relacion",String.valueOf(caract));
+                            tokens.add(t);
+                            i++;
+                        }
                         else{
 //                            String tipo = l.reconocer(String.valueOf(caract));
 //                            Token t = new Token(tipo,String.valueOf(caract));

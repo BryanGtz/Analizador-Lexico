@@ -19,12 +19,15 @@ public class Lenguaje {
 //    private static final List<String> TIPOS_DATOS = new ArrayList();
     private static final Map<String,String> PAL_RESERVADAS = new HashMap();
     private static final Map<String,String> OP_ARITMETICOS = new HashMap();
+    private static final Map<String,String> OP_LOGICOS = new HashMap();
+    private static final Map<String,String> OP_RELACIONAL = new HashMap();
     private static final List<String> SIMBOLOS = new ArrayList();
     private static final List<String> TIPOS_DATOS = new ArrayList();
     private static final String IDENTIFICADOR = "[A-Za-z_][A-Za-z0-9_]*";
     private static final String CONSTANTES = "[0-9]+";
     private static final String COMENTARIOS = "#";
     private static final String TEXTO = "\"";
+
     
     public Lenguaje(){
 //        PAL_RESERVADAS.addAll(Arrays.asList("starto", "outo", "from", "to", "inc"));
@@ -37,11 +40,19 @@ public class Lenguaje {
         PAL_RESERVADAS.put("to", "FIN_FOR");
         PAL_RESERVADAS.put("inc", "INCREMENTO_FOR");
         PAL_RESERVADAS.put("if", "CONDICIONAL");
+        PAL_RESERVADAS.put("else", "CONDICIONAL");
         OP_ARITMETICOS.put("+", "SUMA");
         OP_ARITMETICOS.put("-", "RESTA");
         OP_ARITMETICOS.put("*", "MULTIPLICACION");
         OP_ARITMETICOS.put("/", "DIVISION");
         OP_ARITMETICOS.put("=", "ASIGNACION");
+        
+        OP_RELACIONAL.put("<", "MENOR"); 
+        OP_RELACIONAL.put("<=", "MENOR IGUAL"); 
+        OP_RELACIONAL.put(">", "MAYOR");  
+        OP_RELACIONAL.put("=>", "MAYOR IGUAL");  
+        OP_RELACIONAL.put("=!", "DIFERENTE"); 
+        OP_RELACIONAL.put("==", "IGUAL");  
         SIMBOLOS.addAll(Arrays.asList("(",")","{","}",";","#","/*","*/"));
         TIPOS_DATOS.addAll(Arrays.asList("int","dec","char","string","bool"));
     }
@@ -57,6 +68,10 @@ public class Lenguaje {
     
     public boolean isSimbolo(String s){
         return SIMBOLOS.contains(s);
+    }
+    
+    public boolean isRelacional(String r){
+        return OP_RELACIONAL.containsKey(r);
     }
     
     public boolean isTipoDato(String t){
@@ -94,6 +109,9 @@ public class Lenguaje {
         }
         else if(isSimbolo(p)){
             return "Simbolo";
+        }
+        else if(isRelacional(p)){
+            return "Condicion";
         }
         else{
             return "Desconocido";
