@@ -20,7 +20,7 @@ import javax.swing.JOptionPane;
 public class Analizador_Lexico {
     
     Lenguaje l = new Lenguaje();
-    List<Token> tokens = new ArrayList();
+    List<Token> tokens = new ArrayList<Token>();
     
     
     public void analizar(String ruta){
@@ -36,7 +36,7 @@ public class Analizador_Lexico {
         String aux = "";
         try {
             while ((linea=br.readLine())!=null) {
-                linea = linea.trim(); //Elimina espacios en blanco al inicio y al final del string dejando los de enmedio
+                linea = linea.trim(); //Elimina espacios en blanco al inicio y al final del string dejando los de el medio
                 if(l.isComentario(linea)){
                     //Si la linea corresponde a un comentario, se termina la iteracion actual y se continua con la sig linea
                     Token t = new Token("COMENTARIO",linea);
@@ -61,13 +61,19 @@ public class Analizador_Lexico {
                         else if(l.isComillas(String.valueOf(caract))){
                             aux+=caract;
                             i++;
-                            while (!l.isComillas(String.valueOf(linea.charAt(i)))) {
+                            //Recorre la linea mientras i se menor al tamaño de la linea o encuentre comillas de cierre
+                            while (i<linea.length()&&!l.isComillas(String.valueOf(linea.charAt(i)))) {
                                 caract = linea.charAt(i);
-                                aux+=caract;
+                                aux+=caract;                     
                                 i++;
-                            }
-                            Token t = new Token("Cadena de caracteres",aux+"\"");
-                            tokens.add(t);
+                            }//Si encontro comillas de cierre
+                            if(i!=linea.length()) {
+                            	Token t = new Token("Cadena de caracteres",aux);
+                            	tokens.add(t);
+                            }else {
+                            	Token t = new Token("DESCONOCIDO",aux);
+                                tokens.add(t);
+                            }                            	
                             aux="";
                             i++;
                         }
