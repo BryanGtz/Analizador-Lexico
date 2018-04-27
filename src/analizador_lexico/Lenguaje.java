@@ -33,6 +33,8 @@ public class Lenguaje {
         PAL_RESERVADAS.put("inc", "INCREMENTO_FOR");
         PAL_RESERVADAS.put("if", "SI");
         PAL_RESERVADAS.put("else", "DE_OTRA_FORMA");
+        PAL_RESERVADAS.put("true", "VERDADERO");
+        PAL_RESERVADAS.put("false", "FALSO");
         OP_ARITMETICOS.put("+", "SUMA");
         OP_ARITMETICOS.put("-", "RESTA");
         OP_ARITMETICOS.put("*", "MULTIPLICACION");
@@ -48,6 +50,7 @@ public class Lenguaje {
         OP_RELACIONALES.put(">=", "MENOR_IGUAL_QUE");
         OP_RELACIONALES.put("==", "IGUAL_QUE");
         OP_RELACIONALES.put("!=", "DIFERENTE_QUE");
+        OP_RELACIONALES.put("!", "DIFERENTE_QUE"); // Necesito este elemento para concatenar con un = [Ana]
         SIMBOLOS.put("(","PARENTESIS_APERTURA");
         SIMBOLOS.put(")","PARENTESIS_CERRADURA");
         SIMBOLOS.put("{","INICIO_BLOQUE");

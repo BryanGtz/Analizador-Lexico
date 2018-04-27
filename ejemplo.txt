@@ -9,5 +9,19 @@
 			a3 = a3+ a1;
 		}
 		outo( t1+a3 );
+
+		# Logicos
+				
+		bool v1 = true;
+		bool v2 = false;
 		
+		if(v1 == true){
+			outo("Verdadero");
+		}
+		if(v2 == false){
+			outo("Falso");
+		} 
+		if(v3 != false){
+			outo("Verdadero");
+		}
 	}
