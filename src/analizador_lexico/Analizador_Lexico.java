@@ -96,6 +96,9 @@ public class Analizador_Lexico {
 							if (l.isPalReservada(aux)) {
 								Token t = new Token(l.getTipoPalabraReservada(aux), aux);
 								tokens.add(t);
+							} else if (l.isOperadorLogicos(aux)) {
+								Token t = new Token(l.getTipoOperadorLogico(aux), aux);
+								tokens.add(t);
 							} else if (l.isTipoDato(aux)) {
 								Token t = new Token(l.getTipoDato(aux), aux);
 								tokens.add(t);
@@ -120,22 +123,21 @@ public class Analizador_Lexico {
 									Token t = new Token(l.getTipoOperadorRelacional(aux), aux);
 									tokens.add(t);
 									aux = "";
-								}
-								else {
+								} else {
 									// En caso contrario solo se encuentra con un operador
 									Token t = new Token(l.getTipoOperadorAritmetico(String.valueOf(aux)),
 											String.valueOf(aux));
 									tokens.add(t);
-									i++;aux = "";
+									i++;
+									aux = "";
 								}
-							}
-							else
-							{
+							} else {
 								// En caso contrario solo se encuentra con un operador
 								Token t = new Token(l.getTipoOperadorAritmetico(String.valueOf(aux)),
 										String.valueOf(aux));
 								tokens.add(t);
-								i++;aux = "";
+								i++;
+								aux = "";
 							}
 						} else if (l.isOperadorLogicos(String.valueOf(caract))) {
 							Token t = new Token(l.getTipoOperadorLogico(String.valueOf(caract)),
@@ -150,7 +152,7 @@ public class Analizador_Lexico {
 							if (String.valueOf(caract).equals("=")) {
 								aux += caract;
 							}
-							if(String.valueOf(aux).equals("!")) {
+							if (String.valueOf(aux).equals("!")) {
 								if (String.valueOf(caract).equals("=")) {
 									aux += caract;
 								}
