@@ -36,6 +36,6 @@ public class Token {
     
     @Override
     public String toString() {
-        return "{" + "valor='" + valor + "', tipo=" + tipo + '}';
+        return "{" + "valor='" + valor + "', tipo=" + tipo + "}\n";
     }
 }

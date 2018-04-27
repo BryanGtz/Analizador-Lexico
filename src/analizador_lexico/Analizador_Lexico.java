@@ -68,13 +68,41 @@ public class Analizador_Lexico {
                                 i++;
                             }//Si encontro comillas de cierre
                             if(i!=linea.length()) {
-                            	Token t = new Token("Cadena de caracteres",aux);
+                            	Token t = new Token("Cadena de caracteres",aux+"\"");
                             	tokens.add(t);
                             }else {
                             	Token t = new Token("DESCONOCIDO",aux);
                                 tokens.add(t);
                             }                            	
                             aux="";
+                            i++;
+                        }
+                        //Si se encuentra un apostrofo
+                        else if(l.isApostrofo(String.valueOf(caract))){
+                            aux+=caract;
+                            i++;
+                            if(i<linea.length()) {
+                            	aux+=String.valueOf(linea.charAt(i));
+                            	if(l.isApostrofo(String.valueOf(linea.charAt(i)))) {                            		
+                            		Token t = new Token("CARACTER",aux);
+                            		tokens.add(t);
+                            	}else{
+                            		i++;
+                            		if(i<linea.length()&&l.isApostrofo(String.valueOf(linea.charAt(i)))) {
+                            			aux+=String.valueOf(linea.charAt(i));
+                            			Token t = new Token("CARACTER",aux);
+                                		tokens.add(t);
+                            		}else {
+                            			if(i<linea.length())
+                            				aux+=String.valueOf(linea.charAt(i));
+                            			Token t = new Token("DESCONOCIDO",aux);
+                                        tokens.add(t);
+                            		}
+                            	}
+                            }else{
+                            	Token t = new Token("DESCONOCIDO",aux);
+                                tokens.add(t);
+                            }                             
                             i++;
                         }
                         else if(l.isNumero(String.valueOf(caract))){ //Comprobamos que sea un numero
