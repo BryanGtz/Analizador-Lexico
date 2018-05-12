@@ -1,27 +1,9 @@
-	starto(){
-		outo("Hola"); #imprime en pantalla
-		dec    a1 = 1.3;
-		int  a2 = 4;
+	starto{
+		# Inicio
+		outo(a1);
+		outo("Hola") #imprime en pantalla
+		dec  a = 1.3;
+		int  a2 = ;
 		int   a3 = 0;
-		string t1 = "hola";
-		char a4='a';
-		from(a1 )to(a2) inc( 1){
-			a3 = a3+ a1;
-		}
-		outo( t1+a3 );
-
-		# Logicos
-				
-		bool v1 = true;
-		bool v2 = false;
-		
-		if(v1 == true){
-			outo("Verdadero");
-		}
-		if(v2 == false){
-			outo("Falso");
-		} 
-		if(v3 != false){
-			outo("Verdadero");
-		}
+		string t1 = "suma";
 	}
