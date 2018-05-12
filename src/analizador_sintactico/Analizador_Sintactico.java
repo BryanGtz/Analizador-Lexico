@@ -89,29 +89,50 @@ public class Analizador_Sintactico {
 		if (tokens.get(i).getTipo().equals("IMPRIMIR")) {
 			System.out.println(tokens.get(i).getValor());
 			i++;
-			if (tokens.get(i).getTipo().equals("PARENTESIS_APERTURA")) {
-				System.out.println(tokens.get(i).getValor());
-				i++;
-				// CUERPO_OUTO
-				if (tokens.get(i).getTipo().equals("PARENTESIS_CERRADURA")) {
-					System.out.println(tokens.get(i).getValor());
-					i++;
-					if (tokens.get(i).getTipo().equals("FIN_SENTENCIA")) {
-						System.out.println(tokens.get(i).getValor());
-						i++;
-					} else {
-						System.out.println("ERROR: Se esperaba ; | Token recibido: " + tokens.get(i).getValor());
-					}
-				} else {
-					System.out.println("ERROR: Se esperaba ) | Token recibido: " + tokens.get(i).getValor());
-				}
-			} else {
-				System.out.println("ERROR: Se esperaba ( | Token recibido: " + tokens.get(i).getValor());
-
-			}
 		} else {
 			System.out.println("ERROR: Se esperaba outo | Token recibido: " + tokens.get(i).getValor());
 
+		}
+		if (tokens.get(i).getTipo().equals("PARENTESIS_APERTURA")) {
+			System.out.println(tokens.get(i).getValor());
+			i++;
+		} else {
+			System.out.println("ERROR: Se esperaba ( | Token recibido: " + tokens.get(i).getValor());
+
+		}
+		// CUERPO_OUTO
+		r_cuerpo_outo(tokens);
+		if (tokens.get(i).getTipo().equals("PARENTESIS_CERRADURA")) {
+			System.out.println(tokens.get(i).getValor());
+			i++;
+		} else {
+			System.out.println("ERROR: Se esperaba ) | Token recibido: " + tokens.get(i).getValor());
+		}
+		if (tokens.get(i).getTipo().equals("FIN_SENTENCIA")) {
+			System.out.println(tokens.get(i).getValor());
+			i++;
+		} else {
+			System.out.println("ERROR: Se esperaba ; | Token recibido: " + tokens.get(i).getValor());
+		}
+
+	}
+
+	public void r_cuerpo_outo(List<Token> tokens) {
+
+		String tipo = tokens.get(i).getTipo();
+
+		switch (tipo) {
+		case "IDENTIFICADOR":
+			System.out.println(tokens.get(i).getValor());
+			i++;
+			break;
+		case "Cadena de caracteres":
+			System.out.println(tokens.get(i).getValor());
+			i++;
+			break;
+		default:
+			System.out.println("ERROR: Se esperaba IDENTIFICADOR o TEXTO | Token recibido: " + tokens.get(i).getTipo());
+			break;
 		}
 	}
 }
