@@ -4,6 +4,7 @@
  * 
  */
 package analizador_lexico;
+import analizador_sintactico.*;
 
 /**
  *
@@ -16,10 +17,10 @@ public class Main {
      */
     public static void main(String[] args) {
         Analizador_Lexico a_l = new Analizador_Lexico();
-        a_l.analizar("ejemplo.txt");
-        for(Token t: a_l.tokens){            
-            System.out.println(t);
-        }
+        Analizador_Sintactico a_s = new Analizador_Sintactico();
+        a_l.analizar("ejemplo2.txt");
+        a_s.analizar(a_l.tokens);
+        
     }
     
 }
