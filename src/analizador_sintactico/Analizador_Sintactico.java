@@ -8,14 +8,16 @@ import analizador_lexico.*;
 public class Analizador_Sintactico {
 
 	ListIterator<Token> iterator;
+        List<Token> tokens;
 	int i;
 
 	public void analizar(List<Token> tokens) {
+                this.tokens = tokens;
 		i = 0;
-		r_S_starto(tokens);
+		r_S_starto();
 	}
 
-	public void r_S_starto(List<Token> tokens) {
+	public void r_S_starto() {
 		if (tokens.get(i).getTipo().equals("INICIO")) {
 			System.out.println("starto");
 			i++;
@@ -41,7 +43,7 @@ public class Analizador_Sintactico {
 			System.out.println("ERROR: Se esperaba { | Token recibido: " + tokens.get(i).getValor());
 		}
 		// CUERPO_STARTO
-		r_cuerpo_starto(tokens);
+		r_cuerpo_starto();
 		if (tokens.get(i).getTipo().equals("FIN_BLOQUE")) {
 			System.out.println("}");
 		} else {
@@ -50,20 +52,24 @@ public class Analizador_Sintactico {
 
 	}
 
-	public void r_cuerpo_starto(List<Token> tokens) {
+	public void r_cuerpo_starto() {
 		String tipo = tokens.get(i).getTipo();
 		switch (tipo) {
 		case "COMENTARIO":
-			r_Comentario(tokens);
-			r_mas_instrucciones(tokens);
+			r_Comentario();
+			r_mas_instrucciones();
 			break;
 		case "IMPRIMIR":
-			r_S_outo(tokens);
-			r_mas_instrucciones(tokens);
+			r_S_outo();
+			r_mas_instrucciones();
 			break;
+                case "ENTERO":
+                case "BOLEANO":
 		case "DECIMAL":
-			r_Identificador(tokens);
-			r_mas_instrucciones(tokens);
+                case "CADENA":
+                case "CARACTER":
+			r_Identificador();
+			r_mas_instrucciones();
 			break;
 		default:
 			if (!(tokens.get(i).getTipo().equals("FIN_BLOQUE"))) {
@@ -73,7 +79,7 @@ public class Analizador_Sintactico {
 		}
 	}
 
-	public void r_Identificador(List<Token> tokens) {
+	public void r_Identificador() {
 		System.out.println(tokens.get(i).getValor());
 		String tipo = tokens.get(i).getTipo();
 		i++;
@@ -136,40 +142,28 @@ public class Analizador_Sintactico {
 			i++;
 		} else {
 			System.out.println("ERROR: Se esperaba ; | Token recibido: " + tokens.get(i).getValor());
-			r_mas_instrucciones(tokens);
+			r_mas_instrucciones();
 		}
 	}
 
-	public void r_mas_instrucciones(List<Token> tokens) {
+	public void r_mas_instrucciones() {
 		String tipo = tokens.get(i).getTipo();
 		switch (tipo) {
 		case "COMENTARIO":
-			r_Comentario(tokens);
-			r_mas_instrucciones(tokens);
+			r_Comentario();
+			r_mas_instrucciones();
 			break;
 		case "IMPRIMIR":
-			r_S_outo(tokens);
-			r_mas_instrucciones(tokens);
+			r_S_outo();
+			r_mas_instrucciones();
 			break;
-		case "DECIMAL":
-			r_Identificador(tokens);
-			r_mas_instrucciones(tokens);
-			break;
-		case "ENTERO":
-			r_Identificador(tokens);
-			r_mas_instrucciones(tokens);
-			break;
-		case "BOLEANO":
-			r_Identificador(tokens);
-			r_mas_instrucciones(tokens);
-			break;
-		case "CARACTER":
-			r_Identificador(tokens);
-			r_mas_instrucciones(tokens);
-			break;
+		case "DECIMAL":			
+		case "ENTERO":			
+		case "BOLEANO":			
+		case "CARACTER":			
 		case "CADENA":
-			r_Identificador(tokens);	
-			r_mas_instrucciones(tokens);
+			r_Identificador();	
+			r_mas_instrucciones();
 			break;
 		case "SI":
 			r_S_If();
@@ -188,18 +182,18 @@ public class Analizador_Sintactico {
 		
 	}
 
-	public void r_Comentario(List<Token> tokens) {
+	public void r_Comentario() {
 		if (tokens.get(i).getTipo().equals("COMENTARIO")) {
 			System.out.println(tokens.get(i).getValor());
 			i++;
-			r_mas_instrucciones(tokens);
+			r_mas_instrucciones();
 		} else {
 			System.out.println("ERROR: Se esperaba # | Token recibido: " + tokens.get(i).getValor());
-			r_mas_instrucciones(tokens);
+			r_mas_instrucciones();
 		}
 	}
 
-	public void r_S_outo(List<Token> tokens) {
+	public void r_S_outo() {
 		if (tokens.get(i).getTipo().equals("IMPRIMIR")) {
 			System.out.println(tokens.get(i).getValor());
 			i++;
@@ -213,7 +207,7 @@ public class Analizador_Sintactico {
 			System.out.println("ERROR: Se esperaba ( | Token recibido: " + tokens.get(i).getValor());
 		}
 		// CUERPO_OUTO
-		r_cuerpo_outo(tokens);
+		r_cuerpo_outo();
 		if (tokens.get(i).getTipo().equals("PARENTESIS_CERRADURA")) {
 			System.out.println(tokens.get(i).getValor());
 			i++;
@@ -225,7 +219,7 @@ public class Analizador_Sintactico {
 			i++;
 		} else {
 			System.out.println("ERROR: Se esperaba ; | Token recibido: " + tokens.get(i).getValor());
-			r_mas_instrucciones(tokens);
+			r_mas_instrucciones();
 		}
 
 	}
@@ -238,7 +232,7 @@ public class Analizador_Sintactico {
 		
 	}
 	
-	public void r_cuerpo_outo(List<Token> tokens) {
+	public void r_cuerpo_outo() {
 		String tipo = tokens.get(i).getTipo();
 		switch (tipo) {
 		case "IDENTIFICADOR":

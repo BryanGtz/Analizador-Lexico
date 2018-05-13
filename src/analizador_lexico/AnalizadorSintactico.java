@@ -11,14 +11,14 @@ import java.util.List;
  *
  * @author HP
  */
-public class Analizador_Sintactico {
+public class AnalizadorSintactico {
     
     Analizador_Lexico a;
     List<Token> listaToken;
     private int num_token_actual = -1;
     Token t;
     
-    public Analizador_Sintactico(Analizador_Lexico a){
+    public AnalizadorSintactico(Analizador_Lexico a){
         this.a = a;
         listaToken = a.tokens;
     }
