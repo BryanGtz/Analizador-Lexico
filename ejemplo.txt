@@ -6,4 +6,10 @@
 		int  a2 = ;
 		int   a3 = 0;
 		string t1 = "suma";
+		if(a%2==0){
+			outo("a es par");
+		}
+		else{
+			outo("a es impar");
+		}
 	}
