@@ -1,18 +1,16 @@
 package analizador_sintactico;
 
 import java.util.List;
-import java.util.ListIterator;
 
 import analizador_lexico.*;
 
 public class Analizador_Sintactico {
 
-	ListIterator<Token> iterator;
         List<Token> tokens;
 	int i;
 
-	public void analizar(List<Token> tokens) {
-                this.tokens = tokens;
+	public void analizar(Analizador_Lexico a_l) {
+                tokens = a_l.tokens;
 		i = 0;
 		r_S_starto();
 	}
@@ -24,19 +22,19 @@ public class Analizador_Sintactico {
 		} else {
 			System.out.println("ERROR: Se esperaba starto | Token recibido: " + tokens.get(i).getValor());
 		}
-		if (getTokenType().equals("PARENTESIS_APERTURA")) {
+		if (tokens.get(i).getTipo().equals("PARENTESIS_APERTURA")) {
 			System.out.println("(");
 			i++;
 		} else {
 			System.out.println("ERROR: Se esperaba ( | Token recibido: " + tokens.get(i).getValor());
 		}
-		if (getTokenType().equals("PARENTESIS_CERRADURA")) {
+		if (tokens.get(i).getTipo().equals("PARENTESIS_CERRADURA")) {
 			System.out.println(")");
 			i++;
 		} else {
 			System.out.println("ERROR: Se esperaba ) | Token recibido: " + tokens.get(i).getValor());
 		}
-		if (getTokenType().equals("INICIO_BLOQUE")) {
+		if (tokens.get(i).getTipo().equals("INICIO_BLOQUE")) {
 			System.out.println("{");
 			i++;
 		} else {
@@ -66,6 +64,12 @@ public class Analizador_Sintactico {
                 case "CARACTER":
 			r_Identificador();
 			r_mas_instrucciones();
+			break;
+                case "SI":
+			r_S_If();
+			break;
+		case "INICIO_FOR":
+			r_S_From();
 			break;
 		default:
 			if (!(getTokenType().equals("FIN_BLOQUE"))) {
