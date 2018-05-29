@@ -6,11 +6,12 @@ Sstarto -> starto () {cuerpo}
 
 ---
 
-cuerpo -> Souto Mas_Instrucciones 
-		  | SDeclaracion Mas_Instrucciones 
-		  | SOperacion Mas_Instrucciones 
-		  | Sif Mas_Instrucciones 
-		  | Sfrom Mas_Instrucciones
+cuerpo -> Souto Mas_Instrucciones | 
+	  SDeclaracion Mas_Instrucciones | 
+	  SOperacion Mas_Instrucciones | 
+	  Sif Mas_Instrucciones | 
+	  Sfrom Mas_Instrucciones
+
 ---
 
 Souto -> outo (Cuerpo_outo) ;
