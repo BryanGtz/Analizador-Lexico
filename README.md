@@ -4,8 +4,6 @@
 
 __Sstarto__ -> starto () {cuerpo}
 
----
-
 _cuerpo_ -> Souto Mas_Instrucciones | 
 	  SDeclaracion Mas_Instrucciones | 
 	  SOperacion Mas_Instrucciones | 
