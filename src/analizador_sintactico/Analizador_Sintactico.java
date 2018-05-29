@@ -62,14 +62,16 @@ public class Analizador_Sintactico {
 		case "DECIMAL":
                 case "CADENA":
                 case "CARACTER":
-			r_Identificador();
+			r_Identificador(); //declaracion de variables
 			r_mas_instrucciones();
 			break;
                 case "SI":
 			r_S_If();
+                        r_mas_instrucciones();
 			break;
 		case "INICIO_FOR":
-			r_S_From();
+			r_S_From();//ciclo for
+                        r_mas_instrucciones();
 			break;
 		default:
 			if (!(getTokenType().equals("FIN_BLOQUE"))) {
