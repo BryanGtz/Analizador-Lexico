@@ -1,5 +1,3 @@
-# Analizador-Lexico
-
 # Analizador Sintactico:
 
 ## Reglas:
