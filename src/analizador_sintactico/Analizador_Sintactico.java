@@ -83,9 +83,9 @@ public class Analizador_Sintactico {
 			Mas_Instrucciones();
 			break;
 		// SOperacion Mas_Instrucciones:
-                case "IDENTIFICADOR":
-                        Mas_Instrucciones();
-		// Sif Mas_Instrucciones
+		case "IDENTIFICADOR":
+			Mas_Instrucciones();
+			// Sif Mas_Instrucciones
 		case "SI":
 			Sif();
 			Mas_Instrucciones();
@@ -99,7 +99,7 @@ public class Analizador_Sintactico {
 
 		// ERROR:
 		default:
-			System.out.println("ERROR");
+			System.out.println("ERROR: No se permiten espacios nulos");
 			break;
 		}
 	}
@@ -134,7 +134,7 @@ public class Analizador_Sintactico {
 			System.out.println("ERROR: Se esperaba IDENTIFICADOR | Token recibido: " + tokens.get(i).getValor());
 		}
 		r_asignacion();
-                
+
 		if (tokens.get(i).getTipo().equals("FIN_SENTENCIA")) {
 			System.out.println(tokens.get(i).getValor());
 			i++;
@@ -143,33 +143,33 @@ public class Analizador_Sintactico {
 		}
 	}
 
-	public void r_asignacion() {		
+	public void r_asignacion() {
 		if (tokens.get(i).getTipo().equals("IGUAL")) {
 			System.out.println(tokens.get(i).getValor());
 			i++;
-                        r_valor();
+			r_valor();
 		} else {
 			System.out.println("ERROR: Se esperaba IDENTIFICADOR | Token recibido: " + tokens.get(i).getValor());
-		}                
+		}
 	}
-        
-        public void r_valor(){
-            String tipo = tokens.get(i).getTipo();
+
+	public void r_valor() {
+		String tipo = tokens.get(i).getTipo();
 		switch (tipo) {
 		case "NUMERO":
 		case "VERADADERO":
 		case "FALSO":
 		case "Cadena de caracteres":
 		case "CARACTER":
-                        System.out.println(tokens.get(i).getValor());
-                        i++;
-                        break;
-                default:
-                    System.out.println("ERROR. Se esperaba un numero o una cadena de caracteres"
-                            + "o true o false o un caracter");
-                    break;
+			System.out.println(tokens.get(i).getValor());
+			i++;
+			break;
+		default:
+			System.out.println(
+					"ERROR. Se esperaba un numero o una cadena de caracteres" + "o true o false o un caracter");
+			break;
 		}
-        }
+	}
 
 	public void Souto() {
 		if (getTokenType().equals("IMPRIMIR")) {
@@ -206,11 +206,12 @@ public class Analizador_Sintactico {
 	}
 
 	// S_if -> if ( Operador_NOT Condicion ) { cuerpo } Selse
+	// Sif -> if(Operador_NOT Condicion){cuerpo} Selse
 	public void Sif() {
 		// if:
 		if (getTokenType().equals("SI")) {
 			System.out.println("if");
-			
+
 		} else {
 			System.out.println("ERROR: Se esperaba if | Token recibido: " + tokens.get(i).getValor());
 		}
@@ -218,7 +219,7 @@ public class Analizador_Sintactico {
 		// Inicio del parentesis:
 		if (getTokenType().equals("PARENTESIS_APERTURA")) {
 			System.out.println("(");
-			
+
 		} else {
 			System.out.println("ERROR: Se esperaba ( | Token recibido: " + tokens.get(i).getValor());
 		}
@@ -254,16 +255,18 @@ public class Analizador_Sintactico {
 		// Fin del bloque:
 		if (getTokenType().equals("FIN_BLOQUE")) {
 			System.out.println("}");
-		}
-		else {
+		} else {
 			System.out.println("ERROR: Se esperaba } | Token recibido: " + tokens.get(i).getValor());
 		}
 		i++;
-		// S_Else
+
+		// Selse
+		Selse();
 	}
 
 	// Condicion -> Expresion_individual Operador_relacional Expresion_individual
 	// Mas_Condiciones
+	// Condicion -> Expresion_individual Operador_relacional Expresion_individual Mas_Condiciones
 	public void Condicion() {
 		Expresion_individual();
 		Operador_relacional();
@@ -271,6 +274,7 @@ public class Analizador_Sintactico {
 		Mas_Condiciones();
 	}
 
+	// Expresion_individual -> IdNum Expresion
 	// Expresion_individual -> IdNum Expresion
 	public void Expresion_individual() {
 		String tipo = getTokenType();
@@ -289,6 +293,7 @@ public class Analizador_Sintactico {
 
 	}
 
+	// Expresion -> Operador_aritmetico IdNum Mas_expresiones | E
 	// Expresion -> Operador_aritmetico IdNum Mas_expresiones | E
 	public void Expresion() {
 		// Operador_aritmetico
@@ -322,10 +327,12 @@ public class Analizador_Sintactico {
 	}
 
 	// Mas_expresiones -> Expresion
+	// Mas_expresiones -> Expresion | E
 	public void Mas_Expresiones() {
 		Expresion();
 	}
 
+	// Operador_relacional -> ==|!=|<|>|<=|>=
 	// Operador_relacional -> ==|!=|<|>|<=|>=
 	public void Operador_relacional() {
 		// Operadores relacionales ==|!=|<|>|<=|>=
@@ -348,6 +355,7 @@ public class Analizador_Sintactico {
 	}
 
 	// Mas_condiciones -> Operador_logico condicion | E
+	// Mas_condiciones -> Operador_logico condicion | E
 	public void Mas_Condiciones() {
 		// Operadores logicos AND|OR
 		if (getTokenType().equals("OP_LOGICOS")) {
@@ -356,6 +364,35 @@ public class Analizador_Sintactico {
 			Condicion();
 		} else {
 			// Vacio;
+		}
+	}
+
+	// Selse -> else {cuerpo} | E
+	public void Selse() {
+		// else:
+		if (getTokenType().equals("DE_OTRA_FORMA")) {
+			System.out.println("else");
+			i++;
+			// Inicio de bloque:
+			if (getTokenType().equals("INICIO_BLOQUE")) {
+				System.out.println("{");
+			} else {
+				System.out.println("ERROR: Se esperaba { | Token recibido: " + tokens.get(i).getValor());
+			}
+			i++;
+
+			// Cuerpo principal:
+			cuerpo();
+
+			// Fin del bloque:
+			if (getTokenType().equals("FIN_BLOQUE")) {
+				System.out.println("}");
+			} else {
+				System.out.println("ERROR: Se esperaba } | Token recibido: " + tokens.get(i).getValor());
+			}
+			i++;
+		} else {
+			// Vacio
 		}
 	}
 
