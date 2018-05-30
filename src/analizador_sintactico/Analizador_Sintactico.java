@@ -1,16 +1,16 @@
 package analizador_sintactico;
 
 import java.util.List;
-import java.util.ListIterator;
 
 import analizador_lexico.*;
 
 public class Analizador_Sintactico {
 
-	ListIterator<Token> iterator;
+        List<Token> tokens;
 	int i;
 
-	public void analizar(List<Token> tokens) {
+	public void analizar(Analizador_Lexico a_l) {
+                tokens = a_l.tokens;
 		i = 0;
 		Sstarto(tokens);
 	}
@@ -58,6 +58,7 @@ public class Analizador_Sintactico {
 		}
 	}
 
+
 	// cuerpo -> 
 	//    Souto Mas_Instrucciones 
 	//  | SDeclaracion Mas_Instrucciones 
@@ -104,9 +105,7 @@ public class Analizador_Sintactico {
 			
 		// ERROR:
 		default:
-			if (!(tokens.get(i).getTipo().equals("FIN_BLOQUE"))) {
-				System.out.println("ERROR");
-			}
+			System.out.println("ERROR");
 			break;
 		}
 	}
@@ -119,15 +118,48 @@ public class Analizador_Sintactico {
 	
 	public void SDeclaracion(List<Token> tokens) {
 		System.out.println(tokens.get(i).getValor());
-		String tipo = tokens.get(i).getTipo();
+		
 		i++;
-		if (tokens.get(i).getTipo().equals("IDENTIFICADOR")) {
+		if (getTokenType().equals("IDENTIFICADOR")) {
 			System.out.println(tokens.get(i).getValor());
 			i++;
 		} else {
 			System.out.println("ERROR: Se esperaba IDENTIFICADOR | Token recibido: " + tokens.get(i).getValor());
 		}
-		if (tokens.get(i).getTipo().equals("IGUAL")) {
+                r_asignacion();
+		
+		if (getTokenType().equals("FIN_SENTENCIA")) {
+			System.out.println(tokens.get(i).getValor());
+			i++;
+		} else {
+			System.out.println("ERROR: Se esperaba ; | Token recibido: " + tokens.get(i).getValor());
+			r_mas_instrucciones();
+		}
+	}
+
+	public void r_mas_instrucciones() {
+		String tipo = getTokenType();
+		switch (tipo) {
+		case "IMPRIMIR":			
+		case "DECIMAL":			
+		case "ENTERO":			
+		case "BOLEANO":			
+		case "CARACTER":			
+		case "CADENA":			
+		case "SI":			
+		case "INICIO_FOR":
+                case "IDENTIFICADOR":
+			r_cuerpo_starto();
+		default:			
+			break;
+		}
+		
+	}
+        
+        
+        public void r_asignacion() {
+            String tipo = tokens.get(i).getTipo();
+            if (tokens.get(i).getTipo().equals("IGUAL")) {
 			System.out.println(tokens.get(i).getValor());
 			i++;
 		} else {
@@ -135,7 +167,7 @@ public class Analizador_Sintactico {
 		}
 		switch (tipo) {
 		case "DECIMAL":
-			if (tokens.get(i).getTipo().equals("NUMERO")) {
+			if (getTokenType().equals("NUMERO")) {
 				System.out.println(tokens.get(i).getValor());
 				i++;
 			} else {
@@ -143,7 +175,7 @@ public class Analizador_Sintactico {
 			}
 			break;
 		case "ENTERO":
-			if (tokens.get(i).getTipo().equals("NUMERO")) {
+			if (getTokenType().equals("NUMERO")) {
 				System.out.println(tokens.get(i).getValor());
 				i++;
 			} else {
@@ -151,7 +183,7 @@ public class Analizador_Sintactico {
 			}
 			break;
 		case "BOLEANO":
-			if (tokens.get(i).getTipo().equals("VERDADERO") || tokens.get(i).getTipo().equals("FALSO")) {
+			if (getTokenType().equals("VERDADERO")||tokens.get(i).getTipo().equals("FALSO")) {
 				System.out.println(tokens.get(i).getValor());
 				i++;
 			} else {
@@ -159,7 +191,7 @@ public class Analizador_Sintactico {
 			}
 			break;
 		case "CARACTER":
-			if (tokens.get(i).getTipo().equals("Cadena de caracteres")) {
+			if (getTokenType().equals("Cadena de caracteres")) {
 				System.out.println(tokens.get(i).getValor());
 				i++;
 			} else {
@@ -167,7 +199,7 @@ public class Analizador_Sintactico {
 			}
 			break;
 		case "CADENA":
-			if (tokens.get(i).getTipo().equals("Cadena de caracteres")) {
+			if (getTokenType().equals("Cadena de caracteres")) {
 				System.out.println(tokens.get(i).getValor());
 				i++;
 			} else {
@@ -175,28 +207,47 @@ public class Analizador_Sintactico {
 			}
 			break;
 		}
-		if (tokens.get(i).getTipo().equals("FIN_SENTENCIA")) {
+        }
+
+	public void r_S_outo() {
+		if (getTokenType().equals("IMPRIMIR")) {
+			System.out.println(tokens.get(i).getValor());
+			i++;
+		} else {
+			System.out.println("ERROR: Se esperaba outo | Token recibido: " + tokens.get(i).getValor());
+		}
+		if (getTokenType().equals("PARENTESIS_APERTURA")) {
+			System.out.println(tokens.get(i).getValor());
+			i++;
+		} else {
+			System.out.println("ERROR: Se esperaba ( | Token recibido: " + tokens.get(i).getValor());
+		}
+		// CUERPO_OUTO
+		r_cuerpo_outo();
+		if (getTokenType().equals("PARENTESIS_CERRADURA")) {
+			System.out.println(tokens.get(i).getValor());
+			i++;
+		} else {
+			System.out.println("ERROR: Se esperaba ) | Token recibido: " + tokens.get(i).getValor());
+		}
+		if (getTokenType().equals("FIN_SENTENCIA")) {
 			System.out.println(tokens.get(i).getValor());
 			i++;
 		} else {
 			System.out.println("ERROR: Se esperaba ; | Token recibido: " + tokens.get(i).getValor());
-			Mas_Instrucciones(tokens);
+			r_mas_instrucciones();
 		}
+
 	}
-	
-	public void SComentario(List<Token> tokens) {
-		if (tokens.get(i).getTipo().equals("COMENTARIO")) {
-			//System.out.println(tokens.get(i).getValor());
-			i++;
-			Mas_Instrucciones(tokens);
-		} else {
-			System.out.println("ERROR: Se esperaba # | Token recibido: " + tokens.get(i).getValor());
-			Mas_Instrucciones(tokens);
-		}
-	}
-	
 	public void Souto(List<Token> tokens) {
 		if (tokens.get(i).getTipo().equals("IMPRIMIR")) {
+
+	public void r_S_From() {
+		
+	}
+	
+	public void r_S_If() {
+		if (getTokenType().equals("SI")) {
 			System.out.println(tokens.get(i).getValor());
 			i++;
 		} else {
@@ -208,8 +259,6 @@ public class Analizador_Sintactico {
 		} else {
 			System.out.println("ERROR: Se esperaba ( | Token recibido: " + tokens.get(i).getValor());
 		}
-		// CUERPO_OUTO
-		r_cuerpo_outo(tokens);
 		if (tokens.get(i).getTipo().equals("PARENTESIS_CERRADURA")) {
 			System.out.println(tokens.get(i).getValor());
 			i++;
@@ -275,8 +324,8 @@ public class Analizador_Sintactico {
 		// S_Else
 	}
 
-	public void r_cuerpo_outo(List<Token> tokens) {
-		String tipo = tokens.get(i).getTipo();
+	public void r_cuerpo_outo() {
+		String tipo = getTokenType();
 		switch (tipo) {
 		case "IDENTIFICADOR":
 			System.out.println(tokens.get(i).getValor());
@@ -291,4 +340,21 @@ public class Analizador_Sintactico {
 			break;
 		}
 	}
+        
+        public String getTokenType(){
+            String tipo;
+            if(!tokens.get(i).getTipo().equals("COMENTARIO")){
+                tipo = tokens.get(i).getTipo();
+            }
+            else{
+                i++;
+                tipo = getTokenType();
+            }
+            return tipo;
+        }
+
+    private void expresion() {
+        
+    }
+
 }

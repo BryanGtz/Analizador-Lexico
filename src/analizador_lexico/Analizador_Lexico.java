@@ -19,8 +19,8 @@ import javax.swing.JOptionPane;
  */
 public class Analizador_Lexico {
 
-	Lenguaje l = new Lenguaje();
-	List<Token> tokens = new ArrayList();
+	public Lenguaje l = new Lenguaje();
+	public List<Token> tokens = new ArrayList();
 
 	public void analizar(String ruta) {
 		FileReader fr = null;
@@ -62,7 +62,7 @@ public class Analizador_Lexico {
                         else if(l.isComillas(String.valueOf(caract))){
                             aux+=caract;
                             i++;
-                            //Recorre la linea mientras i se menor al tamaño de la linea o encuentre comillas de cierre
+                            //Recorre la linea mientras i se menor al tamaï¿½o de la linea o encuentre comillas de cierre
                             while (i<linea.length()&&!l.isComillas(String.valueOf(linea.charAt(i)))) {
                                 caract = linea.charAt(i);
                                 aux+=caract;                     
