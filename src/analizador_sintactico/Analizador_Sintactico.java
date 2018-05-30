@@ -239,6 +239,7 @@ public class Analizador_Sintactico {
 		}
 	}
 	
+	//halpme
 	public void r_cuerpo_outo() {
 		String tipo = getTokenType();
 		switch (tipo) {
