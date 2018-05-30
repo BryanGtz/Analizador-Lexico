@@ -132,7 +132,7 @@ public class Analizador_Sintactico {
 		}
 
 	}
-
+ 
 	// Declaracion -> Tipo_dato Identificador Asignacion ;
 	public void SDeclaracion() {
 		// Tipo de dato ya lo obtuvimos
