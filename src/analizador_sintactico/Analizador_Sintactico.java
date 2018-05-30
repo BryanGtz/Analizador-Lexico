@@ -210,14 +210,22 @@ public class Analizador_Sintactico {
 
 	// S_if -> if ( Operador_NOT Condicion ) { cuerpo } Selse
 	public void Sif() {
+		// if:
+		if (getTokenType().equals("SI")) {
+			System.out.println("if");
+			
+		} else {
+			System.out.println("ERROR: Se esperaba if | Token recibido: " + tokens.get(i).getValor());
+		}
+		i++;
 		// Inicio del parentesis:
 		if (getTokenType().equals("PARENTESIS_APERTURA")) {
 			System.out.println("(");
-			i++;
+			
 		} else {
 			System.out.println("ERROR: Se esperaba ( | Token recibido: " + tokens.get(i).getValor());
 		}
-
+		i++;
 		// Operador NOT -> NOT | E
 		if (getTokenType().equals("OP_LOGICOS")) {
 			System.out.println("NOT");
@@ -226,22 +234,23 @@ public class Analizador_Sintactico {
 			// VACIO = E;
 		}
 
+		// Condicion:
+		Condicion();
+
 		// Fin del parentesis:
 		if (getTokenType().equals("PARENTESIS_CERRADURA")) {
 			System.out.println(")");
-			i++;
 		} else {
 			System.out.println("ERROR: Se esperaba ) | Token recibido: " + tokens.get(i).getValor());
 		}
-
+		i++;
 		// Inicio de bloque:
 		if (getTokenType().equals("INICIO_BLOQUE")) {
 			System.out.println("{");
-			i++;
 		} else {
 			System.out.println("ERROR: Se esperaba { | Token recibido: " + tokens.get(i).getValor());
 		}
-
+		i++;
 		// Cuerpo principal:
 		cuerpo();
 
@@ -249,8 +258,108 @@ public class Analizador_Sintactico {
 		if (getTokenType().equals("FIN_BLOQUE")) {
 			System.out.println("}");
 		}
-
+		else {
+			System.out.println("ERROR: Se esperaba } | Token recibido: " + tokens.get(i).getValor());
+		}
+		i++;
 		// S_Else
+	}
+
+	// Condicion -> Expresion_individual Operador_relacional Expresion_individual
+	// Mas_Condiciones
+	public void Condicion() {
+		Expresion_individual();
+		Operador_relacional();
+		Expresion_individual();
+		Mas_Condiciones();
+	}
+
+	// Expresion_individual -> IdNum Expresion
+	public void Expresion_individual() {
+		String tipo = getTokenType();
+		switch (tipo) {
+		case "IDENTIFICADOR":
+		case "NUMERO":
+			System.out.println(tokens.get(i).getValor());
+			i++;
+			Expresion();
+			break;
+		default:
+			System.out.println("ERROR: Se esperaba IDENTIFICADOR o NUMERO " + " | Token recibido: "
+					+ tokens.get(i).getValor() + getTokenType());
+			break;
+		}
+
+	}
+
+	// Expresion -> Operador_aritmetico IdNum Mas_expresiones | E
+	public void Expresion() {
+		// Operador_aritmetico
+		String tipo = getTokenType();
+		switch (tipo) {
+		case "SUMA":
+		case "RESTA":
+		case "MULTIPLICACION":
+		case "DIVISION":
+		case "MODULO":
+			System.out.println(tokens.get(i).getValor());
+			i++;
+			// IdNum
+			String tipo2 = getTokenType();
+			switch (tipo2) {
+			case "IDENTIFICADOR":
+			case "NUMERO":
+				System.out.println(tokens.get(i).getValor());
+				i++;
+				Mas_Expresiones();
+				break;
+			default:
+				System.out.println("ERROR: Se esperaba IDENTIFICADOR o NUMEROS | Token recibido: "
+						+ tokens.get(i).getValor() + tokens.get(i).getTipo());
+				break;
+			}
+		default:
+			// Vacio
+			break;
+		}
+	}
+
+	// Mas_expresiones -> Expresion
+	public void Mas_Expresiones() {
+		Expresion();
+	}
+
+	// Operador_relacional -> ==|!=|<|>|<=|>=
+	public void Operador_relacional() {
+		// Operadores relacionales ==|!=|<|>|<=|>=
+		String tipo = getTokenType();
+		switch (tipo) {
+		case "MENOR_QUE":
+		case "MAYOR_QUE":
+		case "MENOR_IGUAL_QUE":
+		case "MAYOR_IGUAL_QUE":
+		case "IGUAL_QUE":
+		case "DIFERENTE_QUE":
+			System.out.println(tokens.get(i).getValor());
+			i++;
+			break;
+		default:
+			System.out.println("ERROR: Se esperaba OPERADOR RELACIONAL " + " | Token recibido: "
+					+ tokens.get(i).getValor() + getTokenType());
+			break;
+		}
+	}
+
+	// Mas_condiciones -> Operador_logico condicion | E
+	public void Mas_Condiciones() {
+		// Operadores logicos AND|OR
+		if (getTokenType().equals("OP_LOGICOS")) {
+			System.out.println(tokens.get(i).getValor());
+			i++;
+			Condicion();
+		} else {
+			// Vacio;
+		}
 	}
 
 	public void r_cuerpo_outo() {
