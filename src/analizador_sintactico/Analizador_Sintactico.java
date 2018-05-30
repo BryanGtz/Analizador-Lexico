@@ -85,6 +85,7 @@ public class Analizador_Sintactico {
 		// SOperacion Mas_Instrucciones:
                 case "IDENTIFICADOR":
                         Mas_Instrucciones();
+                        break;
 		// Sif Mas_Instrucciones
 		case "SI":
 			Sif();
@@ -99,7 +100,9 @@ public class Analizador_Sintactico {
 
 		// ERROR:
 		default:
-			System.out.println("ERROR");
+			System.out.println("ERROR. Se esperaba tipo de dato o outo"
+                                + "o un identificador o if o from | Tolen recivido: "
+                                + tokens.get(i).getValor());
 			break;
 		}
 	}
