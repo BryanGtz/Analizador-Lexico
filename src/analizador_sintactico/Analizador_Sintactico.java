@@ -166,8 +166,15 @@ public class Analizador_Sintactico {
 
 	// Declaracion -> Tipo_dato Identificador Asignacion ;
 	public void SDeclaracion() {
-		// Tipo de dato ya lo obtuvimos
-		System.out.print("   "+tokens.get(i).getValor());
+		if (tokens.get(i).getTipo().equals("DECIMAL")
+			||tokens.get(i).getTipo().equals("ENTERO")
+			||tokens.get(i).getTipo().equals("BOLEANO")
+			||tokens.get(i).getTipo().equals("CADENA")
+			||tokens.get(i).getTipo().equals("CARACTER")) {
+			System.out.print(tokens.get(i).getValor());
+		} else {
+			System.out.println("ERROR: Se esperaba string, dec, int, bool, char | Token recibido: " + tokens.get(i).getValor());
+		}
 		i++;
 		if (tokens.get(i).getTipo().equals("IDENTIFICADOR")) {
 			System.out.print(" "+tokens.get(i).getValor());
@@ -346,13 +353,13 @@ public class Analizador_Sintactico {
 		}
 		i++;
 		// Operador NOT -> NOT | E
-		if (getTokenType().equals("OP_LOGICOS")) {
-			System.out.print("NOT");
+		if (getTokenType().equals("NO")) {
+			System.out.print(tokens.get(i).getValor()+" ");
 			i++;
 		} else {
 			// VACIO = E;
 		}
-
+		
 		// Condicion:
 		Condicion();
 
@@ -388,6 +395,7 @@ public class Analizador_Sintactico {
 	// Condicion -> Expresion_individual Operador_relacional Expresion_individual
 	// Mas_Condiciones
 	public void Condicion() {
+		
 		Expresion_individual();
 		Operador_relacional();
 		Expresion_individual();
@@ -396,6 +404,7 @@ public class Analizador_Sintactico {
 
 	// Expresion_individual -> IdNum Expresion
 	public void Expresion_individual() {
+		
 		String tipo = getTokenType();
 		switch (tipo) {
 		case "IDENTIFICADOR":
@@ -596,8 +605,10 @@ public class Analizador_Sintactico {
 	// Condicion_Inicial -> Expresion_individual| SDeclaracion
 	public void Condicion_Inicial() {
 		if (tokens.get(i).getTipo().equals("IDENTIFICADOR") || (tokens.get(i).getTipo().equals("NUMERO"))) {
+			System.out.print("++");
 			Expresion_individual();
 		} else {
+			System.out.print("--");
 			SDeclaracion();
 		}
 	}
