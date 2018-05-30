@@ -239,6 +239,10 @@ public class Analizador_Sintactico {
 		}
 	}
 
+	
+	//halpme
+
+
 	//AUTOOOOO DESU KAAAAAHJBJHBKJNKJ 
 	public void r_cuerpo_outo() {
 		String tipo = getTokenType();
