@@ -82,7 +82,7 @@ public class Analizador_Sintactico {
 			SDeclaracion();
 			Mas_Instrucciones();
 			break;
-		// SOperacion Mas_Instrucciones:
+		// SOperacion Mas_Instrucciones: 
 		case "IDENTIFICADOR":
 			SOperacion();
 			Mas_Instrucciones();
