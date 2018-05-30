@@ -26,14 +26,14 @@ public class Analizador_Sintactico {
 		}
 		// Parentesis:
 		// (
-		if (getTokenType().equals("PARENTESIS_APERTURA")) {
+		if (tokens.get(i).getTipo().equals("PARENTESIS_APERTURA")) {
 			System.out.println("(");
 			i++;
 		} else {
 			System.out.println("ERROR: Se esperaba ( | Token recibido: " + tokens.get(i).getValor());
 		}
 		// )
-		if (getTokenType().equals("PARENTESIS_CERRADURA")) {
+		if (tokens.get(i).getTipo().equals("PARENTESIS_CERRADURA")) {
 			System.out.println(")");
 			i++;
 		} else {
@@ -41,7 +41,7 @@ public class Analizador_Sintactico {
 		}
 		// Inicio del bloque:
 		// {
-		if (getTokenType().equals("INICIO_BLOQUE")) {
+		if (tokens.get(i).getTipo().equals("INICIO_BLOQUE")) {
 			System.out.println("{");
 			i++;
 		} else {
@@ -83,7 +83,8 @@ public class Analizador_Sintactico {
 			Mas_Instrucciones();
 			break;
 		// SOperacion Mas_Instrucciones:
-
+                case "IDENTIFICADOR":
+                        Mas_Instrucciones();
 		// Sif Mas_Instrucciones
 		case "SI":
 			Sif();
@@ -125,76 +126,47 @@ public class Analizador_Sintactico {
 
 	public void SDeclaracion() {
 		System.out.println(tokens.get(i).getValor());
-
 		i++;
-		if (getTokenType().equals("IDENTIFICADOR")) {
+		if (tokens.get(i).getTipo().equals("IDENTIFICADOR")) {
 			System.out.println(tokens.get(i).getValor());
 			i++;
 		} else {
 			System.out.println("ERROR: Se esperaba IDENTIFICADOR | Token recibido: " + tokens.get(i).getValor());
 		}
 		r_asignacion();
-
-		if (getTokenType().equals("FIN_SENTENCIA")) {
+                
+		if (tokens.get(i).getTipo().equals("FIN_SENTENCIA")) {
 			System.out.println(tokens.get(i).getValor());
 			i++;
 		} else {
 			System.out.println("ERROR: Se esperaba ; | Token recibido: " + tokens.get(i).getValor());
-			Mas_Instrucciones();
 		}
 	}
 
-	public void r_asignacion() {
-		String tipo = tokens.get(i).getTipo();
+	public void r_asignacion() {		
 		if (tokens.get(i).getTipo().equals("IGUAL")) {
 			System.out.println(tokens.get(i).getValor());
 			i++;
+                        r_valor();
 		} else {
 			System.out.println("ERROR: Se esperaba IDENTIFICADOR | Token recibido: " + tokens.get(i).getValor());
-		}
-		switch (tipo) {
-		case "DECIMAL":
-			if (getTokenType().equals("NUMERO")) {
-				System.out.println(tokens.get(i).getValor());
-				i++;
-			} else {
-				System.out.println("ERROR: Se esperaba NUMEROS | Token recibido: " + tokens.get(i).getTipo());
-			}
-			break;
-		case "ENTERO":
-			if (getTokenType().equals("NUMERO")) {
-				System.out.println(tokens.get(i).getValor());
-				i++;
-			} else {
-				System.out.println("ERROR: Se esperaba NUMEROS | Token recibido: " + tokens.get(i).getTipo());
-			}
-			break;
-		case "BOLEANO":
-			if (getTokenType().equals("VERDADERO") || tokens.get(i).getTipo().equals("FALSO")) {
-				System.out.println(tokens.get(i).getValor());
-				i++;
-			} else {
-				System.out.println("ERROR: Se esperaba TRUE o FALSE | Token recibido: " + tokens.get(i).getTipo());
-			}
-			break;
-		case "CARACTER":
-			if (getTokenType().equals("Cadena de caracteres")) {
-				System.out.println(tokens.get(i).getValor());
-				i++;
-			} else {
-				System.out.println("ERROR: Se esperaba Cadena | Token recibido: " + tokens.get(i).getTipo());
-			}
-			break;
-		case "CADENA":
-			if (getTokenType().equals("Cadena de caracteres")) {
-				System.out.println(tokens.get(i).getValor());
-				i++;
-			} else {
-				System.out.println("ERROR: Se esperaba Cadena | Token recibido: " + tokens.get(i).getTipo());
-			}
-			break;
-		}
+		}                
 	}
+        
+        public void r_valor(){
+            String tipo = tokens.get(i).getTipo();
+		switch (tipo) {
+		case "NUMERO":
+		case "VERADADERO":
+		case "FALSO":
+		case "Cadena de caracteres":
+		case "CARACTER":
+                        break;
+                default:
+                    System.out.println("ERROR. Se esperaba un numero o una cadena de caracteres"
+                            + "o true o false o un caracter");
+		}
+        }
 
 	public void Souto() {
 		if (getTokenType().equals("IMPRIMIR")) {
