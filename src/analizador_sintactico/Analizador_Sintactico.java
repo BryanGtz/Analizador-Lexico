@@ -522,16 +522,16 @@ public class Analizador_Sintactico {
                             System.out.println(tokens.get(i).getValor());
                             i++;
                             break;
-                    case "CONSTANTES":
+                    case "Cadena de caracteres":
                             System.out.println(tokens.get(i).getValor());
                             i++;
                             break;
-                    case "CARACTER":
+                    case "NUMERO":
                             System.out.println(tokens.get(i).getValor());
                             i++;
                             break;
                     default:
-                            System.out.println("ERROR: Se esperaba IDENTIFICADOR o CONSTANTES o CARACTER | Token recibido: " + tokens.get(i).getTipo());
+                            System.out.println("ERROR: Se esperaba IDENTIFICADOR o NUMERO o Cadena de caracteres | Token recibido: " + tokens.get(i).getTipo());
                             break;
                     }
         }
