@@ -132,7 +132,7 @@ public class Analizador_Sintactico {
 		}
 
 	}
- 
+
 	// Declaracion -> Tipo_dato Identificador Asignacion ;
 	public void SDeclaracion() {
 		// Tipo de dato ya lo obtuvimos
@@ -154,6 +154,7 @@ public class Analizador_Sintactico {
 		}
 	}
 
+	// Asignacion -> = Valor | E
 	public void Asignacion() {
 		if (tokens.get(i).getTipo().equals("IGUAL")) {
 			System.out.println(tokens.get(i).getValor());
@@ -161,7 +162,8 @@ public class Analizador_Sintactico {
 			Valor();
 		}
 	}
- 
+
+	// Valor -> NUMERO | VERDADERO | FALSO | Cadena de caracteres | CARACTER
 	public void Valor() {
 		String tipo = tokens.get(i).getTipo();
 		switch (tipo) {
@@ -180,6 +182,7 @@ public class Analizador_Sintactico {
 		}
 	}
 
+	// Mas_declaraciones -> , Identificador Asignacion Mas_declaraciones | E
 	public void Mas_declaraciones() {
 		if (tokens.get(i).getTipo().equals("COMA")) {
 			System.out.println(tokens.get(i).getValor());
@@ -195,6 +198,7 @@ public class Analizador_Sintactico {
 		}
 	}
 
+	// Souto -> outo (Cuerpo_outo) ;
 	public void Souto() {
 		if (getTokenType().equals("IMPRIMIR")) {
 			System.out.println(tokens.get(i).getValor());
@@ -223,6 +227,38 @@ public class Analizador_Sintactico {
 			System.out.println("ERROR: Se esperaba ; | Token recibido: " + tokens.get(i).getValor());
 		}
 
+	}
+
+	// Contenido -> Identificador | Numero | Cadena_caracteres
+	public void Contenido() {
+		String tipo = getTokenType();
+		switch (tipo) {
+		case "IDENTIFICADOR":
+		case "Cadena de caracteres":
+		case "NUMERO":
+			System.out.println(tokens.get(i).getValor());
+			i++;
+			Mas_Contenido();
+			break;
+		default:
+			System.out.println("ERROR: Se esperaba IDENTIFICADOR o NUMERO o Cadena de caracteres | Token recibido: "
+					+ tokens.get(i).getTipo());
+			break;
+		}
+	}
+
+	// Mas_Contenido -> + Contenido | E
+	public void Mas_Contenido() {
+		String tipo = getTokenType();
+		switch (tipo) {
+		case "SUMA":
+			System.out.println(tokens.get(i).getValor());
+			i++;
+			Contenido();
+			break;
+		default:
+			break;
+		}
 	}
 
 	// SOperacion -> Identificador = Expresion_individual ;
@@ -523,36 +559,8 @@ public class Analizador_Sintactico {
 		}
 	}
 
-	public void Contenido() {
-		String tipo = getTokenType();
-		switch (tipo) {
-		case "IDENTIFICADOR":
-		case "Cadena de caracteres":
-		case "NUMERO":
-			System.out.println(tokens.get(i).getValor());
-			i++;
-			Mas_Contenido();
-			break;
-		default:
-			System.out.println("ERROR: Se esperaba IDENTIFICADOR o NUMERO o Cadena de caracteres | Token recibido: "
-					+ tokens.get(i).getTipo());
-			break;
-		}
-	}
-
-	public void Mas_Contenido() {
-		String tipo = getTokenType();
-		switch (tipo) {
-		case "SUMA":
-			System.out.println(tokens.get(i).getValor());
-			i++;
-			Contenido();
-			break;
-		default:
-			break;
-		}
-	}
-
+	// Metodo que recorre el siguiente token, evita los comentarios y retorna el
+	// tipo del token
 	public String getTokenType() {
 		String tipo;
 		if (!tokens.get(i).getTipo().equals("COMENTARIO")) {
