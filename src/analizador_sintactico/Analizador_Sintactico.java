@@ -235,7 +235,7 @@ public class Analizador_Sintactico {
 			System.out.println("ERROR: Se esperaba ( | Token recibido: " + tokens.get(i).getValor());
 		}
 		i++;
-		Condicion();
+		SOperacion();
 		if (tokens.get(i).getTipo().equals("PARENTESIS_CERRADURA")) {
 			System.out.println(tokens.get(i).getValor());
 		} else {
