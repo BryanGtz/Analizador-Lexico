@@ -161,10 +161,13 @@ public class Analizador_Sintactico {
 		case "FALSO":
 		case "Cadena de caracteres":
 		case "CARACTER":
+                        System.out.println(tokens.get(i).getValor());
+                        i++;
                         break;
                 default:
                     System.out.println("ERROR. Se esperaba un numero o una cadena de caracteres"
                             + "o true o false o un caracter");
+                    break;
 		}
         }
 
@@ -194,7 +197,6 @@ public class Analizador_Sintactico {
 			i++;
 		} else {
 			System.out.println("ERROR: Se esperaba ; | Token recibido: " + tokens.get(i).getValor());
-			Mas_Instrucciones();
 		}
 
 	}
