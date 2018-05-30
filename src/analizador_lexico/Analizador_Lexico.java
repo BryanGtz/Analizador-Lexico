@@ -124,10 +124,15 @@ public class Analizador_Lexico {
 						} else if (Character.isLetter(caract)) {
 							aux += caract;
 							i++;
-							while (Character.isLetterOrDigit(caract = linea.charAt(i)) && i < linea.length()) {
-								aux += caract;// Mientras sea una letra o numero concatenamos
-								i++; // Aumentar contador para ir al siguiente caracter
+							try {
+								while (Character.isLetterOrDigit(caract = linea.charAt(i)) && i < linea.length()) {
+									aux += caract;// Mientras sea una letra o numero concatenamos
+									i++; // Aumentar contador para ir al siguiente caracter
+								}
+							} catch (Exception e) {
+								System.out.println("ERROR: Tokens desconocidos");
 							}
+							
 							if (l.isPalReservada(aux)) {
 								Token t = new Token(l.getTipoPalabraReservada(aux), aux);
 								tokens.add(t);
@@ -139,7 +144,7 @@ public class Analizador_Lexico {
 								tokens.add(t);
 							} else if (l.isID(aux)) {
 								Token t = new Token("IDENTIFICADOR", aux);
-								tokens.add(t);
+								tokens.add(t);								
 							}
 							aux = "";
 						} else if (l.isSimbolo(String.valueOf(caract))) {
