@@ -133,7 +133,8 @@ public class Analizador_Sintactico {
 		}
 
 	}
-
+	
+	// Declaracion -> Tipo_dato Identificador Asignacion ;
 	public void SDeclaracion() {
 		System.out.println(tokens.get(i).getValor());
 		i++;
