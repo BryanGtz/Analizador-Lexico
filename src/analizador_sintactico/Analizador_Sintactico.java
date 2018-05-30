@@ -221,12 +221,12 @@ public class Analizador_Sintactico {
 
 	}
 
-	// S_if -> if ( Operador_NOT Condicion ) { cuerpo } Selse
+	// Sif -> if(Operador_NOT Condicion){cuerpo} Selse
 	public void Sif() {
 		// if:
 		if (getTokenType().equals("SI")) {
 			System.out.println("if");
-			
+
 		} else {
 			System.out.println("ERROR: Se esperaba if | Token recibido: " + tokens.get(i).getValor());
 		}
@@ -234,7 +234,7 @@ public class Analizador_Sintactico {
 		// Inicio del parentesis:
 		if (getTokenType().equals("PARENTESIS_APERTURA")) {
 			System.out.println("(");
-			
+
 		} else {
 			System.out.println("ERROR: Se esperaba ( | Token recibido: " + tokens.get(i).getValor());
 		}
@@ -270,16 +270,16 @@ public class Analizador_Sintactico {
 		// Fin del bloque:
 		if (getTokenType().equals("FIN_BLOQUE")) {
 			System.out.println("}");
-		}
-		else {
+		} else {
 			System.out.println("ERROR: Se esperaba } | Token recibido: " + tokens.get(i).getValor());
 		}
 		i++;
-		// S_Else
+
+		// Selse
+		Selse();
 	}
 
-	// Condicion -> Expresion_individual Operador_relacional Expresion_individual
-	// Mas_Condiciones
+	// Condicion -> Expresion_individual Operador_relacional Expresion_individual Mas_Condiciones
 	public void Condicion() {
 		Expresion_individual();
 		Operador_relacional();
@@ -372,6 +372,35 @@ public class Analizador_Sintactico {
 			Condicion();
 		} else {
 			// Vacio;
+		}
+	}
+
+	// Selse -> else {cuerpo} | E
+	public void Selse() {
+		// else:
+		if (getTokenType().equals("DE_OTRA_FORMA")) {
+			System.out.println("else");
+			i++;
+			// Inicio de bloque:
+			if (getTokenType().equals("INICIO_BLOQUE")) {
+				System.out.println("{");
+			} else {
+				System.out.println("ERROR: Se esperaba { | Token recibido: " + tokens.get(i).getValor());
+			}
+			i++;
+
+			// Cuerpo principal:
+			cuerpo();
+
+			// Fin del bloque:
+			if (getTokenType().equals("FIN_BLOQUE")) {
+				System.out.println("}");
+			} else {
+				System.out.println("ERROR: Se esperaba } | Token recibido: " + tokens.get(i).getValor());
+			}
+			i++;
+		} else {
+			// Vacio
 		}
 	}
 
