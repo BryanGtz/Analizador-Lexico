@@ -109,7 +109,7 @@ public class Analizador_Lexico {
 						} else if (l.isNumero(String.valueOf(caract))) { // Comprobamos que sea un numero
 							aux += caract;
 							i++;// Incrementamos para pasar al siguiente caracter
-							while (l.isNumeroOPunto(String.valueOf(caract = linea.charAt(i))) && i < linea.length()) {
+							while (i < linea.length()&&l.isNumeroOPunto(String.valueOf(caract = linea.charAt(i)))) {
 								aux += caract;// Mientras sea un numero o punto concatenamos
 								i++; // Aumentar contador para ir al siguiente caracter
 							}
