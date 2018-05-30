@@ -84,8 +84,10 @@ public class Analizador_Sintactico {
 			break;
 		// SOperacion Mas_Instrucciones:
 		case "IDENTIFICADOR":
+			SOperacion();
 			Mas_Instrucciones();
-			// Sif Mas_Instrucciones
+			break;
+		// Sif Mas_Instrucciones
 		case "SI":
 			Sif();
 			Mas_Instrucciones();
@@ -205,7 +207,31 @@ public class Analizador_Sintactico {
 
 	}
 
-	// S_if -> if ( Operador_NOT Condicion ) { cuerpo } Selse
+	// SOperacion -> Identificador = Expresion_individual ;
+	public void SOperacion() {
+		// Identificador:
+		if (getTokenType().equals("IDENTIFICADOR")) {
+			System.out.println(tokens.get(i).getValor());
+			i++;
+			if (getTokenType().equals("IGUAL")) {
+				System.out.println(tokens.get(i).getValor());
+				i++;
+				Expresion_individual();		
+			} else {
+				i++;
+				System.out.println("ERROR: Se esperaba = | Token recibido: " + tokens.get(i).getValor());
+			}
+			if (getTokenType().equals("FIN_SENTENCIA")) {
+				System.out.println(tokens.get(i).getValor());
+				i++;	
+			} else {
+				System.out.println("ERROR: Se esperaba ; | Token recibido: " + tokens.get(i).getValor());
+				i++;	
+			}
+			
+		}
+	}
+
 	// Sif -> if(Operador_NOT Condicion){cuerpo} Selse
 	public void Sif() {
 		// if:
@@ -266,7 +292,6 @@ public class Analizador_Sintactico {
 
 	// Condicion -> Expresion_individual Operador_relacional Expresion_individual
 	// Mas_Condiciones
-	// Condicion -> Expresion_individual Operador_relacional Expresion_individual Mas_Condiciones
 	public void Condicion() {
 		Expresion_individual();
 		Operador_relacional();
@@ -274,7 +299,6 @@ public class Analizador_Sintactico {
 		Mas_Condiciones();
 	}
 
-	// Expresion_individual -> IdNum Expresion
 	// Expresion_individual -> IdNum Expresion
 	public void Expresion_individual() {
 		String tipo = getTokenType();
@@ -293,7 +317,6 @@ public class Analizador_Sintactico {
 
 	}
 
-	// Expresion -> Operador_aritmetico IdNum Mas_expresiones | E
 	// Expresion -> Operador_aritmetico IdNum Mas_expresiones | E
 	public void Expresion() {
 		// Operador_aritmetico
@@ -327,12 +350,10 @@ public class Analizador_Sintactico {
 	}
 
 	// Mas_expresiones -> Expresion
-	// Mas_expresiones -> Expresion | E
 	public void Mas_Expresiones() {
 		Expresion();
 	}
 
-	// Operador_relacional -> ==|!=|<|>|<=|>=
 	// Operador_relacional -> ==|!=|<|>|<=|>=
 	public void Operador_relacional() {
 		// Operadores relacionales ==|!=|<|>|<=|>=
@@ -354,7 +375,6 @@ public class Analizador_Sintactico {
 		}
 	}
 
-	// Mas_condiciones -> Operador_logico condicion | E
 	// Mas_condiciones -> Operador_logico condicion | E
 	public void Mas_Condiciones() {
 		// Operadores logicos AND|OR
