@@ -210,19 +210,19 @@ public class Analizador_Sintactico {
 		// if:
 		if (getTokenType().equals("SI")) {
 			System.out.println("if");
-			i++;
+			
 		} else {
 			System.out.println("ERROR: Se esperaba if | Token recibido: " + tokens.get(i).getValor());
 		}
-
+		i++;
 		// Inicio del parentesis:
 		if (getTokenType().equals("PARENTESIS_APERTURA")) {
 			System.out.println("(");
-			i++;
+			
 		} else {
 			System.out.println("ERROR: Se esperaba ( | Token recibido: " + tokens.get(i).getValor());
 		}
-
+		i++;
 		// Operador NOT -> NOT | E
 		if (getTokenType().equals("OP_LOGICOS")) {
 			System.out.println("NOT");
@@ -237,19 +237,17 @@ public class Analizador_Sintactico {
 		// Fin del parentesis:
 		if (getTokenType().equals("PARENTESIS_CERRADURA")) {
 			System.out.println(")");
-			i++;
 		} else {
 			System.out.println("ERROR: Se esperaba ) | Token recibido: " + tokens.get(i).getValor());
 		}
-
+		i++;
 		// Inicio de bloque:
 		if (getTokenType().equals("INICIO_BLOQUE")) {
 			System.out.println("{");
-			i++;
 		} else {
 			System.out.println("ERROR: Se esperaba { | Token recibido: " + tokens.get(i).getValor());
 		}
-
+		i++;
 		// Cuerpo principal:
 		cuerpo();
 
@@ -257,7 +255,10 @@ public class Analizador_Sintactico {
 		if (getTokenType().equals("FIN_BLOQUE")) {
 			System.out.println("}");
 		}
-
+		else {
+			System.out.println("ERROR: Se esperaba } | Token recibido: " + tokens.get(i).getValor());
+		}
+		i++;
 		// S_Else
 	}
 
