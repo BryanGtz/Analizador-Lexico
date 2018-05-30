@@ -73,17 +73,19 @@ public class Analizador_Sintactico {
 			r_S_From();//ciclo for
                         r_mas_instrucciones();
 			break;
+                case "IDENTIFICADOR":
+                        expresion();
+                        r_mas_instrucciones();
+                        break;
 		default:
-			if (!(getTokenType().equals("FIN_BLOQUE"))) {
-				System.out.println("ERROR");
-			}
+			System.out.println("ERROR");
 			break;
 		}
 	}
 
-	public void r_Identificador() {
+	public void r_Identificador() { //declaracion de variables
 		System.out.println(tokens.get(i).getValor());
-		String tipo = getTokenType();
+		
 		i++;
 		if (getTokenType().equals("IDENTIFICADOR")) {
 			System.out.println(tokens.get(i).getValor());
@@ -91,7 +93,40 @@ public class Analizador_Sintactico {
 		} else {
 			System.out.println("ERROR: Se esperaba IDENTIFICADOR | Token recibido: " + tokens.get(i).getValor());
 		}
-		if (tokens.get(i).getTipo().equals("IGUAL")) {
+                r_asignacion();
+		
+		if (getTokenType().equals("FIN_SENTENCIA")) {
+			System.out.println(tokens.get(i).getValor());
+			i++;
+		} else {
+			System.out.println("ERROR: Se esperaba ; | Token recibido: " + tokens.get(i).getValor());
+			r_mas_instrucciones();
+		}
+	}
+
+	public void r_mas_instrucciones() {
+		String tipo = getTokenType();
+		switch (tipo) {
+		case "IMPRIMIR":			
+		case "DECIMAL":			
+		case "ENTERO":			
+		case "BOLEANO":			
+		case "CARACTER":			
+		case "CADENA":			
+		case "SI":			
+		case "INICIO_FOR":
+                case "IDENTIFICADOR":
+			r_cuerpo_starto();
+		default:			
+			break;
+		}
+		
+	}
+        
+        
+        public void r_asignacion() {
+            String tipo = tokens.get(i).getTipo();
+            if (tokens.get(i).getTipo().equals("IGUAL")) {
 			System.out.println(tokens.get(i).getValor());
 			i++;
 		} else {
@@ -139,46 +174,7 @@ public class Analizador_Sintactico {
 			}
 			break;
 		}
-		if (getTokenType().equals("FIN_SENTENCIA")) {
-			System.out.println(tokens.get(i).getValor());
-			i++;
-		} else {
-			System.out.println("ERROR: Se esperaba ; | Token recibido: " + tokens.get(i).getValor());
-			r_mas_instrucciones();
-		}
-	}
-
-	public void r_mas_instrucciones() {
-		String tipo = getTokenType();
-		switch (tipo) {
-		case "IMPRIMIR":
-			r_S_outo();
-			r_mas_instrucciones();
-			break;
-		case "DECIMAL":			
-		case "ENTERO":			
-		case "BOLEANO":			
-		case "CARACTER":			
-		case "CADENA":
-			r_Identificador();	
-			r_mas_instrucciones();
-			break;
-		case "SI":
-			r_S_If();
-			break;
-		case "INICIO_FOR":
-			r_S_From();
-			break;
-		default:
-			if (!(getTokenType().equals("FIN_BLOQUE"))) {
-				System.out.println("ERROR");
-			}
-			//i++;
-			//r_mas_instrucciones(tokens);
-			break;
-		}
-		
-	}
+        }
 
 	public void r_S_outo() {
 		if (getTokenType().equals("IMPRIMIR")) {
@@ -271,4 +267,9 @@ public class Analizador_Sintactico {
             }
             return tipo;
         }
+
+    private void expresion() {
+        
+    }
+
 }
