@@ -5,13 +5,19 @@ import java.util.List;
 import analizador_lexico.*;
 
 public class Analizador_Sintactico {
-
+	
+	// Lista que contiene todos los tokens obtenidos desde el Lexico.
 	List<Token> tokens;
+	// Contador que permite tener el orden de los tokens leidos.
 	int i;
 
+	// Metodo inicial.
 	public void analizar(Analizador_Lexico a_l) {
+		// Obtenemos la lista de tokens.
 		tokens = a_l.tokens;
+		// Inicializamos el contador de tokens.
 		i = 0;
+		// Comenzamos con la primer regla.
 		Sstarto();
 	}
 
