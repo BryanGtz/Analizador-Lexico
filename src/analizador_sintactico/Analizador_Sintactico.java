@@ -161,7 +161,7 @@ public class Analizador_Sintactico {
 			Valor();
 		}
 	}
-
+ 
 	public void Valor() {
 		String tipo = tokens.get(i).getTipo();
 		switch (tipo) {
