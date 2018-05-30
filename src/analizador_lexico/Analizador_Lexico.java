@@ -163,7 +163,6 @@ public class Analizador_Lexico {
 									Token t = new Token(l.getTipoOperadorAritmetico(String.valueOf(aux)),
 											String.valueOf(aux));
 									tokens.add(t);
-									i++;
 									aux = "";
 								}
 							} else {
