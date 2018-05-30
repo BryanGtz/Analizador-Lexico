@@ -192,6 +192,7 @@ public class Analizador_Lexico {
 								aux += caract;
 							}
 							if (String.valueOf(aux).equals("!")) {
+								
 								if (String.valueOf(caract).equals("=")) {
 									aux += caract;
 								}
