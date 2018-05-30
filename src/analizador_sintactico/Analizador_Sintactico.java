@@ -217,84 +217,6 @@ public class Analizador_Sintactico {
 		}
 
 	}
-//Sfrom -> from (Condicion_Inicial) to (Condicion) inc (IdNum) {cuerpo}
-	public void Sfrom() {
-		if (getTokenType().equals("INICIO_FOR")) {
-			System.out.println(tokens.get(i).getValor());
-		} else {
-			System.out.println("ERROR: Se esperaba outo | Token recibido: " + tokens.get(i).getValor());
-		}
-		i++;
-		if (tokens.get(i).getTipo().equals("PARENTESIS_APERTURA")) {
-			System.out.println(tokens.get(i).getValor());
-		} else {
-			System.out.println("ERROR: Se esperaba ( | Token recibido: " + tokens.get(i).getValor());
-		}
-		i++;
-		Condicion_Inicial();
-		if (tokens.get(i).getTipo().equals("PARENTESIS_CERRADURA")) {
-			System.out.println(tokens.get(i).getValor());
-		} else {
-			System.out.println("ERROR: Se esperaba ) | Token recibido: " + tokens.get(i).getValor());
-		}
-		i++;
-		if (tokens.get(i).getTipo().equals("FIN_FOR")) {
-			System.out.println(tokens.get(i).getValor());
-		} else {
-			System.out.println("ERROR: Se esperaba to | Token recibido: " + tokens.get(i).getValor());
-		}
-		i++;
-		if (tokens.get(i).getTipo().equals("PARENTESIS_APERTURA")) {
-			System.out.println(tokens.get(i).getValor());
-		} else {
-			System.out.println("ERROR: Se esperaba ( | Token recibido: " + tokens.get(i).getValor());
-		}
-		i++;
-		Condicion();
-		if (tokens.get(i).getTipo().equals("PARENTESIS_CERRADURA")) {
-			System.out.println(tokens.get(i).getValor());
-		} else {
-			System.out.println("ERROR: Se esperaba ) | Token recibido: " + tokens.get(i).getValor());
-		}
-		i++;
-		if (tokens.get(i).getTipo().equals("INCREMENTO_FOR")) {
-			System.out.println(tokens.get(i).getValor());
-		} else {
-			System.out.println("ERROR: Se esperaba inc | Token recibido: " + tokens.get(i).getValor());
-		}
-		i++;
-		if (tokens.get(i).getTipo().equals("PARENTESIS_APERTURA")) {
-			System.out.println(tokens.get(i).getValor());	
-		} else {
-			System.out.println("ERROR: Se esperaba ( | Token recibido: " + tokens.get(i).getValor());
-		}
-		i++;
-		if (tokens.get(i).getTipo().equals("IDENTIFICADOR")||(tokens.get(i).getTipo().equals("NUMERO"))) {
-			System.out.println(tokens.get(i).getValor());	
-		} else {
-			System.out.println("ERROR: Se esperaba ) | Token recibido: " + tokens.get(i).getValor());
-		}
-		i++;
-		
-		if (tokens.get(i).getTipo().equals("PARENTESIS_CERRADURA")) {
-			System.out.println(tokens.get(i).getValor());
-		} else {
-			System.out.println("ERROR: Se esperaba ) | Token recibido: " + tokens.get(i).getValor());
-		}
-		i++;
-		if (tokens.get(i).getTipo().equals("INICIO_BLOQUE")) {
-			System.out.println(tokens.get(i).getValor());
-		} else {
-			System.out.println("ERROR: Se esperaba { | Token recibido: " + tokens.get(i).getValor());
-		}
-		i++;
-		cuerpo();
-		if (tokens.get(i).getTipo().equals("FIN_BLOQUE")) {
-			System.out.println(tokens.get(i).getValor());
-		} else {
-			System.out.println("ERROR: Se esperaba } | Token recibido: " + tokens.get(i).getValor());
-		}i++;
-	}
 	
 	// SOperacion -> Identificador = Expresion_individual ;
 	public void SOperacion() {
@@ -505,15 +427,93 @@ public class Analizador_Sintactico {
 			// Vacio
 		}
 	}
-        
-        //Condicion_Inicial -> Expresion_individual| SDeclaracion
+	
+	//Sfrom -> from (Condicion_Inicial) to (Condicion) inc (IdNum) {cuerpo}
+	public void Sfrom() {
+		if (getTokenType().equals("INICIO_FOR")) {
+			System.out.println(tokens.get(i).getValor());
+		} else {
+			System.out.println("ERROR: Se esperaba outo | Token recibido: " + tokens.get(i).getValor());
+		}
+		i++;
+		if (tokens.get(i).getTipo().equals("PARENTESIS_APERTURA")) {
+			System.out.println(tokens.get(i).getValor());
+		} else {
+			System.out.println("ERROR: Se esperaba ( | Token recibido: " + tokens.get(i).getValor());
+		}
+		i++;
+		Condicion_Inicial();
+		if (tokens.get(i).getTipo().equals("PARENTESIS_CERRADURA")) {
+			System.out.println(tokens.get(i).getValor());
+		} else {
+			System.out.println("ERROR: Se esperaba ) | Token recibido: " + tokens.get(i).getValor());
+		}
+		i++;
+		if (tokens.get(i).getTipo().equals("FIN_FOR")) {
+			System.out.println(tokens.get(i).getValor());
+		} else {
+			System.out.println("ERROR: Se esperaba to | Token recibido: " + tokens.get(i).getValor());
+		}
+		i++;
+		if (tokens.get(i).getTipo().equals("PARENTESIS_APERTURA")) {
+			System.out.println(tokens.get(i).getValor());
+		} else {
+			System.out.println("ERROR: Se esperaba ( | Token recibido: " + tokens.get(i).getValor());
+		}
+		i++;
+		Condicion();
+		if (tokens.get(i).getTipo().equals("PARENTESIS_CERRADURA")) {
+			System.out.println(tokens.get(i).getValor());
+		} else {
+			System.out.println("ERROR: Se esperaba ) | Token recibido: " + tokens.get(i).getValor());
+		}
+		i++;
+		if (tokens.get(i).getTipo().equals("INCREMENTO_FOR")) {
+			System.out.println(tokens.get(i).getValor());
+		} else {
+			System.out.println("ERROR: Se esperaba inc | Token recibido: " + tokens.get(i).getValor());
+		}
+		i++;
+		if (tokens.get(i).getTipo().equals("PARENTESIS_APERTURA")) {
+			System.out.println(tokens.get(i).getValor());	
+		} else {
+			System.out.println("ERROR: Se esperaba ( | Token recibido: " + tokens.get(i).getValor());
+		}
+		i++;
+		if (tokens.get(i).getTipo().equals("IDENTIFICADOR")||(tokens.get(i).getTipo().equals("NUMERO"))) {
+			System.out.println(tokens.get(i).getValor());	
+		} else {
+			System.out.println("ERROR: Se esperaba ) | Token recibido: " + tokens.get(i).getValor());
+		}
+		i++;
+		
+		if (tokens.get(i).getTipo().equals("PARENTESIS_CERRADURA")) {
+			System.out.println(tokens.get(i).getValor());
+		} else {
+			System.out.println("ERROR: Se esperaba ) | Token recibido: " + tokens.get(i).getValor());
+		}
+		i++;
+		if (tokens.get(i).getTipo().equals("INICIO_BLOQUE")) {
+			System.out.println(tokens.get(i).getValor());
+		} else {
+			System.out.println("ERROR: Se esperaba { | Token recibido: " + tokens.get(i).getValor());
+		}
+		i++;
+		cuerpo();
+		if (tokens.get(i).getTipo().equals("FIN_BLOQUE")) {
+			System.out.println(tokens.get(i).getValor());
+		} else {
+			System.out.println("ERROR: Se esperaba } | Token recibido: " + tokens.get(i).getValor());
+		}i++;
+}
+	//Condicion_Inicial -> Expresion_individual| SDeclaracion
 	public void Condicion_Inicial(){
 		if (tokens.get(i).getTipo().equals("IDENTIFICADOR")||(tokens.get(i).getTipo().equals("NUMERO"))) {
 			Expresion_individual();
 		} else {
 			SDeclaracion();
 		}
-        }
+}
 
 	public void r_cuerpo_outo() {
 		String tipo = getTokenType();
