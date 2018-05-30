@@ -159,7 +159,7 @@ public class Analizador_Sintactico {
 		case "NUMERO":
 		case "VERADADERO":
 		case "FALSO":
-		case "Cadena de caracteres":
+		case "Cadena_caracteres":
 		case "CARACTER":
                         System.out.println(tokens.get(i).getValor());
                         i++;
@@ -171,6 +171,7 @@ public class Analizador_Sintactico {
 		}
         }
 
+        //Souto -> outo (Cuerpo_outo) ;
 	public void Souto() {
 		if (getTokenType().equals("IMPRIMIR")) {
 			System.out.println(tokens.get(i).getValor());
@@ -443,23 +444,18 @@ public class Analizador_Sintactico {
 		}
     }
 
+	//Cuerpo_outo -> Contenido Mas_Contenido | E
 	public void r_cuerpo_outo() {
-		String tipo = getTokenType();
-		switch (tipo) {
-		case "IDENTIFICADOR":
-			System.out.println(tokens.get(i).getValor());
-			i++;
-			break;
-		case "Cadena de caracteres":
-			System.out.println(tokens.get(i).getValor());
-			i++;
-			break;
-		default:
-			System.out.println("ERROR: Se esperaba IDENTIFICADOR o TEXTO | Token recibido: " + tokens.get(i).getTipo());
-			break;
+		if (tokens.get(i).getTipo().equals("IDENTIFICADOR")||(tokens.get(i).getTipo().equals("NUMERO"))
+				||(tokens.get(i).getTipo().equals("Cadena_caracteres"))) {
+			Contenido();
+			Mas_Contenido();
+		} else {
+			//vacio
 		}
 	}
 	
+	//Contenido -> Identificador | Numero | Cadena_caracteres
 	public void Contenido(){
     	String tipo = getTokenType();
     	switch (tipo) {
@@ -467,11 +463,11 @@ public class Analizador_Sintactico {
 			System.out.println(tokens.get(i).getValor());
 			i++;
 			break;
-		case "CONSTANTES":
+		case "NUMERO":
 			System.out.println(tokens.get(i).getValor());
 			i++;
 			break;
-		case "CARACTER":
+		case "Cadena_caracteres":
 			System.out.println(tokens.get(i).getValor());
 			i++;
 			break;
@@ -480,7 +476,9 @@ public class Analizador_Sintactico {
 			break;
 		}
     }
-    
+	
+	
+    //Mas_Contenido -> + Contenido | E
     public void Mas_Contenido(){
     	String tipo = getTokenType();
     	switch (tipo) {
@@ -490,6 +488,7 @@ public class Analizador_Sintactico {
 			Contenido();
 			break;
 		default:
+			//vacio
 			break;
 		}
     }
