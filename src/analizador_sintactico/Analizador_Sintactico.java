@@ -20,8 +20,14 @@ public class Analizador_Sintactico {
 		tokens = a_l.tokens;
 		// Inicializamos el contador de tokens.
 		i = 0;
-		// Comenzamos con la primer regla.
-		Sstarto();
+		if (tokens.size() != 0) {
+			// Comenzamos con la primer regla.
+			try {
+				Sstarto();
+			} catch (Exception e) {
+				System.out.println("ERROR: No cumple con la sintaxis");
+			}
+		}
 		System.out.println("----------------------------------");
 		System.out.println("Finaliza el analizador Sintactico:");
 		System.out.println("==================================");
@@ -29,45 +35,65 @@ public class Analizador_Sintactico {
 
 	// Sstarto -> starto () {cuerpo}
 	public void Sstarto() {
-		// starto:
-		if (getTokenType().equals("INICIO")) {
-			System.out.println("starto");
+			// starto:
+			if (getTokenType().equals("INICIO")) {
+				System.out.print("starto");
+
+			} else {
+				System.out.println("ERROR: Se esperaba starto | Token recibido: " + tokens.get(i).getValor());
+			}
 			i++;
-		} else {
-			System.out.println("ERROR: Se esperaba starto | Token recibido: " + tokens.get(i).getValor());
-		}
-		// Parentesis:
-		// (
-		if (tokens.get(i).getTipo().equals("PARENTESIS_APERTURA")) {
-			System.out.println("(");
+			// Parentesis:
+			// (
+			if (tokens.get(i).getTipo().equals("PARENTESIS_APERTURA")) {
+				System.out.print("(");
+
+			} else {
+				System.out.println("\nERROR: Se esperaba ( | Token recibido: " + tokens.get(i).getValor());
+			}
 			i++;
-		} else {
-			System.out.println("ERROR: Se esperaba ( | Token recibido: " + tokens.get(i).getValor());
-		}
-		// )
-		if (tokens.get(i).getTipo().equals("PARENTESIS_CERRADURA")) {
-			System.out.println(")");
+
+			// )
+			while (!(tokens.get(i).getTipo().equals("PARENTESIS_CERRADURA"))) {
+				System.out.print("\nERROR: Se esperaba ( | Token recibido: " + tokens.get(i).getValor());
+				i++;
+			}
+			if (tokens.get(i).getTipo().equals("PARENTESIS_CERRADURA")) {
+				System.out.println(")");
+
+			} else {
+				System.out.println("\nERROR: Se esperaba ) | Token recibido: " + tokens.get(i).getValor());
+			}
 			i++;
-		} else {
-			System.out.println("ERROR: Se esperaba ) | Token recibido: " + tokens.get(i).getValor());
-		}
-		// Inicio del bloque:
-		// {
-		if (tokens.get(i).getTipo().equals("INICIO_BLOQUE")) {
-			System.out.println("{");
-			i++;
-		} else {
-			System.out.println("ERROR: Se esperaba { | Token recibido: " + tokens.get(i).getValor());
-		}
-		// Cuerpo:
-		cuerpo();
-		// Fin del bloque:
-		// }
-		if (getTokenType().equals("FIN_BLOQUE")) {
-			System.out.println("}");
-		} else {
-			System.out.println("ERROR: Se esperaba } | Token recibido: " + tokens.get(i).getValor());
-		}
+			// Inicio del bloque:
+			// {
+			while (!(tokens.get(i).getTipo().equals("INICIO_BLOQUE"))) {
+				System.out.println("ERROR: Se esperaba { | Token recibido: " + tokens.get(i).getValor());
+				i++;
+				// }
+				if (getTokenType().equals("FIN_BLOQUE"))
+					break;
+				if (i <= tokens.size()) {
+					System.out.println("OH");
+					i++;
+					break;
+				}
+			}
+			if (tokens.get(i).getTipo().equals("INICIO_BLOQUE")) {
+				System.out.println("{");
+				i++;
+			} else {
+				System.out.println("ERROR: Se esperaba { | Token recibido: " + tokens.get(i).getValor());
+			}
+			// Cuerpo:
+			cuerpo();
+			// Fin del bloque:
+			// }
+			if (getTokenType().equals("FIN_BLOQUE")) {
+				System.out.println("}");
+			} else {
+				System.out.println("\nERROR: Se esperaba } | Token recibido: " + tokens.get(i).getValor());
+			}
 	}
 
 	// cuerpo ->
@@ -113,8 +139,8 @@ public class Analizador_Sintactico {
 
 		// ERROR:
 		default:
-			System.out.println("ERROR. Se esperaba tipo de dato o outo"
-					+ "o un identificador o if o from | Tolen recivido: " + tokens.get(i).getValor());
+			System.out.println("ERROR: Se esperaba tipo de dato, outo \n" + ", un identificador, if o from "
+					+ "\n| Tolen recivido: " + tokens.get(i).getValor());
 			break;
 		}
 	}
@@ -165,7 +191,7 @@ public class Analizador_Sintactico {
 		if (tokens.get(i).getTipo().equals("IGUAL")) {
 			System.out.println(tokens.get(i).getValor());
 			i++;
-			Valor();
+			Expresion_individual();
 		}
 	}
 
@@ -207,27 +233,31 @@ public class Analizador_Sintactico {
 	// Souto -> outo (Cuerpo_outo) ;
 	public void Souto() {
 		if (getTokenType().equals("IMPRIMIR")) {
-			System.out.println(tokens.get(i).getValor());
+			System.out.print("   " + tokens.get(i).getValor());
 			i++;
 		} else {
 			System.out.println("ERROR: Se esperaba outo | Token recibido: " + tokens.get(i).getValor());
 		}
 		if (getTokenType().equals("PARENTESIS_APERTURA")) {
-			System.out.println(tokens.get(i).getValor());
+			System.out.print(tokens.get(i).getValor());
 			i++;
 		} else {
 			System.out.println("ERROR: Se esperaba ( | Token recibido: " + tokens.get(i).getValor());
 		}
 		// CUERPO_OUTO
 		Contenido();
+		while (!(getTokenType().equals("PARENTESIS_CERRADURA"))) {
+			System.out.print("ERROR: Se esperaba ) | Token recibido: " + tokens.get(i).getValor() + "\n");
+			i++;
+		}
 		if (getTokenType().equals("PARENTESIS_CERRADURA")) {
-			System.out.println(tokens.get(i).getValor());
+			System.out.print(tokens.get(i).getValor());
 			i++;
 		} else {
-			System.out.println("ERROR: Se esperaba ) | Token recibido: " + tokens.get(i).getValor());
+			System.out.println("\nERROR: Se esperaba ) | Token recibido: " + tokens.get(i).getValor());
 		}
 		if (getTokenType().equals("FIN_SENTENCIA")) {
-			System.out.println(tokens.get(i).getValor());
+			System.out.print(tokens.get(i).getValor());
 			i++;
 		} else {
 			System.out.println("ERROR: Se esperaba ; | Token recibido: " + tokens.get(i).getValor());
@@ -242,13 +272,16 @@ public class Analizador_Sintactico {
 		case "IDENTIFICADOR":
 		case "Cadena de caracteres":
 		case "NUMERO":
-			System.out.println(tokens.get(i).getValor());
+		case "VERDADERO":
+		case "FALSO":
+			System.out.print(tokens.get(i).getValor());
 			i++;
 			Mas_Contenido();
 			break;
 		default:
-			System.out.println("ERROR: Se esperaba IDENTIFICADOR o NUMERO o Cadena de caracteres | Token recibido: "
-					+ tokens.get(i).getTipo());
+			System.out
+					.println("\n   ERROR: Se esperaba IDENTIFICADOR o NUMERO o Cadena de caracteres | Token recibido: "
+							+ tokens.get(i).getTipo());
 			break;
 		}
 	}
@@ -258,7 +291,7 @@ public class Analizador_Sintactico {
 		String tipo = getTokenType();
 		switch (tipo) {
 		case "SUMA":
-			System.out.println(tokens.get(i).getValor());
+			System.out.print(tokens.get(i).getValor());
 			i++;
 			Contenido();
 			break;
