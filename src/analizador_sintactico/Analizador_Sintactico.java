@@ -82,10 +82,11 @@ public class Analizador_Sintactico {
 			SDeclaracion();
 			Mas_Instrucciones();
 			break;
-		// SOperacion Mas_Instrucciones:
-                case "IDENTIFICADOR":
-                        Mas_Instrucciones();
-                        break;
+		// SOperacion Mas_Instrucciones: 
+		case "IDENTIFICADOR":
+			SOperacion();
+			Mas_Instrucciones();
+			break;
 		// Sif Mas_Instrucciones
 		case "SI":
 			Sif();
@@ -220,6 +221,33 @@ public class Analizador_Sintactico {
 	public void Sfrom() {
 
 	}
+	
+	// SOperacion -> Identificador = Expresion_individual ;
+	public void SOperacion() {
+		// Identificador:
+		if (getTokenType().equals("IDENTIFICADOR")) {
+			System.out.println(tokens.get(i).getValor());
+			i++;
+			if (getTokenType().equals("IGUAL")) {
+				System.out.println(tokens.get(i).getValor());
+				i++;
+				Expresion_individual();		
+			} else {
+				i++;
+				System.out.println("ERROR: Se esperaba = | Token recibido: " + tokens.get(i).getValor());
+			}
+			if (getTokenType().equals("FIN_SENTENCIA")) {
+				System.out.println(tokens.get(i).getValor());
+				i++;	
+			} else {
+				System.out.println("ERROR: Se esperaba ; | Token recibido: " + tokens.get(i).getValor());
+				i++;	
+			}
+			
+		}
+	}
+
+	
 
 	// Sif -> if(Operador_NOT Condicion){cuerpo} Selse
 	public void Sif() {
