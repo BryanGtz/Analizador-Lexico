@@ -533,24 +533,24 @@ public class Analizador_Sintactico {
 	}
         
         public void Contenido(){
-    	String tipo = getTokenType();
-    	switch (tipo) {
-		case "IDENTIFICADOR":
-			System.out.println(tokens.get(i).getValor());
-			i++;
-			break;
-		case "CONSTANTES":
-			System.out.println(tokens.get(i).getValor());
-			i++;
-			break;
-		case "CARACTER":
-			System.out.println(tokens.get(i).getValor());
-			i++;
-			break;
-		default:
-			System.out.println("ERROR: Se esperaba IDENTIFICADOR o CONSTANTES o CARACTER | Token recibido: " + tokens.get(i).getTipo());
-			break;
-		}
+            String tipo = getTokenType();
+            switch (tipo) {
+                    case "IDENTIFICADOR":
+                            System.out.println(tokens.get(i).getValor());
+                            i++;
+                            break;
+                    case "CONSTANTES":
+                            System.out.println(tokens.get(i).getValor());
+                            i++;
+                            break;
+                    case "CARACTER":
+                            System.out.println(tokens.get(i).getValor());
+                            i++;
+                            break;
+                    default:
+                            System.out.println("ERROR: Se esperaba IDENTIFICADOR o CONSTANTES o CARACTER | Token recibido: " + tokens.get(i).getTipo());
+                            break;
+                    }
         }
     
         public void Mas_Contenido(){
