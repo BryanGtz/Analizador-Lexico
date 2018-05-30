@@ -74,7 +74,6 @@ public class Analizador_Sintactico {
 				if (getTokenType().equals("FIN_BLOQUE"))
 					break;
 				if (i <= tokens.size()) {
-					System.out.println("OH");
 					i++;
 					break;
 				}
@@ -168,10 +167,10 @@ public class Analizador_Sintactico {
 	// Declaracion -> Tipo_dato Identificador Asignacion ;
 	public void SDeclaracion() {
 		// Tipo de dato ya lo obtuvimos
-		System.out.println(tokens.get(i).getValor());
+		System.out.print(tokens.get(i).getValor());
 		i++;
 		if (tokens.get(i).getTipo().equals("IDENTIFICADOR")) {
-			System.out.println(tokens.get(i).getValor());
+			System.out.print(" "+tokens.get(i).getValor());
 			i++;
 		} else {
 			System.out.println("ERROR: Se esperaba IDENTIFICADOR | Token recibido: " + tokens.get(i).getValor());
@@ -189,9 +188,9 @@ public class Analizador_Sintactico {
 	// Asignacion -> = Valor | E
 	public void Asignacion() {
 		if (tokens.get(i).getTipo().equals("IGUAL")) {
-			System.out.println(tokens.get(i).getValor());
+			System.out.print(tokens.get(i).getValor());
 			i++;
-			Expresion_individual();
+			Valor();
 		}
 	}
 
@@ -199,13 +198,16 @@ public class Analizador_Sintactico {
 	public void Valor() {
 		String tipo = tokens.get(i).getTipo();
 		switch (tipo) {
-		case "NUMERO":
 		case "VERDADERO":
 		case "FALSO":
 		case "Cadena de caracteres":
 		case "CARACTER":
-			System.out.println(tokens.get(i).getValor());
+			System.out.print(tokens.get(i).getValor());
 			i++;
+			break;
+		case "IDENTIFICADOR":
+		case "NUMERO":
+			Expresion_individual();
 			break;
 		default:
 			System.out.println("ERROR. Se esperaba un numero o una cadena de caracteres "
@@ -217,10 +219,10 @@ public class Analizador_Sintactico {
 	// Mas_declaraciones -> , Identificador Asignacion Mas_declaraciones | E
 	public void Mas_declaraciones() {
 		if (tokens.get(i).getTipo().equals("COMA")) {
-			System.out.println(tokens.get(i).getValor());
+			System.out.print(tokens.get(i).getValor());
 			i++;
 			if (tokens.get(i).getTipo().equals("IDENTIFICADOR")) {
-				System.out.println(tokens.get(i).getValor());
+				System.out.print(" "+tokens.get(i).getValor());
 				i++;
 			} else {
 				System.out.println("ERROR: Se esperaba IDENTIFICADOR | Token recibido: " + tokens.get(i).getValor());
@@ -400,7 +402,7 @@ public class Analizador_Sintactico {
 		case "NUMERO":
 		case "VERDADERO":
 		case "FALSO":
-			System.out.println(tokens.get(i).getValor());
+			System.out.print(tokens.get(i).getValor());
 			i++;
 			Expresion();
 			break;
@@ -422,14 +424,14 @@ public class Analizador_Sintactico {
 		case "MULTIPLICACION":
 		case "DIVISION":
 		case "MODULO":
-			System.out.println(tokens.get(i).getValor());
+			System.out.print(tokens.get(i).getValor());
 			i++;
 			// IdNum
 			String tipo2 = getTokenType();
 			switch (tipo2) {
 			case "IDENTIFICADOR":
 			case "NUMERO":
-				System.out.println(tokens.get(i).getValor());
+				System.out.print(tokens.get(i).getValor());
 				i++;
 				Mas_Expresiones();
 				break;
@@ -473,7 +475,7 @@ public class Analizador_Sintactico {
 	// Mas_condiciones -> Operador_logico condicion | E
 	public void Mas_Condiciones() {
 		// Operadores logicos AND|OR
-		if (getTokenType().equals("OP_LOGICOS")) {
+		if (getTokenType().equals("Y") || getTokenType().equals("O")) {
 			System.out.println(tokens.get(i).getValor());
 			i++;
 			Condicion();
