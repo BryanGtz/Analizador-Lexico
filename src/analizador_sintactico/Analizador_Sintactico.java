@@ -278,8 +278,4 @@ public class Analizador_Sintactico {
 		return tipo;
 	}
 
-	private void expresion() {
-
-	}
-
 }
