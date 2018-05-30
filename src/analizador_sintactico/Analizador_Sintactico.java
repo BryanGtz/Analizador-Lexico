@@ -159,7 +159,7 @@ public class Analizador_Sintactico {
             String tipo = tokens.get(i).getTipo();
 		switch (tipo) {
 		case "NUMERO":
-		case "VERADADERO":
+		case "VERDADERO":
 		case "FALSO":
 		case "Cadena de caracteres":
 		case "CARACTER":
@@ -167,8 +167,8 @@ public class Analizador_Sintactico {
                         i++;
                         break;
                 default:
-                    System.out.println("ERROR. Se esperaba un numero o una cadena de caracteres"
-                            + "o true o false o un caracter");
+                    System.out.println("ERROR. Se esperaba un numero o una cadena de caracteres "
+                            + "o true o false o un caracter | Token recibido: "+ tokens.get(i).getValor());
                     break;
 		}
         }
@@ -519,16 +519,11 @@ public class Analizador_Sintactico {
             String tipo = getTokenType();
             switch (tipo) {
                     case "IDENTIFICADOR":
-                            System.out.println(tokens.get(i).getValor());
-                            i++;
-                            break;
                     case "Cadena de caracteres":
-                            System.out.println(tokens.get(i).getValor());
-                            i++;
-                            break;
                     case "NUMERO":
                             System.out.println(tokens.get(i).getValor());
                             i++;
+                            Mas_Contenido();
                             break;
                     default:
                             System.out.println("ERROR: Se esperaba IDENTIFICADOR o NUMERO o Cadena de caracteres | Token recibido: " + tokens.get(i).getTipo());
