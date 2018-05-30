@@ -202,7 +202,7 @@ public class Analizador_Sintactico {
 			System.out.println("ERROR: Se esperaba ( | Token recibido: " + tokens.get(i).getValor());
 		}
 		// CUERPO_OUTO
-		r_cuerpo_outo();
+		Contenido();
 		if (getTokenType().equals("PARENTESIS_CERRADURA")) {
 			System.out.println(tokens.get(i).getValor());
 			i++;
@@ -513,24 +513,7 @@ public class Analizador_Sintactico {
 		} else {
 			SDeclaracion();
 		}
-}
-
-	public void r_cuerpo_outo() {
-		String tipo = getTokenType();
-		switch (tipo) {
-		case "IDENTIFICADOR":
-			System.out.println(tokens.get(i).getValor());
-			i++;
-			break;
-		case "Cadena de caracteres":
-			System.out.println(tokens.get(i).getValor());
-			i++;
-			break;
-		default:
-			System.out.println("ERROR: Se esperaba IDENTIFICADOR o TEXTO | Token recibido: " + tokens.get(i).getTipo());
-			break;
-		}
-	}
+    }
         
         public void Contenido(){
             String tipo = getTokenType();
