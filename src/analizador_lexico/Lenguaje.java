@@ -55,6 +55,7 @@ public class Lenguaje {
         SIMBOLOS.put(")","PARENTESIS_CERRADURA");
         SIMBOLOS.put("{","INICIO_BLOQUE");
         SIMBOLOS.put("}","FIN_BLOQUE");
+        SIMBOLOS.put(",","COMA");
         SIMBOLOS.put(";","FIN_SENTENCIA");
         TIPOS_DATOS.put("int","ENTERO");
         TIPOS_DATOS.put("bool", "BOLEANO");

@@ -85,6 +85,7 @@ public class Analizador_Sintactico {
 		// SOperacion Mas_Instrucciones:
                 case "IDENTIFICADOR":
                         Mas_Instrucciones();
+                        break;
 		// Sif Mas_Instrucciones
 		case "SI":
 			Sif();
@@ -99,7 +100,9 @@ public class Analizador_Sintactico {
 
 		// ERROR:
 		default:
-			System.out.println("ERROR");
+			System.out.println("ERROR. Se esperaba tipo de dato o outo"
+                                + "o un identificador o if o from | Tolen recivido: "
+                                + tokens.get(i).getValor());
 			break;
 		}
 	}
@@ -134,7 +137,7 @@ public class Analizador_Sintactico {
 			System.out.println("ERROR: Se esperaba IDENTIFICADOR | Token recibido: " + tokens.get(i).getValor());
 		}
 		r_asignacion();
-                
+                r_mas_declaraciones();
 		if (tokens.get(i).getTipo().equals("FIN_SENTENCIA")) {
 			System.out.println(tokens.get(i).getValor());
 			i++;
@@ -148,9 +151,7 @@ public class Analizador_Sintactico {
 			System.out.println(tokens.get(i).getValor());
 			i++;
                         r_valor();
-		} else {
-			System.out.println("ERROR: Se esperaba IDENTIFICADOR | Token recibido: " + tokens.get(i).getValor());
-		}                
+		}             
 	}
         
         public void r_valor(){
@@ -169,6 +170,21 @@ public class Analizador_Sintactico {
                             + "o true o false o un caracter");
                     break;
 		}
+        }
+        
+        public void r_mas_declaraciones(){
+            if (tokens.get(i).getTipo().equals("COMA")) {
+                    System.out.println(tokens.get(i).getValor());
+                    i++;
+                    if (tokens.get(i).getTipo().equals("IDENTIFICADOR")) {
+			System.out.println(tokens.get(i).getValor());
+			i++;
+                    } else {
+                            System.out.println("ERROR: Se esperaba IDENTIFICADOR | Token recibido: " + tokens.get(i).getValor());
+                    }
+                    r_asignacion();
+                    r_mas_declaraciones();
+            }            
         }
 
 	public void Souto() {

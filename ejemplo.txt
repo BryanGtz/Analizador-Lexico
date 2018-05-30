@@ -4,7 +4,7 @@
 		outo("Hola") #imprime en pantalla
 		dec  a = 1.3;
 		int  a2 = ;
-		int   a3 = 0;
+		int   a3, a4 = 0;
 		string t1 = "suma";
 		if(a%2==0){
 			outo("a es par");
