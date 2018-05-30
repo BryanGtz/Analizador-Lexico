@@ -13,12 +13,18 @@ public class Analizador_Sintactico {
 
 	// Metodo inicial.
 	public void analizar(Analizador_Lexico a_l) {
+		System.out.println("==================================");
+		System.out.println("Comienza el analizador Sintactico:");
+		System.out.println("----------------------------------");
 		// Obtenemos la lista de tokens.
 		tokens = a_l.tokens;
 		// Inicializamos el contador de tokens.
 		i = 0;
 		// Comenzamos con la primer regla.
 		Sstarto();
+		System.out.println("----------------------------------");
+		System.out.println("Finaliza el analizador Sintactico:");
+		System.out.println("==================================");
 	}
 
 	// Sstarto -> starto () {cuerpo}
@@ -359,6 +365,8 @@ public class Analizador_Sintactico {
 		switch (tipo) {
 		case "IDENTIFICADOR":
 		case "NUMERO":
+		case "VERDADERO":
+		case "FALSO":
 			System.out.println(tokens.get(i).getValor());
 			i++;
 			Expresion();
