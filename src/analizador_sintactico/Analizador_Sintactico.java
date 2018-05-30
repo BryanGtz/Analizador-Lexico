@@ -526,30 +526,30 @@ public class Analizador_Sintactico {
 		if (getTokenType().equals("INICIO_FOR")) {
 			System.out.print("   " + tokens.get(i).getValor());
 		} else {
-			System.out.println("ERROR: Se esperaba outo | Token recibido: " + tokens.get(i).getValor());
+			System.out.println("\nERROR: Se esperaba outo | Token recibido: " + tokens.get(i).getValor());
 		}
 		i++;
 		if (tokens.get(i).getTipo().equals("PARENTESIS_APERTURA")) {
 			System.out.print(tokens.get(i).getValor());
 		} else {
-			System.out.println("ERROR: Se esperaba ( | Token recibido: " + tokens.get(i).getValor());
+			System.out.println("\nERROR: Se esperaba ( | Token recibido: " + tokens.get(i).getValor());
 		}
 		i++;
 		Condicion_Inicial();
 		while (!(tokens.get(i).getTipo().equals("PARENTESIS_CERRADURA"))) {
-			System.out.print("ERROR: Se esperaba ) | Token recibido: " + tokens.get(i).getValor()+"\n");
+			System.out.print("\nERROR: Se esperaba ) | Token recibido: " + tokens.get(i).getValor()+"\n");
 			i++;
 		} 
 		if (tokens.get(i).getTipo().equals("PARENTESIS_CERRADURA")) {
 			System.out.print(tokens.get(i).getValor());
 		} else {
-			System.out.println("ERROR: Se esperaba ) | Token recibido: " + tokens.get(i).getValor());
+			System.out.println("\nERROR: Se esperaba ) | Token recibido: " + tokens.get(i).getValor());
 		}
 		i++;
 		if (tokens.get(i).getTipo().equals("FIN_FOR")) {
 			System.out.print(tokens.get(i).getValor());
 		} else {
-			System.out.println("ERROR: Se esperaba to | Token recibido: " + tokens.get(i).getValor());
+			System.out.println("\nERROR: Se esperaba to | Token recibido: " + tokens.get(i).getValor());
 		}
 		i++;
 		if (tokens.get(i).getTipo().equals("PARENTESIS_APERTURA")) {
@@ -619,7 +619,7 @@ public class Analizador_Sintactico {
 			}
 			else
 			{
-				System.out.println("");
+				System.out.println("\nERROR: Se esperaba IDENTIFICADOR o EXPRESION | Token recibido: " + tokens.get(i).getValor());
 			}
 		}
 	}
