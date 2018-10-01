@@ -17,6 +17,7 @@ public class Nodo {
     String nombre;
     Token token;
     boolean esTerminal;
+    
     public Nodo(){
         
     }
