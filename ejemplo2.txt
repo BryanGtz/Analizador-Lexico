@@ -1,19 +1,21 @@
+	# Hola
 	starto(){
 		# Inicio
 		outo("Hola"); #imprime en pantalla
-		dec    a1 = 1.3;1
+		dec    a1 = 1.3;
 		int  a2 = 4, a3=0;
 		int   a4 = 0;
 		string t1 = 2+a4;
-		from(a1)to(a1<=a2) inc(1){
-			a3 = a3+ a1;
+		i=0;
+		from(i)to(a1<=a2) inc(1){
+			a3 = a3+ a1; #
 			outo ("prueba"+a3);
 		}
-		outo( t1+a3 );
+		outo( t1+a3 +x);
 		
 		# Condiciones
 		
-		if(a1 < a2){
+		if(falso+2 < a2){
 			outo("a1 es menor que a2");
 		}
 		else{

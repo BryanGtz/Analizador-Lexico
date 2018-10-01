@@ -386,9 +386,10 @@ public class Analizador_Sintactico {
 			System.out.println("ERROR: Se esperaba } | Token recibido: " + tokens.get(i).getValor());
 		}
 		i++;
-
-		// Selse
-		Selse();
+		if(getTokenType().equals("DE_OTRA_FORMA")) {
+			// Selse			
+			Selse();
+		}
 	}
 
 	// Condicion -> Expresion_individual Operador_relacional Expresion_individual
@@ -517,7 +518,7 @@ public class Analizador_Sintactico {
 			}
 			i++;
 		} else {
-			// Vacio
+			System.out.println("ERROR: Se esperaba else | Token recibido: "+tokens.get(i).getValor());
 		}
 	}
 
