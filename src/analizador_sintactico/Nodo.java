@@ -18,7 +18,9 @@ public class Nodo {
     Token token;
     boolean esTerminal;
     
-    public Nodo(){
+    //Constructor cuando el Nodo es terminal
+    public Nodo(Token t){
+        esTerminal = true;
         
     }
     
