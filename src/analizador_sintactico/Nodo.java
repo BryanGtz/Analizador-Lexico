@@ -12,16 +12,18 @@ import analizador_lexico.Token;
  *
  * @author User
  */
-public class Nodo {
-    ArrayList<Nodo> hijos;
-    String nombre;
-    Token token;
+public class Nodo<T> {
+    ArrayList<Nodo> hijos=null;
+    T datos;
     boolean esTerminal;
     
-    //Constructor cuando el Nodo es terminal
-    public Nodo(Token t){
-        esTerminal = true;
-        
+    //Constructor
+    public Nodo(T t,boolean terminal){
+        esTerminal = terminal;
+        datos = t;
+        if(!terminal){
+            hijos = new ArrayList();
+        }
     }
     
 }

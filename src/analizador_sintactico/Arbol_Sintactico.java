@@ -12,4 +12,7 @@ package analizador_sintactico;
 public class Arbol_Sintactico {
     Nodo raiz;
     
+    public Arbol_Sintactico(Nodo r){
+        raiz = r;
+    }
 }

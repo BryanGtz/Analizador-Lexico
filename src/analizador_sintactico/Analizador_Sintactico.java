@@ -3,6 +3,7 @@ package analizador_sintactico;
 import java.util.List;
 
 import analizador_lexico.*;
+import java.util.ArrayList;
 
 public class Analizador_Sintactico {
 
@@ -166,22 +167,30 @@ public class Analizador_Sintactico {
 
 	// Declaracion -> Tipo_dato Identificador Asignacion ;
 	public void SDeclaracion() {
+                Nodo regla = new Nodo("SDeclaracion",false);
+                Nodo tipo_dato = new Nodo("Tipo_dato",false);
+                regla.hijos.add(tipo_dato);
 		if (tokens.get(i).getTipo().equals("DECIMAL") || tokens.get(i).getTipo().equals("ENTERO")
 				|| tokens.get(i).getTipo().equals("BOLEANO") || tokens.get(i).getTipo().equals("CADENA")
 				|| tokens.get(i).getTipo().equals("CARACTER")) {
+                        tipo_dato.hijos.add(new Nodo(tokens.get(i),true));
 			System.out.print("   "+tokens.get(i).getValor());
 		} else {
+                        tipo_dato.hijos.add(new Nodo("Error",true));
 			System.out.print(
 					"\nERROR: Se esperaba string, dec, int, bool, char | Token recibido: " + tokens.get(i).getValor());
 		}
 		i++;
 		if (tokens.get(i).getTipo().equals("IDENTIFICADOR")) {
+                        regla.hijos.add(new Nodo(tokens.get(i),true));
 			System.out.print(" " + tokens.get(i).getValor());
 			i++;
 		} else {
+                        regla.hijos.add(new Nodo("Error",true));
 			System.out.print("\nERROR: Se esperaba IDENTIFICADOR | Token recibido: " + tokens.get(i).getValor());
 		}
-		Asignacion();
+                Nodo asignacion = Asignacion();
+                regla.hijos.add(asignacion);
 		Mas_declaraciones();
 		if (tokens.get(i).getTipo().equals("FIN_SENTENCIA")) {
 			System.out.println(tokens.get(i).getValor());
@@ -192,34 +201,43 @@ public class Analizador_Sintactico {
 	}
 
 	// Asignacion -> = Valor | E
-	public void Asignacion() {
+	public Nodo Asignacion() {
+                Nodo padre = new Nodo("Asignacion",false);
 		if (tokens.get(i).getTipo().equals("IGUAL")) {
+                        Nodo hijo1 = new Nodo(tokens.get(i),true);
+                        padre.hijos.add(hijo1);
 			System.out.print(tokens.get(i).getValor());
 			i++;
-			Valor();
+                        Nodo valor = Valor();
+                        padre.hijos.add(valor);
 		}
+                return padre;
 	}
 
 	// Valor -> NUMERO | VERDADERO | FALSO | Cadena de caracteres | CARACTER
-	public void Valor() {
+	public Nodo Valor() {
+                Nodo padre = new Nodo("Valor",false);
 		String tipo = tokens.get(i).getTipo();
 		switch (tipo) {
 		case "VERDADERO":
 		case "FALSO":
 		case "Cadena de caracteres":
 		case "CARACTER":
+                        Nodo hijo1 = new Nodo(tokens.get(i),true);
+                        padre.hijos.add(hijo1);
 			System.out.print(tokens.get(i).getValor());
 			i++;
 			break;
 		case "IDENTIFICADOR":
 		case "NUMERO":
-			Expresion_individual();
+                        Nodo hijo2 = Expresion_individual();
 			break;
 		default:
 			System.out.println("ERROR. Se esperaba un numero o una cadena de caracteres "
 					+ "o true o false o un caracter | Token recibido: " + tokens.get(i).getValor());
 			break;
 		}
+                return padre;
 	}
 
 	// Mas_declaraciones -> , Identificador Asignacion Mas_declaraciones | E
@@ -403,8 +421,8 @@ public class Analizador_Sintactico {
 	}
 
 	// Expresion_individual -> IdNum Expresion
-	public void Expresion_individual() {
-
+	public Nodo Expresion_individual() {
+                Nodo padre = new Nodo("Expresion_individual",false);
 		String tipo = getTokenType();
 		switch (tipo) {
 		case "IDENTIFICADOR":
@@ -420,7 +438,7 @@ public class Analizador_Sintactico {
 					+ tokens.get(i).getValor() + getTokenType());
 			break;
 		}
-
+                return padre;
 	}
 
 	// Expresion -> Operador_aritmetico IdNum Mas_expresiones | E
