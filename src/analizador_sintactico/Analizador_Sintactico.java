@@ -139,6 +139,7 @@ public class Analizador_Sintactico {
 		// Souto Mas_Instrucciones:
 		case "IMPRIMIR":
 			Nodo<String> souto = Souto();
+                        regla.addHijo(souto);
                         Nodo mas_Instrucciones = Mas_Instrucciones();
                         regla.addHijo(mas_Instrucciones);
 			break;
