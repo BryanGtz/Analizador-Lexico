@@ -11,4 +11,6 @@ import analizador_sintactico.*;
  */
 public class Analizador_Semantico {
     Arbol_Sintactico as;
+    
+    
 }
