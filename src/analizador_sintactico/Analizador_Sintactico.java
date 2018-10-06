@@ -25,9 +25,11 @@ public class Analizador_Sintactico {
 		if (tokens.size() != 0) {
 			// Comenzamos con la primer regla.
 			try {
-                            Nodo Sstarto = Sstarto();
-                            as = new Arbol_Sintactico(Sstarto);
+                                Nodo Sstarto = Sstarto();
+                                as = new Arbol_Sintactico(Sstarto);
 			} catch (Exception e) {
+                                Nodo Sstarto = new Nodo("ERROR");
+                                as = new Arbol_Sintactico(Sstarto);
 				System.out.println("ERROR: No cumple con la sintaxis");
 			}
 		}
@@ -38,48 +40,48 @@ public class Analizador_Sintactico {
 
 	// Sstarto -> starto () {cuerpo}
 	public Nodo Sstarto() {
-                Nodo<String> regla = new Nodo("Sstarto",false);
+                Nodo<String> regla = new Nodo("Sstarto");
 		// starto:
 		if (getTokenType().equals("INICIO")) {
-                        Nodo<Token> starto = new Nodo(tokens.get(i),true);
-                        regla.addHijo(starto);
+                        Nodo<Token> starto = new Nodo(tokens.get(i));
+                        regla.agregarHijo(starto);
 			System.out.print("starto");
 
 		} else {
-                        Nodo<Token> starto = new Nodo("Error",true);
-                        regla.addHijo(starto);
+                        Nodo<String> starto = new Nodo("Error");
+                        regla.agregarHijo(starto);
 			System.out.println("ERROR: Se esperaba starto | Token recibido: " + tokens.get(i).getValor());
 		}
 		i++;
 		// Parentesis:
 		// (
 		if (tokens.get(i).getTipo().equals("PARENTESIS_APERTURA")) {
-                        Nodo<Token> p_a = new Nodo(tokens.get(i),true);
-                        regla.addHijo(p_a);
+                        Nodo<Token> p_a = new Nodo(tokens.get(i));
+                        regla.agregarHijo(p_a);
 			System.out.print("(");
 
 		} else {
-                        Nodo<String> p_a = new Nodo("Error",true);
-                        regla.addHijo(p_a);
+                        Nodo<String> p_a = new Nodo("Error");
+                        regla.agregarHijo(p_a);
 			System.out.println("\nERROR: Se esperaba ( | Token recibido: " + tokens.get(i).getValor());
 		}
 		i++;
 
 		// )
 		while (!(tokens.get(i).getTipo().equals("PARENTESIS_CERRADURA"))) {
-                        Nodo<String> p_c = new Nodo("Error",true);
-                        regla.addHijo(p_c);
+                        Nodo<String> p_c = new Nodo("Error");
+                        regla.agregarHijo(p_c);
 			System.out.print("\nERROR: Se esperaba ( | Token recibido: " + tokens.get(i).getValor());
 			i++;
 		}
 		if (tokens.get(i).getTipo().equals("PARENTESIS_CERRADURA")) {
 			System.out.println(")");
-                        Nodo<Token> p_c = new Nodo(tokens.get(i),true);
-                        regla.addHijo(p_c);
+                        Nodo<Token> p_c = new Nodo(tokens.get(i));
+                        regla.agregarHijo(p_c);
 
 		} else {
-                        Nodo<String> p_c = new Nodo("Error",true);
-                        regla.addHijo(p_c);
+                        Nodo<String> p_c = new Nodo("Error");
+                        regla.agregarHijo(p_c);
 			System.out.println("\nERROR: Se esperaba ) | Token recibido: " + tokens.get(i).getValor());
 		}
 		i++;
@@ -87,8 +89,8 @@ public class Analizador_Sintactico {
 		// {
 		while (!(tokens.get(i).getTipo().equals("INICIO_BLOQUE"))) {
 			System.out.println("ERROR: Se esperaba { | Token recibido: " + tokens.get(i).getValor());
-                        Nodo<String> i_b = new Nodo("Error",true);
-                        regla.addHijo(i_b);
+                        Nodo<String> i_b = new Nodo("Error");
+                        regla.agregarHijo(i_b);
 			i++;
 			// }
 			if (getTokenType().equals("FIN_BLOQUE"))
@@ -99,27 +101,27 @@ public class Analizador_Sintactico {
 			}
 		}
 		if (tokens.get(i).getTipo().equals("INICIO_BLOQUE")) {
-                        Nodo<Token> i_b = new Nodo(tokens.get(i),true);
-                        regla.addHijo(i_b);
+                        Nodo<Token> i_b = new Nodo(tokens.get(i));
+                        regla.agregarHijo(i_b);
 			System.out.println("{");
 			i++;
 		} else {
-                        Nodo<String> i_b = new Nodo("Error",true);
-                        regla.addHijo(i_b);
+                        Nodo<String> i_b = new Nodo("Error");
+                        regla.agregarHijo(i_b);
 			System.out.println("ERROR: Se esperaba { | Token recibido: " + tokens.get(i).getValor());
 		}
                 // Cuerpo:
                 Nodo<String> cuerpo = cuerpo();
-                regla.addHijo(cuerpo);
+                regla.agregarHijo(cuerpo);
 		// Fin del bloque:
 		// }
 		if (getTokenType().equals("FIN_BLOQUE")) {
-                        Nodo<String> f_b = new Nodo(tokens.get(i),true);
-                        regla.addHijo(f_b);
+                        Nodo<String> f_b = new Nodo(tokens.get(i));
+                        regla.agregarHijo(f_b);
 			System.out.println("}");
 		} else {
-                        Nodo<String> f_b = new Nodo("Error",true);
-                        regla.addHijo(f_b);
+                        Nodo<String> f_b = new Nodo("Error");
+                        regla.agregarHijo(f_b);
 			System.out.println("\nERROR: Se esperaba } | Token recibido: " + tokens.get(i).getValor());
 		}
                 return regla;
@@ -133,15 +135,16 @@ public class Analizador_Sintactico {
 	// | Sfrom Mas_Instrucciones
 
 	public Nodo cuerpo() {
-                Nodo<String> regla = new Nodo("Cuerpo",false);
+                Nodo<String> regla = new Nodo("Cuerpo");
 		String tipo = getTokenType();
-		switch (tipo) {
+                Nodo<String> mas_instrucciones;
+		switch (tipo) {                        
 		// Souto Mas_Instrucciones:
 		case "IMPRIMIR":
 			Nodo<String> souto = Souto();
-                        regla.addHijo(souto);
-                        Nodo mas_Instrucciones = Mas_Instrucciones();
-                        regla.addHijo(mas_Instrucciones);
+                        regla.agregarHijo(souto);
+                        mas_instrucciones = Mas_Instrucciones();
+                        regla.agregarHijo(mas_instrucciones);
 			break;
 		// SDeclaracion Mas_Instrucciones:
 		case "DECIMAL":
@@ -150,24 +153,28 @@ public class Analizador_Sintactico {
 		case "CARACTER":
 		case "CADENA":
 			Nodo<String> Sdecla = SDeclaracion();
-                        regla.addHijo(Sdecla);
-			Mas_Instrucciones();
+                        regla.agregarHijo(Sdecla);
+                        mas_instrucciones = Mas_Instrucciones();
+                        regla.agregarHijo(mas_instrucciones);
 			break;
 		// SOperacion Mas_Instrucciones:
 		case "IDENTIFICADOR":
 			SOperacion();
-			Mas_Instrucciones();
+                        mas_instrucciones = Mas_Instrucciones();
+                        regla.agregarHijo(mas_instrucciones);
 			break;
 		// Sif Mas_Instrucciones
 		case "SI":
 			Sif();
-			Mas_Instrucciones();
+                        mas_instrucciones = Mas_Instrucciones();
+                        regla.agregarHijo(mas_instrucciones);
 			break;
 
 		// Sfrom Mas_Instrucciones
 		case "INICIO_FOR":
 			Sfrom();
-			Mas_Instrucciones();
+			mas_instrucciones = Mas_Instrucciones();
+                        regla.agregarHijo(mas_instrucciones);
 			break;
 
 		// ERROR:
@@ -181,7 +188,7 @@ public class Analizador_Sintactico {
 
 	// Mas_Instrucciones -> cuerpo | E
 	public Nodo Mas_Instrucciones() {
-                Nodo<String> regla = new Nodo("Mas instrucciones",false);
+                Nodo<String> regla = new Nodo("Mas instrucciones");
 		String tipo = getTokenType();
 		switch (tipo) {
 		case "IMPRIMIR":
@@ -193,9 +200,12 @@ public class Analizador_Sintactico {
 		case "SI":
 		case "INICIO_FOR":
 		case "IDENTIFICADOR":
-                    Nodo<String> cuerpo = cuerpo();
-                    regla.addHijo(cuerpo);
+                        Nodo<String> cuerpo = cuerpo();
+                        regla.agregarHijo(cuerpo);
+                        break;
 		default:
+                        Nodo<String> vacio = new Nodo("Vacio");
+                        regla.agregarHijo(vacio);
 			break;
 		}
                 return regla;
@@ -204,35 +214,44 @@ public class Analizador_Sintactico {
 
 	// Declaracion -> Tipo_dato Identificador Asignacion ;
 	public Nodo SDeclaracion() {
-                Nodo<String> regla = new Nodo("SDeclaracion",false);
-                Nodo<String> tipo_dato = new Nodo("Tipo_dato",false);
+                Nodo<String> regla = new Nodo("SDeclaracion");
+                Nodo<String> tipo_dato = new Nodo("Tipo_dato");
                 regla.hijos.add(tipo_dato);
 		if (tokens.get(i).getTipo().equals("DECIMAL") || tokens.get(i).getTipo().equals("ENTERO")
 				|| tokens.get(i).getTipo().equals("BOLEANO") || tokens.get(i).getTipo().equals("CADENA")
 				|| tokens.get(i).getTipo().equals("CARACTER")) {
-                        tipo_dato.hijos.add(new Nodo(tokens.get(i),true));
+                        Nodo<Token> t_d = new Nodo(tokens.get(i));
+                        tipo_dato.hijos.add(t_d);
 			System.out.print("   "+tokens.get(i).getValor());
 		} else {
-                        tipo_dato.hijos.add(new Nodo("Error",true));
+                        Nodo<String> t_d = new Nodo("Error");
+                        tipo_dato.agregarHijo(t_d);
 			System.out.print(
 					"\nERROR: Se esperaba string, dec, int, bool, char | Token recibido: " + tokens.get(i).getValor());
 		}
 		i++;
 		if (tokens.get(i).getTipo().equals("IDENTIFICADOR")) {
-                        regla.hijos.add(new Nodo<Token>(tokens.get(i),true));
+                        Nodo<Token> id = new Nodo(tokens.get(i));
+                        regla.agregarHijo(id);
 			System.out.print(" " + tokens.get(i).getValor());
 			i++;
 		} else {
-                        regla.hijos.add(new Nodo<String>("Error",true));
+                        Nodo<String> id = new Nodo("Error");
+                        regla.hijos.add(id);
 			System.out.print("\nERROR: Se esperaba IDENTIFICADOR | Token recibido: " + tokens.get(i).getValor());
 		}
                 Nodo<String> asignacion = Asignacion();
-                regla.hijos.add(asignacion);
-		Mas_declaraciones();
+                regla.agregarHijo(asignacion);
+                Nodo m_d = Mas_declaraciones();
+                regla.agregarHijo(m_d);
 		if (tokens.get(i).getTipo().equals("FIN_SENTENCIA")) {
+                        Nodo f_s = new Nodo(tokens.get(i));
+                        regla.agregarHijo(f_s);
 			System.out.println(tokens.get(i).getValor());
 			i++;
 		} else {
+                        Nodo f_s = new Nodo("Error");
+                        regla.agregarHijo(f_s);
 			System.out.print("\nERROR: Se esperaba ; | Token recibido: " + tokens.get(i).getValor() + "\n");
 		}
                 return regla;
@@ -240,37 +259,44 @@ public class Analizador_Sintactico {
 
 	// Asignacion -> = Valor | E
 	public Nodo Asignacion() {
-                Nodo<String> padre = new Nodo("Asignacion",false);
+                Nodo<String> padre = new Nodo("Asignacion");
 		if (tokens.get(i).getTipo().equals("IGUAL")) {
-                        Nodo<Token> hijo1 = new Nodo(tokens.get(i),true);
-                        padre.hijos.add(hijo1);
+                        Nodo<Token> igual = new Nodo(tokens.get(i));
+                        padre.agregarHijo(igual);
 			System.out.print(tokens.get(i).getValor());
 			i++;
                         Nodo valor = Valor();
-                        padre.hijos.add(valor);
+                        padre.agregarHijo(valor);
 		}
+                else{
+                    Nodo<String> vacio = new Nodo("Vacio");
+                    padre.agregarHijo(vacio);
+                }
                 return padre;
 	}
 
 	// Valor -> NUMERO | VERDADERO | FALSO | Cadena de caracteres | CARACTER
 	public Nodo Valor() {
-                Nodo padre = new Nodo("Valor",false);
+                Nodo padre = new Nodo("Valor");
 		String tipo = tokens.get(i).getTipo();
 		switch (tipo) {
 		case "VERDADERO":
 		case "FALSO":
 		case "Cadena de caracteres":
 		case "CARACTER":
-                        Nodo hijo1 = new Nodo(tokens.get(i),true);
-                        padre.hijos.add(hijo1);
+                        Nodo hijo1 = new Nodo(tokens.get(i));
+                        padre.agregarHijo(hijo1);
 			System.out.print(tokens.get(i).getValor());
 			i++;
 			break;
 		case "IDENTIFICADOR":
 		case "NUMERO":
-                        Nodo hijo2 = Expresion_individual();
+                        Nodo e_i = Expresion_individual();
+                        padre.agregarHijo(e_i);
 			break;
 		default:
+                        Nodo error = new Nodo("Error");
+                        error.agregarHijo(error);
 			System.out.println("ERROR. Se esperaba un numero o una cadena de caracteres "
 					+ "o true o false o un caracter | Token recibido: " + tokens.get(i).getValor());
 			break;
@@ -279,24 +305,38 @@ public class Analizador_Sintactico {
 	}
 
 	// Mas_declaraciones -> , Identificador Asignacion Mas_declaraciones | E
-	public void Mas_declaraciones() {
+	public Nodo Mas_declaraciones() {
+                Nodo<String> regla = new Nodo("Mas_declaraciones");
 		if (tokens.get(i).getTipo().equals("COMA")) {
+                        Nodo<Token> coma = new Nodo(tokens.get(i));
+                        regla.agregarHijo(coma);
 			System.out.print(tokens.get(i).getValor());
 			i++;
 			if (tokens.get(i).getTipo().equals("IDENTIFICADOR")) {
+                                Nodo<Token> id = new Nodo(tokens.get(i));
+                                regla.agregarHijo(id);
 				System.out.print(" " + tokens.get(i).getValor());
 				i++;
 			} else {
+                                Nodo<String> error = new Nodo("Error");
+                                regla.agregarHijo(error);
 				System.out.println("ERROR: Se esperaba IDENTIFICADOR | Token recibido: " + tokens.get(i).getValor());
 			}
-			Asignacion();
-			Mas_declaraciones();
+                        Nodo asig = Asignacion();
+                        regla.agregarHijo(asig);
+                        Nodo m_d = Mas_declaraciones();
+                        regla.agregarHijo(m_d);
 		}
+                else{
+                        Nodo<String> vacio = new Nodo("Vacio");
+                        regla.agregarHijo(vacio);
+                }
+                return regla;
 	}
 
 	// Souto -> outo (Cuerpo_outo) ;
 	public Nodo Souto() {
-                Nodo<String> padre = new Nodo("Souto",false);
+                Nodo<String> padre = new Nodo("Souto");
 		if (getTokenType().equals("IMPRIMIR")) {
 			System.out.print("\n   " + tokens.get(i).getValor());
 			i++;
@@ -462,13 +502,14 @@ public class Analizador_Sintactico {
 
 	// Expresion_individual -> IdNum Expresion
 	public Nodo Expresion_individual() {
-                Nodo padre = new Nodo("Expresion_individual",false);
+                Nodo padre = new Nodo("Expresion_individual");
 		String tipo = getTokenType();
 		switch (tipo) {
 		case "IDENTIFICADOR":
 		case "NUMERO":
 		case "VERDADERO":
 		case "FALSO":
+                        
 			System.out.print(tokens.get(i).getValor());
 			i++;
 			Expresion();

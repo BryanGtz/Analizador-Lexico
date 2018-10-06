@@ -18,13 +18,12 @@ public class Nodo<T> {
     ArrayList<Nodo> hijos=new ArrayList();
     boolean esTerminal;
     
+    
     //Constructor
-    public Nodo(T t,boolean terminal){
-        esTerminal = terminal;
+    public Nodo(T t){
+        esTerminal = (t instanceof Token);
         datos = t;
-        if(!terminal){
-            hijos = new ArrayList();
-        }
+        hijos = new ArrayList();
     }
     
     //Constructor por default
@@ -41,7 +40,7 @@ public class Nodo<T> {
         this.hijos = new ArrayList(n.hijos);
     }
     
-    public boolean addHijo(Nodo n){
+    public boolean agregarHijo(Nodo n){
         return hijos.add(n);
     }
 
@@ -86,12 +85,6 @@ public class Nodo<T> {
         }else{
             texto+=datos.toString()+" ";
         }
-//        if(hijos!=null&&!hijos.isEmpty()){
-//            texto+="\n";
-//            for (Nodo hijo : hijos) {
-//                texto+=hijo.toString();
-//            }
-//        }
         return texto;
     }
 }
