@@ -11,7 +11,8 @@ public class Analizador_Sintactico {
 	List<Token> tokens;
 	// Contador que permite tener el orden de los tokens leidos.
 	int i;
-        public Arbol_Sintactico as;
+	//
+	public Arbol_Sintactico as;
 
 	// Metodo inicial.
 	public void analizar(Analizador_Lexico a_l) {
@@ -25,11 +26,11 @@ public class Analizador_Sintactico {
 		if (tokens.size() != 0) {
 			// Comenzamos con la primer regla.
 			try {
-                                Nodo Sstarto = Sstarto();
-                                as = new Arbol_Sintactico(Sstarto);
+				Nodo Sstarto = Sstarto();
+				as = new Arbol_Sintactico(Sstarto);
 			} catch (Exception e) {
-                                Nodo Sstarto = new Nodo("ERROR");
-                                as = new Arbol_Sintactico(Sstarto);
+				Nodo Sstarto = new Nodo("ERROR");
+				as = new Arbol_Sintactico(Sstarto);
 				System.out.println("ERROR: No cumple con la sintaxis");
 			}
 		}
@@ -40,48 +41,44 @@ public class Analizador_Sintactico {
 
 	// Sstarto -> starto () {cuerpo}
 	public Nodo Sstarto() {
-                Nodo<String> regla = new Nodo("Sstarto");
+        Nodo<String> regla = new Nodo("Sstarto");
 		// starto:
 		if (getTokenType().equals("INICIO")) {
-                        Nodo<Token> starto = new Nodo(tokens.get(i));
-                        regla.agregarHijo(starto);
+			Nodo<Token> starto = new Nodo(tokens.get(i));
+			regla.agregarHijo(starto);
 			System.out.print("starto");
-
 		} else {
-                        Nodo<String> starto = new Nodo("Error");
-                        regla.agregarHijo(starto);
+			Nodo<String> starto = new Nodo("Error");
+			regla.agregarHijo(starto);
 			System.out.println("ERROR: Se esperaba starto | Token recibido: " + tokens.get(i).getValor());
 		}
 		i++;
 		// Parentesis:
 		// (
 		if (tokens.get(i).getTipo().equals("PARENTESIS_APERTURA")) {
-                        Nodo<Token> p_a = new Nodo(tokens.get(i));
-                        regla.agregarHijo(p_a);
+			Nodo<Token> p_a = new Nodo(tokens.get(i));
+			regla.agregarHijo(p_a);
 			System.out.print("(");
-
 		} else {
-                        Nodo<String> p_a = new Nodo("Error");
-                        regla.agregarHijo(p_a);
+			Nodo<String> p_a = new Nodo("Error");
+			regla.agregarHijo(p_a);
 			System.out.println("\nERROR: Se esperaba ( | Token recibido: " + tokens.get(i).getValor());
 		}
 		i++;
-
 		// )
 		while (!(tokens.get(i).getTipo().equals("PARENTESIS_CERRADURA"))) {
-                        Nodo<String> p_c = new Nodo("Error");
-                        regla.agregarHijo(p_c);
+			Nodo<String> p_c = new Nodo("Error");
+			regla.agregarHijo(p_c);
 			System.out.print("\nERROR: Se esperaba ( | Token recibido: " + tokens.get(i).getValor());
 			i++;
 		}
 		if (tokens.get(i).getTipo().equals("PARENTESIS_CERRADURA")) {
 			System.out.println(")");
-                        Nodo<Token> p_c = new Nodo(tokens.get(i));
-                        regla.agregarHijo(p_c);
-
+			Nodo<Token> p_c = new Nodo(tokens.get(i));
+			regla.agregarHijo(p_c);
 		} else {
-                        Nodo<String> p_c = new Nodo("Error");
-                        regla.agregarHijo(p_c);
+			Nodo<String> p_c = new Nodo("Error");
+			regla.agregarHijo(p_c);
 			System.out.println("\nERROR: Se esperaba ) | Token recibido: " + tokens.get(i).getValor());
 		}
 		i++;
@@ -89,8 +86,8 @@ public class Analizador_Sintactico {
 		// {
 		while (!(tokens.get(i).getTipo().equals("INICIO_BLOQUE"))) {
 			System.out.println("ERROR: Se esperaba { | Token recibido: " + tokens.get(i).getValor());
-                        Nodo<String> i_b = new Nodo("Error");
-                        regla.agregarHijo(i_b);
+			Nodo<String> i_b = new Nodo("Error");
+			regla.agregarHijo(i_b);
 			i++;
 			// }
 			if (getTokenType().equals("FIN_BLOQUE"))
@@ -101,18 +98,18 @@ public class Analizador_Sintactico {
 			}
 		}
 		if (tokens.get(i).getTipo().equals("INICIO_BLOQUE")) {
-                        Nodo<Token> i_b = new Nodo(tokens.get(i));
-                        regla.agregarHijo(i_b);
+			Nodo<Token> i_b = new Nodo(tokens.get(i));
+			regla.agregarHijo(i_b);
 			System.out.println("{");
 			i++;
 		} else {
-                        Nodo<String> i_b = new Nodo("Error");
-                        regla.agregarHijo(i_b);
+			Nodo<String> i_b = new Nodo("Error");
+			regla.agregarHijo(i_b);
 			System.out.println("ERROR: Se esperaba { | Token recibido: " + tokens.get(i).getValor());
 		}
-                // Cuerpo:
-                Nodo<String> cuerpo = cuerpo();
-                regla.agregarHijo(cuerpo);
+        // Cuerpo:
+        Nodo<String> cuerpo = cuerpo();
+        regla.agregarHijo(cuerpo);
 		// Fin del bloque:
 		// }
 		if (getTokenType().equals("FIN_BLOQUE")) {
