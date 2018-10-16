@@ -233,8 +233,8 @@ public class Analizador_Sintactico {
 			break;
 			default:
 				// Agregamos nodo hijo al arbol:
-                Nodo<String> t_d = new Nodo("Error");
-                tipo_dato.agregarHijo(t_d);
+                Nodo<String> t_d2 = new Nodo("Error");
+                tipo_dato.agregarHijo(t_d2);
 				System.out.print("\nERROR: Se esperaba string, dec, int, bool, char | Token recibido: " + tokens.get(i).getValor());
 				break;
 		}
@@ -305,7 +305,7 @@ public class Analizador_Sintactico {
 			case "CARACTER":
 				// Agregamos nodo hijo al arbol:
 				Nodo<Token> valor = new Nodo(tokens.get(i));
-				padre.add(valor);
+				padre.agregarHijo(valor);
 				System.out.print("   "+tokens.get(i).getValor());
 				i++;
 				break;
