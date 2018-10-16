@@ -1,6 +1,6 @@
 # Analizador Sintactico:
 
-## Reglas: owo
+## Reglas:
 
 __Sstarto__ -> starto () {cuerpo}
 
