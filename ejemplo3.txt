@@ -1,0 +1,6 @@
+	# Hola
+	starto(){
+		# Comienza el codigo
+		outo("Hola"); #imprime en pantalla
+		int   a4 = 0;
+	}
