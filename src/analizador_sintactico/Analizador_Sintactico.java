@@ -537,7 +537,8 @@ public class Analizador_Sintactico {
 	}
 
 	// Contenido -> Identificador | Numero | Cadena_caracteres
-	public void Contenido() {
+	public Nodo Contenido() {
+		Nodo<String> regla = new Nodo("Contenido");
 		String tipo = getTokenType();
 		switch (tipo) {
 		case "IDENTIFICADOR":
@@ -555,6 +556,7 @@ public class Analizador_Sintactico {
 							+ tokens.get(i).getTipo());
 			break;
 		}
+                return regla;
 	}
 
 	// Mas_Contenido -> + Contenido | E
@@ -572,7 +574,8 @@ public class Analizador_Sintactico {
 	}
 
 	// SOperacion -> Identificador = Expresion_individual ;
-	public void SOperacion() {
+	public Nodo SOperacion() {
+		Nodo<String> regla = new Nodo("SOperacion");
 		// Identificador:
 		if (getTokenType().equals("IDENTIFICADOR")) {
 			System.out.print("   " + tokens.get(i).getValor());
@@ -594,10 +597,12 @@ public class Analizador_Sintactico {
 			}
 
 		}
+                return regla;
 	}
 
 	// Sif -> if(Operador_NOT Condicion){cuerpo} Selse
-	public void Sif() {
+	public Nodo Sif() {
+		Nodo<String> regla = new Nodo("SIf");
 		// if:
 		if (getTokenType().equals("SI")) {
 			System.out.print("   " + "if");
@@ -653,6 +658,7 @@ public class Analizador_Sintactico {
 			// Selse			
 			Selse();
 		}
+                return regla;
 	}
 
 	// Condicion -> Expresion_individual Operador_relacional Expresion_individual
@@ -728,7 +734,8 @@ public class Analizador_Sintactico {
 	}
 
 	// Sfrom -> from (Condicion_Inicial) to (Condicion) inc (IdNum) {cuerpo}
-	public void Sfrom() {
+	public Nodo Sfrom() {
+		Nodo<String> padre = new Nodo("Sfrom");
 		if (getTokenType().equals("INICIO_FOR")) {
 			System.out.print("   " + tokens.get(i).getValor());
 		} else {
@@ -813,6 +820,7 @@ public class Analizador_Sintactico {
 			System.out.println("ERROR: Se esperaba } | Token recibido: " + tokens.get(i).getValor());
 		}
 		i++;
+                return padre;
 	}
 
 	// Condicion_Inicial -> Expresion_individual| SDeclaracion
