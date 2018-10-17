@@ -1,12 +1,12 @@
 # Analizador Sintactico:
-
 # Pendiente:
 1 Terminar la formacion del arbol en el sintactico
 2 Hacer las reglas semanticas a mano
 3 Recorrer el arbol en profundidad y postorden (impresion almenos)
 4 Clase simbolo
 
-## Reglas: owo
+## Reglas:
+=======
 
 __Sstarto__ -> starto () {cuerpo}
 
