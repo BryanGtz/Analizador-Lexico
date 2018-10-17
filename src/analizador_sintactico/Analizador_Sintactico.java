@@ -239,7 +239,7 @@ public class Analizador_Sintactico {
 				// Agregamos nodo hijo al arbol:
 				Nodo<Token> t_d = new Nodo(tokens.get(i));
 				tipo_dato.agregarHijo(t_d);
-				System.out.print("   "+tokens.get(i).getValor());
+				System.out.print("\n   "+tokens.get(i).getValor());
 			break;
 			default:
 				// Agregamos nodo hijo al arbol:
@@ -283,7 +283,7 @@ public class Analizador_Sintactico {
 		}
 		// --------------------------------------
 		// Mas_declaraciones:
-		Nodo m_d = Mas_declaraciones();
+		Nodo<String> m_d = Mas_declaraciones();
 		regla.agregarHijo(m_d);
 		// -----------------------------------------
 		// ;
@@ -316,7 +316,7 @@ public class Analizador_Sintactico {
 				// Agregamos nodo hijo al arbol:
 				Nodo<String> valor = Valor();
 				padre.agregarHijo(valor);
-				System.out.print("   "+tokens.get(i).getValor());
+				System.out.print(" "+tokens.get(i).getValor());
 				i++;
 				break;
 			// -------------------------------
@@ -325,7 +325,7 @@ public class Analizador_Sintactico {
 			case "NUMERO":
 				Nodo<String> hijo_expresion_individual = Expresion_individual();
 				padre.agregarHijo(hijo_expresion_individual);
-				System.out.print("   "+tokens.get(i).getValor());
+				//System.out.print(" "+tokens.get(i).getValor());
 				break;
 			// Expresion_Cadena:
 			case "Cadena de caracteres":
@@ -382,10 +382,9 @@ public class Analizador_Sintactico {
 			System.out.print(tokens.get(i).getValor());
 			i++;
 			// Agregamos nodo hijo al arbol:
-			Nodo<Token> expresion = expresion();
+			Nodo<Token> expresion = Expresion();
 			padre.agregarHijo(expresion);
-			System.out.print("   "+tokens.get(i).getValor());
-			i++;
+			//System.out.print("   "+tokens.get(i).getValor());
 			break;
 		default:
 			Nodo<String> error = new Nodo("Error");
@@ -433,7 +432,7 @@ public class Analizador_Sintactico {
 				break;
 			default:
 				Nodo<String> error = new Nodo("Error");
-				error.agregarHijo(error);
+				padre.agregarHijo(error);
 				System.out.println("\nERROR: Se esperaba IDENTIFICADOR o NUMEROS | Token recibido: "
 						+ tokens.get(i).getValor() + tokens.get(i).getTipo());
 				break;
@@ -442,9 +441,10 @@ public class Analizador_Sintactico {
 			// Vacio
 			Nodo<String> vacio = new Nodo("Vacio");
 			vacio.setEsTerminal(true);
-			regla.agregarHijo(vacio);
+			padre.agregarHijo(vacio);
 			break;
 		}
+		return padre;
 	}
 
 	// Mas_expresiones -> Expresion
