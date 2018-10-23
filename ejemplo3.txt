@@ -3,10 +3,25 @@
 		# Comienza el codigo
 		# Impresion: Lista
 		# outo("Hola"+"Mundo"+a1+15+0.5+true+false);
+		# 
 		# Declaracion:
-		# int a4=0+2+30.5; #Entero: Listo
-		string t1 = "Ana"; #Cadena: Pendiente
-		#dec a1 = 1.3;
-		#
+		# -----------------
+		# Entero:
+		# int a4=1+2-3*4/5;
+		# EJEMPLOS QUE CAUSAN ERRORES
+		# int a = 5++b;
+		# int a = 5+$;
+		# -----------------
+		# Cadena: Listo
+		# string t1 = "Ana"+"Victoria", t2 = "Cavazos";
+		# ESTO NO ES POSIBLE:
+		# string t3 = ""+ t1 + t2 + "Argot";
+		# -----------------
+		# Decimal: 
+		# dec a1 = 1.3+2+a;
+		# dec a2 = a1+3.5-a3*a4;
+		# -----------------
+		# Cadena: ?????
+		char = 'a';
 		#i=0;
 	}
