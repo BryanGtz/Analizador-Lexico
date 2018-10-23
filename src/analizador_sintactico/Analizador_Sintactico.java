@@ -290,7 +290,7 @@ public class Analizador_Sintactico {
 		}
 		return regla;
 	}
-	
+
 	// Igual_Asignacion <- = Asignacion | E
 	public Nodo Igual_Asignacion() {
 		//
@@ -306,9 +306,7 @@ public class Analizador_Sintactico {
 			// Agregamos nodo hijo al arbol:
 			Nodo<String> asignacion = Asignacion();
 			padre.agregarHijo(asignacion);
-		}
-		else
-		{
+		} else {
 			// Vacio
 			Nodo<String> vacio = new Nodo("Vacio");
 			vacio.setEsTerminal(true);
@@ -346,17 +344,82 @@ public class Analizador_Sintactico {
 			break;
 		// Expresion_Cadena:
 		case "Cadena de caracteres":
-			// Nodo<String> hijo_Expresion_cadena = Expresion_cadena();
-			// padre.agregarHijo(hijo_Expresion_cadena);
-			System.out.print("   " + tokens.get(i).getValor());
+			 Nodo<String> hijo_Expresion_cadena = Expresion_cadena();
+			 padre.agregarHijo(hijo_Expresion_cadena);
+			// System.out.print(" " + tokens.get(i).getValor());
 			break;
 		default:
+			Nodo f_s = new Nodo("Error");
+			padre.agregarHijo(f_s);
 			System.out.println("ERROR. Se esperaba un numero o una cadena de caracteres "
 					+ "o true o false o un caracter | Token recibido: " + tokens.get(i).getValor());
 			break;
 		}
 		// -----------------------------------------
 		// Retornamos el sub-arbol generado
+		return padre;
+	}
+
+	// Expresion_cadena -> Cadena Mas_cadenas
+	public Nodo Expresion_cadena() {
+		// Creacion la raiz del sub-arbol semantico:
+		Nodo<String> padre = new Nodo("Expresion_cadena");
+		// -----------------------------------------
+		String tipo = getTokenType();
+		switch (tipo) {
+			// Expresion_Cadena:
+			case "Cadena de caracteres":
+				// -----------------------------------------
+				// Cadena
+				Nodo<Token> hijo1 = new Nodo(tokens.get(i));
+				padre.agregarHijo(hijo1);
+				System.out.print(" " + tokens.get(i).getValor());
+				// Valor
+				Nodo<String> hoja = new Nodo(tokens.get(i).getValor());
+				hoja.setEsTerminal(true);
+				hijo1.agregarHijo(hoja);
+				i++;
+				// -----------------------------------------
+				// Mas_cadenas:
+				Nodo<Token> mas_cadenas = Mas_cadenas();
+				padre.agregarHijo(mas_cadenas);
+				break;
+			default:
+				Nodo f_s = new Nodo("Error");
+				padre.agregarHijo(f_s);
+				System.out.println("\nERROR. Se esperaba cadena de caracteres | Token recibido: " + tokens.get(i).getValor());
+				i++;
+				break;
+			}
+
+		return padre;
+	}
+
+	// Mas_cadenas -> + Expresion_cadena | E
+	public Nodo Mas_cadenas() {
+		// Creacion la raiz del sub-arbol semantico:
+		Nodo<String> padre = new Nodo("Mas_cadenas");
+		// -----------------------------------------
+		// +
+		String tipo = getTokenType();
+		switch (tipo) {
+		case "SUMA":
+			Nodo<Token> hijo1 = new Nodo(tokens.get(i));
+			padre.agregarHijo(hijo1);
+			System.out.print(tokens.get(i).getValor());
+			i++;
+			// -----------------------------------------
+			// Expresion_cadena
+			Nodo<Token> hijo2 = Expresion_cadena();
+			padre.agregarHijo(hijo2);
+			break;
+		default:
+			// Vacio
+			Nodo<String> vacio = new Nodo("Vacio");
+			vacio.setEsTerminal(true);
+			padre.agregarHijo(vacio);
+			break;
+		}
 		return padre;
 	}
 
@@ -453,8 +516,8 @@ public class Analizador_Sintactico {
 				// Mas_Expresiones
 				Nodo<String> hijo3 = Mas_Expresiones();
 				padre.agregarHijo(hijo3);
-				//System.out.print(tokens.get(i).getValor());
-				//i++;
+				// System.out.print(tokens.get(i).getValor());
+				// i++;
 				break;
 			default:
 				Nodo<String> error = new Nodo("Error");
@@ -477,7 +540,7 @@ public class Analizador_Sintactico {
 	public Nodo Mas_Expresiones() {
 		// Creacion la raiz del sub-arbol semantico:
 		Nodo<String> padre = new Nodo("Mas_Expresion");
-		//padre.agregarHijo(padre);
+		// padre.agregarHijo(padre);
 		// -----------------------------------------
 		Nodo<String> expresion = Expresion();
 		padre.agregarHijo(expresion);
@@ -583,7 +646,8 @@ public class Analizador_Sintactico {
 	}
 
 	// Contenido -> Contenido_outo Mas_Contenido
-	// Contenido_outo -> Identificador | Numero | Cadena_caracteres | VERDADERO | FALSO
+	// Contenido_outo -> Identificador | Numero | Cadena_caracteres | VERDADERO |
+	// FALSO
 	public Nodo Contenido() {
 		Nodo<String> regla = new Nodo("[Contenido]");
 		String tipo = getTokenType();
