@@ -1,6 +1,12 @@
 	# Hola
 	starto(){
 		# Comienza el codigo
-		outo("Hola"); #imprime en pantalla
-		int   a4 = 0;
+		# Impresion: Lista
+		# outo("Hola"+"Mundo"+a1+15+0.5+true+false);
+		# Declaracion:
+		# int a4=0+2+30.5; #Entero: Listo
+		string t1 = "Ana"; #Cadena: Pendiente
+		#dec a1 = 1.3;
+		
+		#i=0;
 	}

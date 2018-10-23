@@ -17,13 +17,14 @@ public class Nodo<T> {
     T datos;
     ArrayList<Nodo> hijos=new ArrayList();
     boolean esTerminal;
-    
+   //Nodo hermano;
     
     //Constructor
     public Nodo(T t){
         esTerminal = (t instanceof Token);
         datos = t;
         hijos = new ArrayList();
+        //hermano = new Nodo();
     }
     
     //Constructor por default
@@ -31,6 +32,7 @@ public class Nodo<T> {
         hijos = new ArrayList();
         datos = null;
         esTerminal = false;
+        //hermano = null;
     }
     
     //constructor copia
