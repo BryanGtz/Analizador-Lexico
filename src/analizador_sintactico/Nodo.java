@@ -15,16 +15,22 @@ import java.util.Stack;
  */
 public class Nodo<T> {
     T datos;
-    ArrayList<Nodo> hijos=new ArrayList();
+    ArrayList<Nodo> hijos;
     boolean esTerminal;
-   //Nodo hermano;
+    Nodo hermano; 
+    
+    //Atributos necesarios para el recorrido en el analizador semantico
+    String tipo;
+    String nombre;
+    Object valor;
+    Object h;
+    Object s;
     
     //Constructor
     public Nodo(T t){
         esTerminal = (t instanceof Token);
         datos = t;
         hijos = new ArrayList();
-        //hermano = new Nodo();
     }
     
     //Constructor por default
@@ -32,7 +38,6 @@ public class Nodo<T> {
         hijos = new ArrayList();
         datos = null;
         esTerminal = false;
-        //hermano = null;
     }
     
     //constructor copia
@@ -77,6 +82,14 @@ public class Nodo<T> {
     public void setEsTerminal(boolean esTerminal) {
         this.esTerminal = esTerminal;
     }
+    
+    public Nodo getHermano() {
+        return hermano;
+    }
+
+    public void setHermano(Nodo hermano) {
+        this.hermano = hermano;
+    }     
 
     @Override
     public String toString() {
