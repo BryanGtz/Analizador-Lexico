@@ -31,6 +31,7 @@ public class Main {
         a_l.analizar("ejemplo3.txt");
         a_s.analizar(a_l);
         // Impresion del arbol completo
+        System.out.println("==================================");
         System.out.println(a_s.as);
     }
 }
