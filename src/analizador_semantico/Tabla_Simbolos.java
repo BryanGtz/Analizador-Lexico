@@ -5,9 +5,7 @@
  */
 package analizador_semantico;
 
-//import analizador_lexico.Token;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.HashMap;
 
 /**
  *
@@ -15,27 +13,73 @@ import java.util.Set;
  */
 public class Tabla_Simbolos{
     
-    HashSet<Simbolo> variables;
+    HashMap<String,Simbolo> variables;
     
-    public Tabla_Simbolos(){
-        
-        variables = new HashSet();
+    /**
+     * Constructor por default
+     */
+    public Tabla_Simbolos(){        
+        variables = new HashMap();
+    }
+    /**
+     * Constructor copia
+     * @param t tabla de simbolos que queremos duplicar
+     */
+    public Tabla_Simbolos(Tabla_Simbolos t){ 
+        variables = new HashMap(t.variables);
     }
     
-    public Tabla_Simbolos(Tabla_Simbolos t){
-        
-        for(Simbolo s: t.variables){
-            variables.add(new Simbolo(s));
+    /**
+     * Metodo que agrega a la tabla solo el nombre de la variable si no existe aun
+     * @param variable Nombre de la variable a agregar
+     * @return false si ya fue agregado previamente al mapa
+     * sino se intenta agregar al mapa
+     * y retorna true si se pudo agregar al mapa
+     */
+    public boolean agregarVariable(String variable){
+        if(variables.containsKey(variable)){
+            return false;
+        }
+        else{
+            //Método put retorna el objeto que tenia vinculado, sino habia alguno retorna null
+            return variables.put(variable, new Simbolo(variable))==null;
+        }
+    }
+    /**
+     * Metodo que comprueba si ya fue agregada la variable en la tabla
+     * @param variable La variable a buscar
+     * @return true si ya se encuentra en la tabla
+     * false en caso contrario
+     */
+    public boolean estaVarible(String variable){
+        return variables.containsKey(variable);
+    }
+    
+    /**
+     * Metodo para buscar una variable en la tabla y agregarle el tipo de dato
+     * @param variable nombre de la variable a buscar en el mapa
+     * @param tipo tipo de dato a agregar
+     * @return false si no existe la variable en el mapa
+     * true si se pudo cambiar el tipo, false en caso contrario
+     */
+    public boolean agregarTipo(String variable, String tipo){
+        Simbolo var = variables.get(variable);
+        if(var!=null){
+            var.setTipo_dato(tipo);
+            return (tipo.equals(var.getTipo_dato()));
+        }
+        else{
+            return false;
         }
     }
     
-    public boolean agregarSimbolo(Simbolo s){
-        return variables.add(s);
-    }
-    
-    public boolean containsSimbolo(Simbolo s){
-        
-        return variables.contains(s);
-    }
-    
+    public String agregarValor(String variable, String tipo_valor, Object valor){
+        Simbolo var = variables.get(variable);
+        if(var==null){
+            return "Error. La variable "+ variable+ " no ha sido declarada";
+        }
+        else{
+            return "";
+        }
+    }    
 }
