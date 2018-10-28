@@ -15,12 +15,12 @@ public class Simbolo {
 	String nombre;
 	String tipo_dato;
 	Object valor;
-        
-        public Simbolo(String nombre){
-            this.nombre = nombre;
-            this.tipo_dato = null;
-            this.valor = null;
-        }
+  
+  public Simbolo(String nombre){
+      this.nombre = nombre;
+      this.tipo_dato = null;
+      this.valor = null;
+  }
 
 	public Simbolo(String nombre, String tipo_dato, Object valor) {
 		this.nombre = nombre;

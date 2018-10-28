@@ -28,8 +28,10 @@ public class Main {
 //        a_s.inicioPrograma();
         Analizador_Lexico a_l = new Analizador_Lexico();
         Analizador_Sintactico a_s = new Analizador_Sintactico();
-        a_l.analizar("ejemplo2.txt");
+        a_l.analizar("ejemplo3.txt");
         a_s.analizar(a_l);
+        // Impresion del arbol completo
+        System.out.println("==================================");
         System.out.println(a_s.as);
     }
 }

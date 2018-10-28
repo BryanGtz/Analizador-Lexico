@@ -1,0 +1,51 @@
+	# Hola
+	starto(){
+		# Comienza el codigo
+		# Impresion: Lista
+		# outo("Hola"+"Mundo"+a1+15+0.5+true+false);
+		# ====================================================
+		# Declaracion:
+		# -----------------
+		# Entero:
+		# int a4=1+2-3*4/5;
+		# int a;
+		# int b;
+		# EJEMPLOS QUE CAUSAN ERRORES
+		# int a = 5++b;
+		# int a = 5+$;
+		# -----------------
+		# Cadena: Listo
+		# string t1 = "Ana"+"Victoria", t2 = "Cavazos";
+		# ESTO NO ES POSIBLE:
+		# string t3 = ""+ t1 + t2 + "Argot";
+		# -----------------
+		# Decimal: 
+		# dec a1 = 1.3+2+a;
+		# dec a2 = a1+3.5-a3*a4;
+		# -----------------
+		# ||||||||||||||||||||||||||||||||||||||||||||||||||||||
+		# PENDIENTE:
+		# Booleanos:
+		# bool a = true, b=false;
+		# bool b = 2, c=2.0;
+		# ESTO NO ES POSIBLE:
+		# bool b ='a', c=2;
+		# ====================================================
+		# Operaciones: 
+		# a = 1+2-3*5/10;
+		# b = a+2/5+"";
+		# ====================================================
+		# If-else:
+		# if(a1 < a2 or a1==3){ int a;}
+		# else{outo("a");}
+		# if(a2 == a3){outo("a2 es igual a a3");}
+		# if(a3 >= a1){outo("a3 es mayor o igual que a1");}
+		# if(a2 != a3){outo("a2 es diferente que a3");}
+		# No recuerdo como usar NOT
+		# ====================================================
+		# From:
+		 from(i)to(a1<=a2) inc(1){
+			a3 = a3;
+		 }
+		# ====================================================
+	}
