@@ -91,6 +91,38 @@ public class Nodo<T> {
         this.hermano = hermano;
     }     
 
+    public Object getH() {
+        return h;
+    }
+
+    public void setH(Object h) {
+        this.h = h;
+    }
+
+    public Object getS() {
+        return s;
+    }
+
+    public void setS(Object s) {
+        this.s = s;
+    }
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
+    }
+
+    public Object getValor() {
+        return valor;
+    }
+
+    public void setValor(Object valor) {
+        this.valor = valor;
+    }
+
     @Override
     public String toString() {
         String texto="";

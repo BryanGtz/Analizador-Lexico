@@ -7,9 +7,9 @@
 		# Declaracion:
 		# -----------------
 		# Entero:
-		# int a4=1+2-3*4/5;
+		 int a4=1+2-3*4/5;
 		 int a;
-		# int b;
+		 int b;
 		# EJEMPLOS QUE CAUSAN ERRORES
 		# int a = 5++b;
 		# int a = 5+$;

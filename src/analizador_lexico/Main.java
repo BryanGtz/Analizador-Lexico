@@ -4,6 +4,7 @@
  * 
  */
 package analizador_lexico;
+import analizador_semantico.Analizador_Semantico;
 import analizador_sintactico.*;
 
 /**
@@ -33,5 +34,7 @@ public class Main {
         // Impresion del arbol completo
         System.out.println("==================================");
         System.out.println(a_s.as);
+        Analizador_Semantico a_sm = new Analizador_Semantico();
+        a_sm.analizar(a_s);
     }
 }
