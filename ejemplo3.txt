@@ -8,7 +8,7 @@
 		# -----------------
 		# Entero:
 		# int a4=1+2-3*4/5;
-		# int a;
+		 int a;
 		# int b;
 		# EJEMPLOS QUE CAUSAN ERRORES
 		# int a = 5++b;
@@ -23,13 +23,9 @@
 		# dec a1 = 1.3+2+a;
 		# dec a2 = a1+3.5-a3*a4;
 		# -----------------
-		# ||||||||||||||||||||||||||||||||||||||||||||||||||||||
-		# PENDIENTE:
 		# Booleanos:
 		# bool a = true, b=false;
 		# bool b = 2, c=2.0;
-		# ESTO NO ES POSIBLE:
-		# bool b ='a', c=2;
 		# ====================================================
 		# Operaciones: 
 		# a = 1+2-3*5/10;
@@ -41,11 +37,10 @@
 		# if(a2 == a3){outo("a2 es igual a a3");}
 		# if(a3 >= a1){outo("a3 es mayor o igual que a1");}
 		# if(a2 != a3){outo("a2 es diferente que a3");}
-		# No recuerdo como usar NOT
 		# ====================================================
 		# From:
-		 from(i)to(a1<=a2) inc(1){
-			a3 = a3;
-		 }
+		# from(i=i+3;)to(a1<=a2) inc(1){
+		#	a3 = a3;
+		# }
 		# ====================================================
 	}
