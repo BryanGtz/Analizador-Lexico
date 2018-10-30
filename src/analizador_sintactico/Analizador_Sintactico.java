@@ -235,6 +235,7 @@ public class Analizador_Sintactico {
 		regla.agregarHijo(tipo_dato);
 		// Obtenemos el tipo de dato:
 		String tipo = getTokenType();
+		// -------------------------------------------
 		// cuerpo
 		switch (tipo) {
 		case "DECIMAL":
@@ -255,11 +256,15 @@ public class Analizador_Sintactico {
 		i++;
 		// -----------------------------------------
 		// Identificador:
+		Nodo<Token> id = new Nodo();
 		if (tokens.get(i).getTipo().equals("IDENTIFICADOR")) {
 			// Agregamos nodo hijo al arbol:
-			Nodo<Token> id = new Nodo(tokens.get(i));
-			regla.agregarHijo(id);
+			id = new Nodo(tokens.get(i));
+			// --------------------------
+			// Agregar hermano derecho ->
 			tipo_dato.setHermano(id);
+			// --------------------------
+			regla.agregarHijo(id);
 			System.out.print(" " + tokens.get(i).getValor());
 			i++;
 		} else {
@@ -274,18 +279,29 @@ public class Analizador_Sintactico {
 		// -----------------------------------------
 		// Igual_Asignacion <- = Asignacion | E
 		Nodo<String> i_a = Igual_Asignacion();
+		// --------------------------
+		// Agregar hermano derecho ->
+		id.setHermano(i_a);
+		// --------------------------
 		regla.agregarHijo(i_a);
 		// id.setHermano(i_a);
 		// --------------------------------------
 		// Mas_declaraciones:
 		Nodo<String> m_d = Mas_declaraciones();
+		// --------------------------
+		// Agregar hermano derecho ->
+		i_a.setHermano(m_d);
+		// --------------------------
 		regla.agregarHijo(m_d);
-		// i_a.setHermano(m_d);
 		// -----------------------------------------
 		// ;
 		if (tokens.get(i).getTipo().equals("FIN_SENTENCIA")) {
 			Nodo<Token> f_s = new Nodo(tokens.get(i));
 			regla.agregarHijo(f_s);
+			// --------------------------
+			// Agregar hermano derecho ->
+			m_d.setHermano(f_s);
+			// --------------------------
 			System.out.println(tokens.get(i).getValor());
 			i++;
 		} else {
@@ -309,6 +325,10 @@ public class Analizador_Sintactico {
 			// Asignacion:
 			// Agregamos nodo hijo al arbol:
 			Nodo<String> asignacion = Asignacion();
+			// --------------------------
+			// Agregar hermano derecho ->
+			igual.setHermano(asignacion);
+			// --------------------------
 			padre.agregarHijo(asignacion);
 		} else {
 			// Vacio
@@ -476,6 +496,10 @@ public class Analizador_Sintactico {
 			i++;
 			// Agregamos nodo hijo al arbol:
 			Nodo<Token> expresion = Expresion();
+			// --------------------------
+			// Agregar hermano derecho ->
+			hijo1.setHermano(expresion);
+			// --------------------------
 			padre.agregarHijo(expresion);
 			// i++;
 			// System.out.print(" "+tokens.get(i).getValor());
@@ -517,6 +541,10 @@ public class Analizador_Sintactico {
 			case "NUMERO":
 				Nodo<Token> hijo2 = new Nodo(tokens.get(i));
 				padre.agregarHijo(hijo2);
+				// --------------------------
+				// Agregar hermano derecho ->
+				hijo1.setHermano(hijo2);
+				// --------------------------
 				System.out.print(tokens.get(i).getValor());
 				// Valor
 				Nodo<String> hoja = new Nodo(tokens.get(i).getValor());
@@ -526,6 +554,10 @@ public class Analizador_Sintactico {
 				// -----------------------------------
 				// Mas_Expresiones
 				Nodo<String> hijo3 = Mas_Expresiones();
+				// --------------------------
+				// Agregar hermano derecho ->
+				hijo2.setHermano(hijo3);
+				// --------------------------
 				padre.agregarHijo(hijo3);
 				// System.out.print(tokens.get(i).getValor());
 				// i++;
