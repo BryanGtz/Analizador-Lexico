@@ -82,4 +82,12 @@ public class Tabla_Simbolos{
             return "";
         }
     }
+    
+    public String getValor(String variable){
+        return variables.get(variable).getValor();
+    }
+    
+    public String getTipoDato(String variable){
+        return variables.get(variable).getTipo_dato();
+    }
 }
