@@ -11,11 +11,13 @@ public class Analizador_Sintactico {
 	List<Token> tokens;
 	// Contador que permite tener el orden de los tokens leidos.
 	int i;
-	//
+	// Arbol semantico
 	public Arbol_Sintactico as;
 	// Fila de errores
 	Queue<String> errores = new LinkedList<>();
-	//
+	// Fila de variables detectadas
+	Queue<String> variables = new LinkedList<>();
+	// Tabla de simbolos
 	public Tabla_Simbolos tabla;
 
 	// Metodo inicial.
@@ -46,6 +48,10 @@ public class Analizador_Sintactico {
 		System.out.println("==================================");
 		// Imprimimos los errores detectados
 		System.err.println(errores.toString().replaceAll(",", "\n"));
+		System.out.println("==================================");
+		// Imprimimos las variables detectadas
+		System.out.println("Cantidad de variables: "+variables.size());
+		System.out.println(variables.toString().replaceAll(",", "\n"));
 	}
 
 	// Sstarto -> starto () {cuerpo}
@@ -226,7 +232,6 @@ public class Analizador_Sintactico {
 	}
 
 	// Declaracion -> Tipo_dato Identificador Igual_Asignacion Mas_declaraciones ;
-	// IGUAL_ASIGNACION -> = ASIGNACION | E
 	public Nodo SDeclaracion() {
 		// Creacion la raiz del arbol semantico:
 		Nodo<String> regla = new Nodo("SDeclaracion");
@@ -271,6 +276,7 @@ public class Analizador_Sintactico {
 			// --------------------------
 			// Agregamos la variable a la tabla de simbolos
 			tabla.agregarVariable(tokens.get(i).getValor());
+			variables.add(tokens.get(i).getValor());
 			i++;
 		} else {
 			// Agregamos nodo hijo al arbol:
@@ -344,8 +350,7 @@ public class Analizador_Sintactico {
 		return padre;
 	}
 
-	// Asignacion -> = Valor | E
-	// MODIFICACION: Asignacion -> Valor | Expresion_individual | Expresion_Cadena
+	//  Asignacion -> Valor | Expresion_individual | Expresion_Cadena
 	public Nodo Asignacion() {
 		// Creacion la raiz del sub-arbol semantico:
 		Nodo<String> padre = new Nodo("Asignacion");
@@ -441,8 +446,7 @@ public class Analizador_Sintactico {
 		return padre;
 	}
 
-	// Valor -> NUMERO | VERDADERO | FALSO | Cadena de caracteres | CARACTER
-	// MODIFICACION: Valor -> VERDADERO | FALSO | CARACTER
+	// Valor -> VERDADERO | FALSO 
 	public Nodo Valor() {
 		// Creacion la raiz del sub-arbol semantico:
 		Nodo<String> padre = new Nodo("Valor");
@@ -451,7 +455,6 @@ public class Analizador_Sintactico {
 		switch (tipo) {
 		case "VERDADERO":
 		case "FALSO":
-		case "CARACTER":
 			Nodo<Token> hijo1 = new Nodo(tokens.get(i));
 			padre.agregarHijo(hijo1);
 			System.out.print(tokens.get(i).getValor());
@@ -478,9 +481,12 @@ public class Analizador_Sintactico {
 			padre.agregarHijo(hijo1);
 			System.out.print(" "+tokens.get(i).getValor());
 			
-			// --------------------------
-			// Agregamos la variable a la tabla de simbolos
-			tabla.agregarVariable(tokens.get(i).getValor());
+			if(tipo=="IDENTIFICADOR") {
+				// --------------------------
+				// Agregamos la variable a la tabla de simbolos
+				tabla.agregarVariable(tokens.get(i).getValor());
+				variables.add(tokens.get(i).getValor());
+			}
 			
 			i++;
 			// Agregamos nodo hijo al arbol:
@@ -497,6 +503,7 @@ public class Analizador_Sintactico {
 			padre.agregarHijo(error);
 			break;
 		}
+		//i++;
 		return padre;
 	}
 
@@ -532,11 +539,14 @@ public class Analizador_Sintactico {
 				// --------------------------
 				System.out.print(tokens.get(i).getValor());
 				// --------------------------
-				// Agregamos la variable a la tabla de simbolos
-				tabla.agregarVariable(tokens.get(i).getValor());
-				i++;
+				if(tokens.get(i).getTipo().equals("IDENTIFICADOR")) {
+					// Agregamos la variable a la tabla de simbolos
+					tabla.agregarVariable(tokens.get(i).getValor());
+					variables.add(tokens.get(i).getValor());
+				}
 				// -----------------------------------
 				// Mas_Expresiones
+				i++;
 				Nodo<String> hijo3 = Mas_Expresiones();
 				// --------------------------
 				// Agregar hermano derecho ->
@@ -544,7 +554,7 @@ public class Analizador_Sintactico {
 				// --------------------------
 				padre.agregarHijo(hijo3);
 				// System.out.print(tokens.get(i).getValor());
-				// i++;
+				
 				break;
 			default:
 				Nodo<String> error = error(" IDENTIFICADOR | NUMERO");
@@ -556,6 +566,7 @@ public class Analizador_Sintactico {
 				padre.agregarHijo(hijo4);
 				break;
 			}
+			//i++;
 		break;
 		default:
 			// Vacio
@@ -600,6 +611,7 @@ public class Analizador_Sintactico {
 				// --------------------------
 				// Agregamos la variable a la tabla de simbolos
 				tabla.agregarVariable(tokens.get(i).getValor());
+				variables.add(tokens.get(i).getValor());
 				i++;
 			} else {
 				Nodo<String> error = error(" IDENTIFICADOR");
@@ -626,7 +638,7 @@ public class Analizador_Sintactico {
 		return regla;
 	}
 
-	// Souto -> outo (Cuerpo_outo) ;
+	// Souto -> outo (Contenido) ;
 	public Nodo Souto() {
 		Nodo<String> padre = new Nodo("Souto");
 		Nodo<Token> outo = new Nodo();
@@ -715,6 +727,7 @@ public class Analizador_Sintactico {
 				// --------------------------
 				// Agregamos la variable a la tabla de simbolos
 				tabla.agregarVariable(tokens.get(i).getValor());
+				variables.add(tokens.get(i).getValor());
 			}
 			i++;
 			// ------------------------------------------------
@@ -768,6 +781,7 @@ public class Analizador_Sintactico {
 			Nodo<Token> hijo1 = new Nodo(tokens.get(i));
 			regla.agregarHijo(hijo1);
 			tabla.agregarVariable(tokens.get(i).getValor());
+			variables.add(tokens.get(i).getValor());
 			i++;
 			
 			// -----------------------------------------------
@@ -789,20 +803,19 @@ public class Analizador_Sintactico {
 				Nodo<String> error = error(" =");
 				regla.agregarHijo(error);
 			}
-			
+			//i++;
 			// -----------------------------------------------
 			// ;
 			if (getTokenType().equals("FIN_SENTENCIA")) {
 				System.out.print(tokens.get(i).getValor());
 				Nodo<Token> hijo4 = new Nodo(tokens.get(i));
 				regla.agregarHijo(hijo4);
-				i++;
 			} else {
 				Nodo<String> error = error(" ;");
 				regla.agregarHijo(error);
-				i++;
 			}
-
+			i++;
+			
 		}
 		return regla;
 	}
@@ -1075,6 +1088,8 @@ public class Analizador_Sintactico {
 		// Condicion_Inicial
 		Nodo<Token> hijo1 = Condicion_Inicial();
 		regla.agregarHijo(hijo1);
+		i--;
+		//i++;
 		// ------------------------------------------
 		// )
 		if (tokens.get(i).getTipo().equals("PARENTESIS_CERRADURA")) {
@@ -1158,6 +1173,11 @@ public class Analizador_Sintactico {
 			System.out.print(" "+tokens.get(i).getValor());
 			Nodo<Token> hijo4 = new Nodo(tokens.get(i));
 			regla.agregarHijo(hijo4);
+			// --------------------------
+			if(tokens.get(i).getTipo().equals("IDENTIFICADOR")) {
+				// Agregamos la variable a la tabla de simbolos
+				tabla.agregarVariable(tokens.get(i).getValor());
+			}
 		} else {
 			Nodo<String> error = error(" )");
 			regla.agregarHijo(error);
@@ -1235,6 +1255,7 @@ public class Analizador_Sintactico {
 				//i++;
 				break;
 		}
+		i++;
 		return regla;
 	}
 
