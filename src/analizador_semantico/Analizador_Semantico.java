@@ -219,9 +219,24 @@ public class Analizador_Semantico {
         System.out.println(n.getTipo()+" nodo "+n.getDatos());
         System.out.println(n.getHermano().getTipo()+" hermano "+n.getHermano().getDatos());
     }
-    
+    //Expresion_individual -> idNum Expresion
     public void reglaExpIndividual(Nodo n) {
-        
+        String primerOperando="";
+        String primerTipo="";
+        if(n.getHijos().size()==2){
+            Nodo<Token> idNum = n.getHijo(0);
+            Token aux = idNum.getDatos();
+            //idNum -> id | Numero
+            String tipo = aux.getTipo();
+            if(tipo.equals("NUMERO")){
+                idNum.setValor(aux.getValor());
+            }
+            else if(tipo.equals("IDENTIFICADOR")){
+                
+            }
+            primerOperando = idNum.getValor().toString();
+        }
+        realizarOperacion(primerOperando,primerTipo,"operador",n.getHijo(1).getValor().toString(),"segundotipo");
     }
     
     public void reglaExpresion(Nodo n){
@@ -281,6 +296,10 @@ public class Analizador_Semantico {
     }
     
     public void reglaCondicionInicial(Nodo n){
+        
+    }
+    
+    private void realizarOperacion(String primerValor, String primerTipo, String operador, String segundoValor, String segundoTipo){
         
     }
 }
