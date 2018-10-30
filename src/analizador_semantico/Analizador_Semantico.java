@@ -226,35 +226,45 @@ public class Analizador_Semantico {
         String segundoTipo="";
         if(n.getHijos().size()==2){
             Nodo<Token> idNum = n.getHijo(0);
-            Token t = idNum.getDatos();
+            Token aux = idNum.getDatos();
             //idNum -> id | Numero
-            String tipo = t.getTipo();
+            String tipo = aux.getTipo();
             if(tipo.equals("NUMERO")){
-                idNum.setValor(t.getValor());
-                primerOperando = t.getValor();
-                primerTipo = t.getTipo();
+                idNum.setValor(aux.getValor());
+                primerOperando = aux.getValor();
+                primerTipo = aux.getTipo();
             }
             else if(tipo.equals("IDENTIFICADOR")){
-                String valor = ts.getValor(t.getValor());
+                String valor = ts.getValor(aux.getValor());
                 idNum.setValor(valor);
                 primerOperando = valor;
-                String tipoDato = ts.getTipoDato(t.getValor());
+                String tipoDato = ts.getTipoDato(aux.getValor());
                 idNum.setTipo(tipoDato);
                 primerTipo = tipoDato;
             }
             Nodo<String> expresion = n.getHijo(1);
-            String aux = expresion.getDatos();
-            
-            //realizarOperacion(primerOperando,primerTipo,"operador",n.getHijo(1).getValor().toString(),"segundotipo");
+            operador = expresion.getOperador();
+            segundoOperando = expresion.getValor();
+            segundoTipo = expresion.getTipo();
+            realizarOperacion(primerOperando,primerTipo,operador,segundoOperando,segundoTipo);
         }
         
         System.out.println("===Expresion individual===");
         System.out.println(primerOperando);
         System.out.println(primerTipo);
+        System.out.println(operador);
+        System.out.println(segundoOperando);
+        System.out.println(segundoTipo);
     }
     
+    //Expresion -> Operador_aritmetico IdNum Mas_expresiones | E
     public void reglaExpresion(Nodo n){
-        
+        if(n.getHijos().size()==3){
+            Nodo<Token> operador_a = n.getHijo(0);
+            String operador = operador_a.getOperador();
+            n.setOperador(operador);
+            
+        }
     }
     
     public void reglaMasExpresiones(Nodo n){
@@ -314,6 +324,8 @@ public class Analizador_Semantico {
     }
     
     private void realizarOperacion(String primerValor, String primerTipo, String operador, String segundoValor, String segundoTipo){
-        
+        if(operador.isEmpty()&&segundoValor.isEmpty()){
+            
+        }
     }
 }

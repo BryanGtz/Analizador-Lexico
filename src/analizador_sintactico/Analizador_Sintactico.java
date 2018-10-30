@@ -513,7 +513,7 @@ public class Analizador_Sintactico {
 		case "MULTIPLICACION":
 		case "DIVISION":
 		case "MODULO":
-			Nodo<Token> hijo1 = new Nodo("Operador");
+			Nodo<Token> hijo1 = new Nodo(tokens.get(i));
 			//hijo1.setOperador(tokens.get(i));
 			padre.agregarHijo(hijo1);
 			System.out.print(tokens.get(i).getValor());
