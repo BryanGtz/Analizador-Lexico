@@ -16,6 +16,7 @@ public class Analizador_Semantico {
     
     public void analizar(Analizador_Sintactico a_l){
         as = a_l.as;
+        ts = a_l.tabla;
         System.out.println("========================");
         System.out.println("Inicia análisis semantico");
         Nodo<String> raiz = as.getRaiz();
@@ -98,7 +99,7 @@ public class Analizador_Semantico {
             case "Valor":
                 reglaValor(n);
                 break;
-            case "Expresion_inidividual":
+            case "Expresion_individual":
                 reglaExpIndividual(n);
                 break;
             case "Expresion":
@@ -211,32 +212,45 @@ public class Analizador_Semantico {
         if(n.getHijo(0).getDatos() instanceof Token){
             Nodo<Token> aux = n.getHijo(0);
             tipo = aux.getDatos().getTipo();
-            n.setTipo(tipo);
-            Nodo<Token> id = n.getHermano();
-            id.setTipo(n.getTipo());            
+            n.setTipo(tipo);      
         }
         System.out.println("===TIPO DE DATO====");
         System.out.println(n.getTipo()+" nodo "+n.getDatos());
-        System.out.println(n.getHermano().getTipo()+" hermano "+n.getHermano().getDatos());
     }
     //Expresion_individual -> idNum Expresion
     public void reglaExpIndividual(Nodo n) {
         String primerOperando="";
         String primerTipo="";
+        String operador="";
+        String segundoOperando="";
+        String segundoTipo="";
         if(n.getHijos().size()==2){
             Nodo<Token> idNum = n.getHijo(0);
-            Token aux = idNum.getDatos();
+            Token t = idNum.getDatos();
             //idNum -> id | Numero
-            String tipo = aux.getTipo();
+            String tipo = t.getTipo();
             if(tipo.equals("NUMERO")){
-                idNum.setValor(aux.getValor());
+                idNum.setValor(t.getValor());
+                primerOperando = t.getValor();
+                primerTipo = t.getTipo();
             }
             else if(tipo.equals("IDENTIFICADOR")){
-                
+                String valor = ts.getValor(t.getValor());
+                idNum.setValor(valor);
+                primerOperando = valor;
+                String tipoDato = ts.getTipoDato(t.getValor());
+                idNum.setTipo(tipoDato);
+                primerTipo = tipoDato;
             }
-            primerOperando = idNum.getValor().toString();
+            Nodo<String> expresion = n.getHijo(1);
+            String aux = expresion.getDatos();
+            
+            //realizarOperacion(primerOperando,primerTipo,"operador",n.getHijo(1).getValor().toString(),"segundotipo");
         }
-        realizarOperacion(primerOperando,primerTipo,"operador",n.getHijo(1).getValor().toString(),"segundotipo");
+        
+        System.out.println("===Expresion individual===");
+        System.out.println(primerOperando);
+        System.out.println(primerTipo);
     }
     
     public void reglaExpresion(Nodo n){

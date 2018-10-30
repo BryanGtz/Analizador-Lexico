@@ -21,10 +21,10 @@ public class Nodo<T> {
     
     //Atributos necesarios para el recorrido en el analizador semantico
     String tipo;
-    String nombre;
-    Object valor;
+    String valor;
     Object h;
     Object s;
+    String operador;
     
     //Constructor
     public Nodo(T t){
@@ -115,12 +115,20 @@ public class Nodo<T> {
         this.tipo = tipo;
     }
 
-    public Object getValor() {
+    public String getValor() {
         return valor;
     }
 
-    public void setValor(Object valor) {
+    public void setValor(String valor) {
         this.valor = valor;
+    }
+
+    public String getOperador() {
+        return operador;
+    }
+
+    public void setOperador(String operador) {
+        this.operador = operador;
     }
 
     @Override
