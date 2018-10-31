@@ -47,7 +47,7 @@ public class Analizador_Sintactico {
 		System.out.println("Finaliza el analizador Sintactico:");
 		System.out.println("==================================");
 		// Imprimimos los errores detectados
-		System.err.println(errores.toString().replaceAll(",", "\n"));
+		System.out.println(errores.toString().replaceAll(",", "\n"));
 		System.out.println("==================================");
 		// Imprimimos las variables detectadas
 		System.out.println("Cantidad de variables: "+variables.size());
@@ -325,7 +325,7 @@ public class Analizador_Sintactico {
 	// Igual_Asignacion <- = Asignacion | E
 	public Nodo Igual_Asignacion() {
 		//
-		Nodo<String> padre = new Nodo("[Igual_Asignacion]");
+		Nodo<String> padre = new Nodo("Igual_Asignacion");
 		if (tokens.get(i).getTipo().equals("IGUAL")) {
 			// Agregamos nodo hijo al arbol:
 			Nodo<Token> igual = new Nodo(tokens.get(i));
@@ -478,7 +478,9 @@ public class Analizador_Sintactico {
 		case "IDENTIFICADOR":
 		case "NUMERO":
 			Nodo<Token> hijo1 = new Nodo(tokens.get(i));
-			padre.agregarHijo(hijo1);
+			Nodo<String> idnum = new Nodo("IdNum");
+			idnum.agregarHijo(hijo1);
+			padre.agregarHijo(idnum);
 			System.out.print(" "+tokens.get(i).getValor());
 			
 			if(tipo=="IDENTIFICADOR") {
@@ -520,9 +522,9 @@ public class Analizador_Sintactico {
 		case "MULTIPLICACION":
 		case "DIVISION":
 		case "MODULO":
-			Nodo<Token> hijo1 = new Nodo(tokens.get(i));
+			Nodo<Token> operador = new Nodo(tokens.get(i));
 			//hijo1.setOperador(tokens.get(i));
-			padre.agregarHijo(hijo1);
+			padre.agregarHijo(operador);
 			System.out.print(tokens.get(i).getValor());
 			i++;
 			// -----------------------------------------
@@ -531,11 +533,15 @@ public class Analizador_Sintactico {
 			switch (tipo2) {
 			case "IDENTIFICADOR":
 			case "NUMERO":
-				Nodo<Token> idnum = new Nodo("IdNum");
+				Nodo<String> idnum = new Nodo("IdNum");
+				Nodo<Token> hijo2 = new Nodo(tokens.get(i));
+				
+				idnum.agregarHijo(hijo2);
+				
 				padre.agregarHijo(idnum);
 				// --------------------------
 				// Agregar hermano derecho ->
-				hijo1.setHermano(idnum);
+				operador.setHermano(idnum);
 				// --------------------------
 				System.out.print(tokens.get(i).getValor());
 				// --------------------------
@@ -1236,7 +1242,7 @@ public class Analizador_Sintactico {
 	// Condicion_Inicial -> SOperacion | SDeclaracion
 	public Nodo Condicion_Inicial() {
 		// Creacion la raiz del sub-arbol semantico:
-		Nodo<String> regla = new Nodo("[Condicion_Inicial]");
+		Nodo<String> regla = new Nodo("Condicion_Inicial");
 		// -----------------------------------------
 		// Condicion_Inicial
 		String tipo = getTokenType();
