@@ -11,17 +11,22 @@ public class EvaludadorExpresion {
 	
 	public EvaludadorExpresion(ArrayList<String> exp,String tipo) {
 		this.tipo=tipo;
+		limpiaArreglo(exp);
 		toPosfijo(exp);
 		calculaValor(this.posfijo);
-	}
-	
+	}	
+
 	public String getValor() {
 		if(tipo.equals("Entero"))
-			return(Integer.toString(Integer.parseInt(Double.toString(this.valor))));
+			return(Integer.toString((int)this.valor));
 		else
 			return Double.toString(this.valor);
 	}
-
+	
+	private void limpiaArreglo(ArrayList<String> exp) {
+		exp.removeIf(str ->str.replaceAll("\\s", "").equals(""));
+	}
+	
 	private void calculaValor(ArrayList<String> pos) {
 		Stack <Double>pila=new Stack<>();
 		for(String str:pos) {
