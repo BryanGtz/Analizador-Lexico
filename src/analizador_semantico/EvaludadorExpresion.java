@@ -12,6 +12,47 @@ public class EvaludadorExpresion {
 	public EvaludadorExpresion(ArrayList<String> exp,String tipo) {
 		this.tipo=tipo;
 		toPosfijo(exp);
+		calculaValor(this.posfijo);
+	}
+	
+	public String getValor() {
+		if(tipo.equals("Entero"))
+			return(Integer.toString(Integer.parseInt(Double.toString(this.valor))));
+		else
+			return Double.toString(this.valor);
+	}
+
+	private void calculaValor(ArrayList<String> pos) {
+		Stack <Double>pila=new Stack<>();
+		for(String str:pos) {
+			if(isOperandor(str)) {
+				if(!pila.isEmpty()) {
+					double op2=pila.pop();
+					double op1=pila.pop();
+					pila.push(opera(str,op1,op2));
+				}else {
+					System.out.println("Error de estructura posfija");
+				}
+			}else {
+				pila.push(Double.parseDouble(str));
+			}
+		}
+		valor=pila.pop();		
+	}
+
+	private Double opera(String str, double op1, double op2) {
+		switch(str){
+		case"*":
+			return op1*op2;
+		case"/":
+			return op1/op2;
+		case"+":
+			return op1+op2;
+		case"-":
+			return op1-op2;
+		default:
+			return 0.0;
+		}
 	}
 
 	private void toPosfijo(ArrayList<String> exp) {
@@ -36,7 +77,7 @@ public class EvaludadorExpresion {
 				posfijo.add(aux);
 			}
 		}
-		if(!pila.isEmpty()) {
+		while(!pila.isEmpty()) {
 			posfijo.add(pila.pop());
 		}
 		
