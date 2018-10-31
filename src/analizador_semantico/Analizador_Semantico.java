@@ -6,6 +6,7 @@
 package analizador_semantico;
 import analizador_lexico.Token;
 import analizador_sintactico.*;
+import java.util.ArrayList;
 /**
  *
  * @author User
@@ -13,6 +14,8 @@ import analizador_sintactico.*;
 public class Analizador_Semantico {
     Arbol_Sintactico as;
     Tabla_Simbolos ts;
+    ArrayList<String> errores = new ArrayList();
+    ArrayList<String> e = new ArrayList();
     
     public void analizar(Analizador_Sintactico a_l){
         as = a_l.as;
@@ -108,6 +111,8 @@ public class Analizador_Semantico {
             case "Mas_Expresion":
                 reglaMasExpresiones(n);
                 break;
+            case "IdNum":
+                reglaIdNum(n);
             case "Mas_declaraciones":
                 reglaMasDeclaraciones(n);
                 break;
@@ -246,7 +251,7 @@ public class Analizador_Semantico {
             operador = expresion.getOperador();
             segundoOperando = expresion.getValor();
             segundoTipo = expresion.getTipo();
-            realizarOperacion(primerOperando,primerTipo,operador,segundoOperando,segundoTipo);
+            realizarOperacion(n,primerOperando,primerTipo,operador,segundoOperando,segundoTipo);
         }
         
         System.out.println("===Expresion individual===");
@@ -259,15 +264,45 @@ public class Analizador_Semantico {
     
     //Expresion -> Operador_aritmetico IdNum Mas_expresiones | E
     public void reglaExpresion(Nodo n){
+        System.out.println("======Expresion=====");
         if(n.getHijos().size()==3){
             Nodo<Token> operador_a = n.getHijo(0);
             String operador = operador_a.getOperador();
             n.setOperador(operador);
-            
+            Nodo<String> idNum = n.getHijo(1);
         }
     }
     
+    //Mas_expresiones -> Expresion
     public void reglaMasExpresiones(Nodo n){
+        if(n.getHijos().size()==1){
+            Nodo<String> expresion = n.getHijo(0);
+            String valor = expresion.getValor();
+            String tipo = expresion.getTipo();
+            String operador = expresion.getOperador();
+            n.setTipo(tipo);
+            n.setValor(valor);
+            n.setOperador(operador);
+        }
+            
+    }
+        
+    public void reglaIdNum(Nodo n) {
+        System.out.println("=====IdNum=======");
+        if(n.getHijos().size()==1){
+            if(n.getHijo(0).getDatos() instanceof Token){
+                Nodo<Token> idNum = n.getHijo(0);
+                String tipo ="";
+                String valor = "";
+                if("IDENTIFICADOR".equals(idNum.getDatos().getTipo())){
+                    tipo = ts.getTipoDato(idNum.getDatos().getValor ());
+                    valor = ts.getValor(idNum.getDatos().getValor());
+                }
+                else{
+                    tipo = idNum.getDatos().getTipo();
+                }
+            }
+        }
         
     }
     
@@ -295,8 +330,39 @@ public class Analizador_Semantico {
         
     }
     
+    // Condicion -> Expresion_individual Operador_relacional Expresion_individual Mas_Condiciones
     public void reglaCondicion(Nodo n){
-        
+        System.out.println("=====Condicion=====");
+        if(n.getHijos().size()==4){
+            Nodo<String> regla = n;
+            Nodo<String> ex_ind = regla.getHijo(0);
+            String primerValor = ex_ind.getValor();            
+            String primerTipo = ex_ind.getTipo();
+            Nodo<String> ex_ind2 = regla.getHijo(2);
+            String segundoValor = ex_ind2.getValor();
+            String segundoTipo = ex_ind2.getTipo();
+            Nodo<String> mas_cond = regla.getHijo(3);
+            Nodo<String> op_rel = n.getHijo(1);
+            String op = op_rel.getValor();
+            switch (op) {
+                case ">":
+                case "<":
+                case ">=":
+                case "<=":
+                    if("ENTERO".equals(primerTipo)||"DECIMAL".equals(primerTipo)){
+                        if("ENTERO".equals(segundoTipo)||"DECIMAL".equals(segundoTipo)){
+                            
+                        }
+                    }
+                    break;
+                case "==":
+                    
+                    break;
+                default:
+                    break;
+            }
+            
+        }
     }
 
     public void reglaOperadorRelacional(Nodo n){
@@ -323,8 +389,13 @@ public class Analizador_Semantico {
         
     }
     
-    private void realizarOperacion(String primerValor, String primerTipo, String operador, String segundoValor, String segundoTipo){
-        if(operador.isEmpty()&&segundoValor.isEmpty()){
+    private void realizarOperacion(Nodo regla, String primerValor, String primerTipo, String operador, String segundoValor, String segundoTipo){
+        System.out.println(primerValor+operador+segundoValor);
+        if(operador==null||segundoValor==null||segundoTipo==null){
+            regla.setValor(primerValor);
+            regla.setTipo(primerTipo);
+        }
+        else{
             
         }
     }

@@ -64,7 +64,7 @@ public class Tabla_Simbolos{
      */
     public boolean agregarTipo(String variable, String tipo){
         Simbolo var = variables.get(variable);
-        if(var!=null){
+        if(var!=null&&"".equals(var.getTipo_dato())){
             var.setTipo_dato(tipo);
             return (tipo.equals(var.getTipo_dato()));
         }
