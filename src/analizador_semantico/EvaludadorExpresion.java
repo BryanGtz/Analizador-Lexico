@@ -12,8 +12,16 @@ public class EvaludadorExpresion {
 	public EvaludadorExpresion(ArrayList<String> exp,String tipo) {
 		this.tipo=tipo;
 		limpiaArreglo(exp);
-		toPosfijo(exp);
-		calculaValor(this.posfijo);
+		if(exp.size()>1) {
+			toPosfijo(exp);
+			calculaValor(this.posfijo);
+		}else {
+			if(!exp.isEmpty()) {
+				this.valor=Double.parseDouble(exp.get(0));
+			}else {
+				System.out.println("Expresion vacia");
+			}
+		}
 	}	
 
 	public String getValor() {
