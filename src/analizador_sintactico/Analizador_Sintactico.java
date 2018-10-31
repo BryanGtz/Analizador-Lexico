@@ -478,9 +478,15 @@ public class Analizador_Sintactico {
 		case "IDENTIFICADOR":
 		case "NUMERO":
 			Nodo<Token> hijo1 = new Nodo(tokens.get(i));
+			hijo1.setValor(tokens.get(i).getValor());
+			hijo1.setTipo(tokens.get(i).getTipo());
+			
 			Nodo<String> idnum = new Nodo("IdNum");
 			idnum.agregarHijo(hijo1);
 			padre.agregarHijo(idnum);
+			//System.out.println("\ntipo: "+idnum.getHijo(0).getTipo());
+			//System.out.println("valor: "+idnum.hijos.get(0).getValor());
+			//System.out.println("Token: "+hijo1.getTipo());
 			System.out.print(" "+tokens.get(i).getValor());
 			
 			if(tipo=="IDENTIFICADOR") {
@@ -522,8 +528,10 @@ public class Analizador_Sintactico {
 		case "MULTIPLICACION":
 		case "DIVISION":
 		case "MODULO":
-			Nodo<Token> operador = new Nodo(tokens.get(i));
+			Nodo<String> operador = new Nodo("OPERADOR_ARITMETICO");
+			Nodo<Token> hijo1 = new Nodo(tokens.get(i));
 			//hijo1.setOperador(tokens.get(i));
+			operador.agregarHijo(hijo1);
 			padre.agregarHijo(operador);
 			System.out.print(tokens.get(i).getValor());
 			i++;
@@ -863,9 +871,9 @@ public class Analizador_Sintactico {
 		i++;
 		// ------------------------------------------------
 		// Operador NOT -> NOT | E
-		if (getTokenType().equals("NOT")) {
-			System.out.print("NOT ");
-			hijo3 = new Nodo("NOT");
+		if (getTokenType().equals("NO")) {
+			System.out.print("NO ");
+			hijo3 = new Nodo("NO");
 			regla.agregarHijo(hijo3);
 
 			hijo3_1 = new Nodo(tokens.get(i));
@@ -875,7 +883,7 @@ public class Analizador_Sintactico {
 		} else {
 			// ------------------------------------------------
 			// Vacio
-			hijo3 = new Nodo("NOT");
+			hijo3 = new Nodo("NO");
 			regla.agregarHijo(hijo3);
 			
 			Nodo<String> vacio = new Nodo("Vacio");
