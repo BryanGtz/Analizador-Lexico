@@ -66,6 +66,23 @@ public class Tabla_Simbolos{
         Simbolo var = variables.get(variable);
         if(var!=null&&"".equals(var.getTipo_dato())){
             var.setTipo_dato(tipo);
+            //Establecer asignacion por defecto
+            switch (tipo) {
+                case "ENTERO":
+                    var.setValor("0");
+                    break;
+                case "DECIMAL":
+                    var.setValor("0.0");
+                    break;
+                case "BOLEANO":
+                    var.setValor("false");
+                    break;
+                case "CADENA":
+                    var.setValor("");
+                    break;
+                default:
+                    break;
+            }
             return (tipo.equals(var.getTipo_dato()));
         }
         else{
@@ -84,10 +101,12 @@ public class Tabla_Simbolos{
     }
     
     public String getValor(String variable){
-        return variables.get(variable).getValor();
+        String aux = variables.get(variable).getValor();
+        return (aux==null)?"":aux;
     }
     
     public String getTipoDato(String variable){
-        return variables.get(variable).getTipo_dato();
+        String aux = variables.get(variable).getTipo_dato();
+        return (aux==null)?"":aux;
     }
 }

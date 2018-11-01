@@ -18,8 +18,8 @@ public class Simbolo {
   
   public Simbolo(String nombre){
       this.nombre = nombre;
-      this.tipo_dato = null;
-      this.valor = null;
+      this.tipo_dato = "";
+      this.valor = "";
   }
 
 	public Simbolo(String nombre, String tipo_dato, String valor) {

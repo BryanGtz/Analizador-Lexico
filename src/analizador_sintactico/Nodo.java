@@ -20,11 +20,11 @@ public class Nodo<T> {
     Nodo hermano; 
     
     //Atributos necesarios para el recorrido en el analizador semantico
-    String tipo;
-    String valor;
+    String tipo="";
+    String valor="";
     Object h;
     Object s;
-    String operador;
+    String operador="";
     
     //Constructor
     public Nodo(T t){
