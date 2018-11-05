@@ -47,7 +47,6 @@ public class Analizador_Semantico {
                     regla.setH(hijo.getH());
                 case "Mas_Declaraciones":
                     Object t = regla.getH();
-                    System.out.println("======================================================================================================================");
                     System.out.println(t);
                     for (int i = 1; i < regla.getHijos().size(); i++) {
                         regla.getHijo(i).setH(t);
@@ -196,9 +195,18 @@ public class Analizador_Semantico {
                 System.out.println("Error. La variable "+id+" ya ha sido declarada");
             }
             //Se comprueba que el valor que se quiere asignar corresponda con el tipo de dato indicado
-            if(tipoDato.equals(tipoAsig)){                
-                ts.agregarValor(id, tipoAsig, valor);
+            if(!"".equals(tipoAsig)){
+                if(tipoDato.equals(tipoAsig)){                
+                    ts.agregarValor(id, tipoAsig, valor);
+                }
+                else if(tipoDato.equals("CADENA")&&tipoAsig.equals("Cadena de caracteres")){
+                    ts.agregarValor(id, tipoAsig, valor);
+                }
+                else{
+                    System.out.println("Error. No se puede asignar "+tipoAsig+" a una variable "+tipoDato);
+                }
             }
+            
         }        
     }
     
@@ -225,7 +233,21 @@ public class Analizador_Semantico {
         System.out.println(n.getValor());
     }
     
+    // Expresion_cadena -> Cadena Mas_cadenas
     public void reglaExpCadena(Nodo n){
+        if(n.getHijos().size()==2){
+            System.out.println("====Expresion cadena====");
+            Nodo<String> regla = n;
+            if(regla.getHijo(0).getDatos() instanceof Token){
+                Nodo<Token> cadena = regla.getHijo(0);
+                String tipo = cadena.getDatos().getTipo();
+                regla.setTipo(tipo);
+                String valor = cadena.getDatos().getValor();
+                regla.setValor(valor);
+                System.out.println("Tipo: "+tipo);
+                System.out.println("Valor: "+valor);
+            }
+        }
         
     }
     
@@ -331,20 +353,20 @@ public class Analizador_Semantico {
             if("BOLEANO".equals(tipoId)){
                 System.out.println("Error. No se admiten operaciones con variables boleanas");
             }
-            else if("Cadena".equals(tipoId)&&!"+".equals(operador)){
+            else if("CADENA".equals(tipoId)&&!"+".equals(operador)){
                 System.out.println("Error. No se admiten operaciones diferentes a la concatenacion con variables string");
             }
             Nodo<String> mas_e = n.getHijo(2);
             String tipo2 = mas_e.getTipo();
-            System.out.println(operador);
-            System.out.println(valor1);
+            System.out.println("Operador: "+operador);
+            System.out.println("Valor: "+valor1);
             System.out.println(tipoId);
         }
     }
     
     //Mas_expresiones -> Expresion
     public void reglaMasExpresiones(Nodo n){
-        if(n.getHijos().size()==1){
+        if(n.getHijos().size()==1&&!"".equals(n.getHijo(0).getValor())){
             System.out.println("====Mas expresiones=====");
             Nodo<String> expresion = n.getHijo(0);
             String valor = expresion.getValor();
