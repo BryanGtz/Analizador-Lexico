@@ -46,8 +46,11 @@ public class Analizador_Semantico {
                     hijo.setH(tipo);
                     regla.setH(hijo.getH());
                 case "Mas_Declaraciones":
+                    Object t = regla.getH();
+                    System.out.println("======================================================================================================================");
+                    System.out.println(t);
                     for (int i = 1; i < regla.getHijos().size(); i++) {
-                        regla.getHijo(i).setH(regla.getH());
+                        regla.getHijo(i).setH(t);
                     }
                     break;
                 default:
@@ -171,27 +174,32 @@ public class Analizador_Semantico {
     }
     
     public void reglaDeclaracion(Nodo n){
-        System.out.println("======Declaracion========");
-        //Agregar el tipo y el valor a la(s) variable(s)
-        Nodo<String> regla = n;
-        if(regla.getHijos().size()==5){
+        System.out.println("======Declaracion========");      
+        if(n.getHijos().size()==5){
+            Nodo<String> regla = n;
             Nodo<String> tipo_dato = regla.getHijo(0);
-            String tipo = tipo_dato.getTipo();
-            Nodo<Token> id = regla.getHijo(1);
-            String variable = id.getDatos().getValor();            
+            String tipoDato = tipo_dato.getTipo();
+            Nodo<Token> identificador = regla.getHijo(1);
+            String id = identificador.getDatos().getValor();            
             Nodo<String> i_a = regla.getHijo(2);
             String valor = i_a.getValor();
-            System.out.println(tipo+"->"+variable+"->"+valor);
-            boolean aux = ts.agregarTipo(variable, tipo);
+            String tipoAsig = i_a.getTipo();
+            System.out.println("Tipo de dato: "+tipoDato);
+            System.out.println("ID: "+id);
+            System.out.println("Tipo de asignacion: "+tipoAsig);
+            System.out.println("Valor: "+valor);
+            //Revisar si la variable ya fue declarada
+            //si no, agregarle el tipo de dato
+            boolean aux = ts.agregarTipo(id, tipoDato);
+            //Si la variable ya tiene tipo de dato se imprime un mensaje de error
             if(!aux){
-                System.err.println("Error. La variable "+variable+" ya ha sido declarada");
+                System.out.println("Error. La variable "+id+" ya ha sido declarada");
             }
-            else{
-                String msg = ts.agregarValor(variable, tipo, valor);
-                System.out.println(msg);
+            //Se comprueba que el valor que se quiere asignar corresponda con el tipo de dato indicado
+            if(tipoDato.equals(tipoAsig)){                
+                ts.agregarValor(id, tipoAsig, valor);
             }
-        }
-        
+        }        
     }
     
     public void reglaIgualAsig(Nodo n){
@@ -201,18 +209,18 @@ public class Analizador_Semantico {
             n.setValor(hijo.getValor());
             n.setTipo(hijo.getTipo());
         }
-        System.out.println(n.getTipo());
-        System.out.println(n.getValor());
+        System.out.println("Tipo: "+n.getTipo());
+        System.out.println("Valor: "+n.getValor());
     }
     
     public void reglaAsignacion(Nodo n){
+        System.out.println("===ASIGNACION===");
         if(n.getHijos().size()==1){
             Nodo<String> hijo = n.getHijo(0);
             System.out.println("Nodo: "+hijo.getDatos());
             n.setValor(hijo.getValor());
             n.setTipo(hijo.getTipo());
-        }
-        System.out.println("===ASIGNACION===");
+        }        
         System.out.println(n.getTipo());
         System.out.println(n.getValor());
     }
@@ -245,7 +253,7 @@ public class Analizador_Semantico {
             n.setTipo(tipo);      
         }
         System.out.println("===TIPO DE DATO====");
-        System.out.println(n.getTipo()+" nodo "+n.getDatos());
+        System.out.println("Tipo: "+n.getTipo());
     }
     //Expresion_individual -> idNum Expresion
     public void reglaExpIndividual(Nodo n) {
@@ -262,10 +270,17 @@ public class Analizador_Semantico {
             if(tipo!=null){
                 System.out.println("--------------------Arreglo---------------------");
                 for (int i = 0; i < e.size(); i++) {
-                    System.out.println(e.get(i));
+                    System.out.print(e.get(i));
                 }
-                EvaludadorExpresion e_e = new EvaludadorExpresion(e,tipo);
-                regla.setValor(e_e.getValor());
+                if(e.size()%2==1){
+                    System.out.println("\nEvaluando la expresion anterior: ");
+                    EvaludadorExpresion e_e = new EvaludadorExpresion(e,tipo);
+                    regla.setValor(e_e.getValor());
+                    System.out.println(e_e.getValor());
+                }
+                else{
+                    System.out.println("ERROR EN EL VALOR QUE SE DESEA ASIGNAR. NO SE PUEDE REALIZAR LA OPERACION");
+                }
                 regla.setTipo(tipo);
                 e.clear();
                 //regla.setValor(e_e.getValor());
@@ -302,25 +317,28 @@ public class Analizador_Semantico {
     }
     
     //Expresion -> Operador_aritmetico IdNum Mas_expresiones | E
-    public void reglaExpresion(Nodo n){
-        System.out.println("======Expresion=====");
+    public void reglaExpresion(Nodo n){        
         if(n.getHijos().size()==3){
+            System.out.println("======Expresion======");
             Nodo<Token> operador_a = n.getHijo(0);
             String operador = operador_a.getOperador();
             n.setOperador(operador);
             Nodo<String> idNum = n.getHijo(1);
-            String tipo1 = idNum.getTipo();  
-            n.setTipo(tipo1);
+            String tipoId = idNum.getTipo();  
+            n.setTipo(tipoId);
             String valor1 = idNum.getValor();
             n.setValor(valor1);
-            if("ENTERO".equals(tipo1)||"DECIMAL".equals(tipo1)){
-                
+            if("BOLEANO".equals(tipoId)){
+                System.out.println("Error. No se admiten operaciones con variables boleanas");
+            }
+            else if("Cadena".equals(tipoId)&&!"+".equals(operador)){
+                System.out.println("Error. No se admiten operaciones diferentes a la concatenacion con variables string");
             }
             Nodo<String> mas_e = n.getHijo(2);
             String tipo2 = mas_e.getTipo();
             System.out.println(operador);
             System.out.println(valor1);
-            System.out.println(tipo1);
+            System.out.println(tipoId);
         }
     }
     
@@ -352,27 +370,31 @@ public class Analizador_Semantico {
                 String valor="";
                 if("IDENTIFICADOR".equals(idNum.getDatos().getTipo())){
                     String v = idNum.getDatos().getValor();
+                    System.out.println("Variable: "+v);
                     tipo = ts.getTipoDato(v);
-                    if(tipo==null){
-                        System.out.println("Error. La variable "+idNum.getDatos().getValor()+" no ha sido declarada");
-                    }
+                    System.out.println("Tipo de dato: "+tipo);
                     valor = ts.getValor(v);
-                    String variable = ts.variables.get(idNum.getDatos().getValor()).getValor();
-                    System.out.println("Variable: "+variable);
+                    if("".equals(tipo)){
+                        System.out.println("Error. La variable "+v+" no ha sido declarada");                        
+                    }
+                    else{
+                        e.add(valor);
+                    }
                 }
                 else if("NUMERO".equals(idNum.getDatos().getTipo())){
-                    tipo = idNum.getDatos().getTipo();
+                    if(idNum.getDatos().getValor().contains("\\.")){
+                        tipo= "DECIMAL";
+                    }
+                    else{
+                        tipo="ENTERO";
+                    }
                     valor = idNum.getDatos().getValor();
+                    e.add(valor);
                 }
                 regla.setValor(valor);
                 regla.setTipo(tipo);
-                System.out.println("Variable: "+valor);
-                System.out.println(tipo);
-                e.add(valor);
-                for (int i = 0; i < e.size(); i++) {
-                    System.out.println(e.get(i));
-                }
-                
+                System.out.println("Valor: "+valor);
+                System.out.println("Tipo: "+tipo);
             }
         }
         
@@ -388,8 +410,32 @@ public class Analizador_Semantico {
         }
     }
     
-    public void reglaMasDeclaraciones(Nodo n){
-        
+    public void reglaMasDeclaraciones(Nodo n){              
+        if(n.getHijos().size()==4){
+            System.out.println("======Mas Declaraciones========");
+            Nodo<String> regla = n;
+            String tipoDato = (String) regla.getH();
+            Nodo<Token> identificador = regla.getHijo(1);
+            String id = identificador.getDatos().getValor();            
+            Nodo<String> i_a = regla.getHijo(2);
+            String valor = i_a.getValor();
+            String tipoAsig = i_a.getTipo();
+            System.out.println("Tipo de dato: "+tipoDato);
+            System.out.println("ID: "+id);
+            System.out.println("Tipo de asignacion: "+tipoAsig);
+            System.out.println("Valor: "+valor);
+            //Revisar si la variable ya fue declarada
+            //si no, agregarle el tipo de dato
+            boolean aux = ts.agregarTipo(id, tipoDato);
+            //Si la variable ya tiene tipo de dato se imprime un mensaje de error
+            if(!aux){
+                System.out.println("Error. La variable "+id+" ya ha sido declarada");
+            }
+            //Se comprueba que el valor que se quiere asignar corresponda con el tipo de dato indicado
+            if(tipoDato.equals(tipoAsig)){                
+                ts.agregarValor(id, tipoAsig, valor);
+            }
+        }        
     }
     
     public void reglaOuto(Nodo n){
