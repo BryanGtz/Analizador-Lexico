@@ -7,28 +7,41 @@ public class EvaludadorExpresion {
 	
 	private ArrayList<String> posfijo;
 	private String tipo;
-	private double valor;
+	private String valor;
 	
 	public EvaludadorExpresion(ArrayList<String> exp,String tipo) {
 		this.tipo=tipo;
-		limpiaArreglo(exp);
-		if(exp.size()>1) {
-			toPosfijo(exp);
-			calculaValor(this.posfijo);
-		}else {
-			if(!exp.isEmpty()) {
-				this.valor=Double.parseDouble(exp.get(0));
-			}else {
-				System.out.println("Expresion vacia");
+		if (!tipo.equals("CADENA"))
+			limpiaArreglo(exp);
+		
+		if (!exp.isEmpty()) {				
+			if (exp.size() > 1) {
+				if (tipo.equals("CADENA")) {
+					this.valor=calcularValorCadena(exp);
+				}else {
+					toPosfijo(exp);
+					calculaValor(this.posfijo);
+				}
+			} else {
+				this.valor = exp.get(0);
 			}
+		} else {
+			System.out.println("Expresion vacia");
 		}
 	}	
 
+	private String calcularValorCadena(ArrayList<String> exp) {
+		String aux="";
+		for(int i=0; i<exp.size(); i+=2)
+			aux+=exp.get(i);
+		return aux;
+	}
+
 	public String getValor() {
-		if(tipo.equals("Entero"))
-			return(Integer.toString((int)this.valor));
+		if(tipo.equals("ENTERO"))
+			return(Integer.toString((int)Double.parseDouble(this.valor)));
 		else
-			return Double.toString(this.valor);
+			return this.valor;
 	}
 	
 	private void limpiaArreglo(ArrayList<String> exp) {
@@ -50,7 +63,7 @@ public class EvaludadorExpresion {
 				pila.push(Double.parseDouble(str));
 			}
 		}
-		valor=pila.pop();		
+		valor=Double.toString(pila.pop());		
 	}
 
 	private Double opera(String str, double op1, double op2) {
