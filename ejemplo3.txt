@@ -1,4 +1,4 @@
-	# Hola
+	# Hola 
 	starto(){
 		# Comienza el codigo
 		# Impresion: Lista
