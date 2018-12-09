@@ -7,13 +7,15 @@
 		# Declaracion:
 		# -----------------
 		# Entero:
-		 int a1 = 1+"5"-a2, b2 = true;
+		# int a1 = 1+"5"-a2, b2 = true;
 		# int a4=1+2-3*4/5;
 		# int a;
 		# int b;
 		# EJEMPLOS QUE CAUSAN ERRORES
+		# int 3 = 3;
+		# int 3 = 3++;
 		# int a = 5++b;
-		# int a = 5+$;
+		 int a = 5+$;
 		# -----------------
 		# Cadena:
 		# string t1 = "Ana"+"Victoria", t2 = "Cavazos";
