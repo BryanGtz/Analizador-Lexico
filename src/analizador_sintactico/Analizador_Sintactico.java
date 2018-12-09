@@ -238,7 +238,6 @@ public class Analizador_Sintactico {
 		// -----------------------------------------
 		// Tipo_dato:
 		Nodo<String> tipo_dato = new Nodo("Tipo_dato");
-		regla.agregarHijo(tipo_dato);
 		String tipo = getTokenType();
 		switch (tipo) {
 			case "DECIMAL":
@@ -259,37 +258,38 @@ public class Analizador_Sintactico {
 		i++;
 		// -----------------------------------------
 		// Identificador:
-		Nodo<Token> id = new Nodo();
+		Nodo<String> identificador = new Nodo("Identificador");
 		tipo = getTokenType();
 		switch (tipo) {
 			case "IDENTIFICADOR":
-				Nodo<String> identificador = new Nodo("Identificador");
-				tipo_dato.setHermano(identificador);
-				id = new Nodo(tokens.get(i).getValor());
+				Nodo<String> id = new Nodo(tokens.get(i).getValor());
 				identificador.agregarHijo(id);
-				// --------------------------
-				regla.agregarHijo(identificador);
 				System.out.print(" " + tokens.get(i).getValor());
 				// --------------------------
 				// Agregamos la variable a la tabla de simbolos
 				tabla.agregarVariable(tokens.get(i).getValor());
 				variables.add(tokens.get(i).getValor());
-				i++;
 				break;
 			default:
 				Nodo<String> error = error(" IDENTIFICADOR");
-				regla.agregarHijo(error);
+				identificador.agregarHijo(error);
 				break;
 		}
+		i++;
 		// --------------------------------------
 		// Asignacion:
 		Nodo<String> Asignacion = Asignacion();
-		id.setHermano(Asignacion);
-		regla.agregarHijo(Asignacion);
 		// --------------------------------------
 		// Mas_declaraciones:
 		Nodo<String> Mas_declaraciones = Mas_declaraciones();
+		//
+		tipo_dato.setHermano(identificador);
+		identificador.setHermano(Asignacion);
 		Asignacion.setHermano(Mas_declaraciones);
+		
+		regla.agregarHijo(tipo_dato);
+		regla.agregarHijo(identificador);
+		regla.agregarHijo(Asignacion);
 		regla.agregarHijo(Mas_declaraciones);
 		// -----------------------------------------
 		// ;
@@ -298,18 +298,23 @@ public class Analizador_Sintactico {
 			case "FIN_SENTENCIA":
 				Nodo<Token> f_s = new Nodo(tokens.get(i).getValor());
 				regla.agregarHijo(f_s);
-				// --------------------------
-				// Agregar hermano derecho ->
 				Mas_declaraciones.setHermano(f_s);
-				// --------------------------
 				System.out.println(tokens.get(i).getValor());
-				i++;
 				break;
 			default:
-				Nodo<String> error = error(" ;");
-				regla.agregarHijo(error);
+				while(tipo!="FIN_SENTENCIA"||tipo=="FIN_BLOQUE") {
+					Nodo<String> error = error(" ;");
+					regla.agregarHijo(error);
+					i++;
+					tipo = getTokenType();
+				}
+				f_s = new Nodo(tokens.get(i).getValor());
+				regla.agregarHijo(f_s);
+				Mas_declaraciones.setHermano(f_s);
+				System.out.println(tokens.get(i).getValor());
 				break;
-		}	
+		}
+		i++;
 		return regla;
 	}
 
@@ -387,28 +392,38 @@ public class Analizador_Sintactico {
 		Nodo<String> valor = new Nodo("Valor");
 		switch (tipo) {
 			case "IDENTIFICADOR":
-				valor = new Nodo("Identificador");
-				// Agregamos la variable a la tabla de simbolos
-				tabla.agregarVariable(tokens.get(i).getValor());
-				variables.add(tokens.get(i).getValor());
-				break;
 			case "NUMERO":
-				valor = new Nodo("Numero");
-				break;
 			case "Cadena de caracteres":
-				valor = new Nodo("Cadena de caracteres");
-				break;
+				switch (tipo) {
+				case "IDENTIFICADOR":
+					valor = new Nodo("Identificador");
+					// Agregamos la variable a la tabla de simbolos
+					tabla.agregarVariable(tokens.get(i).getValor());
+					variables.add(tokens.get(i).getValor());
+					break;
+				case "NUMERO":
+					valor = new Nodo("Numero");
+					break;
+				case "Cadena de caracteres":
+					valor = new Nodo("Cadena de caracteres");
+					break;
+				}
+				//
+				Nodo<String> hijo = new Nodo(tokens.get(i).getValor());
+				hijo.setValor(tokens.get(i).getValor());
+				hijo.setTipo(tokens.get(i).getTipo());
+				hijo.setEsTerminal(true);
+				//
+				valor.agregarHijo(hijo);
+				IdNumCad.agregarHijo(valor);
+				//
+				System.out.print(" "+tokens.get(i).getValor());
+			break;
+			default:
+				Nodo<String> error = error(" IDENTIFICADOR | NUMERO | Cadena de caracteres");
+				IdNumCad.agregarHijo(error);
+			break;
 		}
-		//
-		Nodo<String> hijo = new Nodo(tokens.get(i).getValor());
-		hijo.setValor(tokens.get(i).getValor());
-		hijo.setTipo(tokens.get(i).getTipo());
-		hijo.setEsTerminal(true);
-		//
-		valor.agregarHijo(hijo);
-		IdNumCad.agregarHijo(valor);
-		//
-		System.out.print(" "+tokens.get(i).getValor());
 		i++;
 		// Agregamos nodo hijo al arbol:
 		return IdNumCad;
