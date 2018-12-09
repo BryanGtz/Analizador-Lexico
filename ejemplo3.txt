@@ -2,11 +2,12 @@
 	starto(){
 		# Comienza el codigo
 		# Impresion: Lista
-		# outo("Hola"+"Mundo"+a1+15+0.5+true+false);
+		 outo("Hola"+"Mundo"+a1+15+0.5+true+false);
 		# ====================================================
 		# Declaracion:
 		# -----------------
 		# Entero:
+		# int b2 = true + false + 3;
 		# int a1 = 1+"5"-a2, b2 = true;
 		# int a4=1+2-3*4/5;
 		# int a;
@@ -15,7 +16,7 @@
 		# int 3 = 3;
 		# int 3 = 3++;
 		# int a = 5++b;
-		 int a = 5+$;
+		# int a = 5+$;
 		# -----------------
 		# Cadena:
 		# string t1 = "Ana"+"Victoria", t2 = "Cavazos";
@@ -31,6 +32,8 @@
 		# bool b = 2, c=2.0;
 		# ====================================================
 		# Operaciones: 
+		# b = NO SE PORQUE ESTO GENERA UN ERROR LEXICO
+		# a1 = 1 + "5" - a2 / true;
 		# c = 1+2;
 		# a = 1+2-3*5/10;
 		# b = a+2/5+"";
