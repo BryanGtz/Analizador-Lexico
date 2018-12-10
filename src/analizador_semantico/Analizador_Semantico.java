@@ -26,6 +26,8 @@ public class Analizador_Semantico {
         System.out.println("Inicia análisis semantico");
         Nodo<String> raiz = as.getRaiz();
         recorrer(raiz);
+        
+        comprobarTipo("bool","int","+");
     }
     
     public void recorrer(Nodo n){
@@ -259,8 +261,7 @@ public class Analizador_Semantico {
         }
         
     }
-    
-    
+        
     public void reglaValor(Nodo n){
         if(n.getDatos() instanceof Token){
             Nodo<Token> hijo = n.getHijo(0);
@@ -556,6 +557,227 @@ public class Analizador_Semantico {
     
     public void reglaCondicionInicial(Nodo n){
         
+    }
+    
+    public String comprobarTipo(String Tipo_1, String Tipo_2, String Operador) {
+        String tipo_resultante = "error";
+
+        // Tipos y Operaciones compatibles:
+        switch(Tipo_1) {
+        case "int":
+            tipo_resultante = int_tipos_compatibles(Tipo_2,Operador);
+            break;
+        case "dec":
+            tipo_resultante = dec_tipos_compatibles(Tipo_2,Operador);
+            break;
+        case "string":
+            tipo_resultante = string_tipos_compatibles(Tipo_2,Operador);
+            break;
+        case "bool":
+            tipo_resultante = bool_tipos_compatibles(Tipo_2,Operador);
+            break;
+        }
+
+        System.out.println("["+Tipo_1 + " " + Operador + " " + Tipo_2 + "] = " + tipo_resultante);
+        return tipo_resultante;
+    }
+    
+    public String int_tipos_compatibles(String Tipo_2, String Operador) {
+        String tipo_resultante = "error";
+        // int 
+        switch(Operador) {
+            // Aritmeticos:
+            case "+":
+            case "-":
+            case "*":
+            case "/":
+            case "%":
+                // Tipos compatibles:
+                switch(Tipo_2) {
+                case "int":
+                    tipo_resultante = "int";
+                    break;
+                case "dec":
+                    tipo_resultante = "dec";
+                    break;
+                }
+                break;
+            case "=":
+                // Tipos compatibles:
+                switch(Tipo_2) {
+                case "int":
+                    tipo_resultante = "int";
+                    break;
+                }
+            break;
+            // Logicos:
+            case "and":
+            case "or":
+            case "not":
+                break;
+            // Relacionales:
+            case "<":
+            case ">":
+            case "<=":
+            case ">=":
+            case "==":
+            case "!=":
+                // Tipos compatibles:
+                switch(Tipo_2) {
+                case "int":
+                case "dec":
+                    tipo_resultante = "bool";
+                    break;
+                }
+            break;
+        }
+        
+        return tipo_resultante;
+    }
+    
+    public String dec_tipos_compatibles(String Tipo_2, String Operador) {
+        String tipo_resultante = "error";
+        // dec 
+        switch(Operador) {
+            // Aritmeticos:
+            case "+":
+            case "-":
+            case "*":
+            case "/":
+            case "%":
+                // Tipos compatibles:
+                switch(Tipo_2) {
+                case "int":
+                case "dec":
+                    tipo_resultante = "dec";
+                    break;
+                }
+                break;
+            case "=":
+                // Tipos compatibles:
+                switch(Tipo_2) {
+                case "int":
+                case "dec":
+                    tipo_resultante = "dec";
+                    break;
+                }
+            break;
+            // Logicos:
+            case "and":
+            case "or":
+            case "not":
+                break;
+            // Relacionales:
+            case "<":
+            case ">":
+            case "<=":
+            case ">=":
+            case "==":
+            case "!=":
+                // Tipos compatibles:
+                switch(Tipo_2) {
+                case "int":
+                case "dec":
+                    tipo_resultante = "bool";
+                    break;
+                }
+            break;
+        }
+        
+        return tipo_resultante;
+    }
+    
+    public String string_tipos_compatibles(String Tipo_2, String Operador) {
+        String tipo_resultante = "error";
+        // string 
+        switch(Operador) {
+            // Aritmeticos:
+            case "+":
+                // Tipos compatibles:
+                switch(Tipo_2) {
+                case "string":
+                //case "int":
+                //case "dec":
+                //case "bool":
+                    tipo_resultante = "string";
+                    break;
+                }
+            break;
+            case "=":
+                // Tipos compatibles:
+                switch(Tipo_2) {
+                case "string":
+                    tipo_resultante = "string";
+                    break;
+                }
+            break;
+            // Logicos:
+            case "and":
+            case "or":
+            case "not":
+            break;
+            // Relacionales:
+            case "<":
+            case ">":
+            case "<=":
+            case ">=":
+            case "==":
+            case "!=":  
+            break;
+        }
+        return tipo_resultante;
+    }
+    
+    public String bool_tipos_compatibles(String Tipo_2, String Operador) {
+        String tipo_resultante = "error";
+        // bool 
+        switch(Operador) {
+            // Aritmeticos:
+            case "+":
+            case "-":
+            case "*":
+            case "/":
+            case "%":
+            break;
+            
+            case "=":
+                // Tipos compatibles:
+                switch(Tipo_2) {
+                case "bool":
+                    tipo_resultante = "bool";
+                    break;
+                }
+            break;
+            
+            // Logicos:
+            case "and":
+            case "or":
+            case "not":
+                // Tipos compatibles:
+                switch(Tipo_2) {
+                case "bool":
+                    tipo_resultante = "bool";
+                    break;
+                }
+                break;
+            // Relacionales:
+            case "<":
+            case ">":
+            case "<=":
+            case ">=":
+                break;
+            case "==":
+            case "!=":
+                // Tipos compatibles:
+                switch(Tipo_2) {
+                case "bool":
+                    tipo_resultante = "bool";
+                    break;
+                }
+            break;
+        }
+        
+        return tipo_resultante;
     }
     
     private void realizarOperacion(Nodo regla, String primerValor, String primerTipo, String operador, String segundoValor, String segundoTipo){
