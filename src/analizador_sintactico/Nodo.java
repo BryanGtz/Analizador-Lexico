@@ -25,6 +25,7 @@ public class Nodo<T> {
     Object h;
     Object s;
     String operador="";
+    String var = "";
     
     //Constructor
     public Nodo(T t){
@@ -129,6 +130,14 @@ public class Nodo<T> {
 
     public void setOperador(String operador) {
         this.operador = operador;
+    }
+
+    public String getVar() {
+        return var;
+    }
+
+    public void setVar(String var) {
+        this.var = var;
     }
 
     @Override
