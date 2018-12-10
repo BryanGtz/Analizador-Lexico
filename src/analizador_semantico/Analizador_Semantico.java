@@ -15,7 +15,9 @@ public class Analizador_Semantico {
     Arbol_Sintactico as;
     Tabla_Simbolos ts;
     ArrayList<String> errores = new ArrayList();
-    ArrayList<String> e = new ArrayList();
+    ArrayList<String> exp = new ArrayList();
+    //Bandera para saber si la expresion que se está evaluando tiene algun error o no
+    boolean error = false;
     
     public void analizar(Analizador_Sintactico a_l){
         as = a_l.as;
@@ -47,7 +49,6 @@ public class Analizador_Semantico {
                     regla.setH(hijo.getH());
                 case "Mas_Declaraciones":
                     Object t = regla.getH();
-                    System.out.println(t);
                     for (int i = 1; i < regla.getHijos().size(); i++) {
                         regla.getHijo(i).setH(t);
                     }
@@ -90,14 +91,8 @@ public class Analizador_Semantico {
             case "Tipo_dato":
                 reglaTipoDato(n);
                 break;
-            case "Igual_Asignacion":
-                reglaIgualAsig(n);
-                break;
             case "Asignacion":
                 reglaAsignacion(n);
-                break;
-            case "Expresion_cadena":
-                reglaExpCadena(n);
                 break;
             case "Mas_cadenas":
                 reglaMasCadenas(n);
@@ -291,12 +286,12 @@ public class Analizador_Semantico {
             String tipo = idNum.getTipo();
             if(tipo!=null){
                 System.out.println("--------------------Arreglo---------------------");
-                for (int i = 0; i < e.size(); i++) {
-                    System.out.print(e.get(i));
+                for (int i = 0; i < exp.size(); i++) {
+                    System.out.print(exp.get(i));
                 }
-                if(e.size()%2==1){
+                if(exp.size()%2==1){
                     System.out.println("\nEvaluando la expresion anterior: ");
-                    EvaludadorExpresion e_e = new EvaludadorExpresion(e,tipo);
+                    EvaludadorExpresion e_e = new EvaludadorExpresion(exp,tipo);
                     regla.setValor(e_e.getValor());
                     System.out.println(e_e.getValor());
                 }
@@ -304,7 +299,7 @@ public class Analizador_Semantico {
                     System.out.println("ERROR EN EL VALOR QUE SE DESEA ASIGNAR. NO SE PUEDE REALIZAR LA OPERACION");
                 }
                 regla.setTipo(tipo);
-                e.clear();
+                exp.clear();
                 //regla.setValor(e_e.getValor());
             }
             else{
@@ -323,10 +318,10 @@ public class Analizador_Semantico {
 //                idNum.setTipo(tipoDato);
 //                primerTipo = tipoDato;
 //            }
-//            Nodo<String> expresion = n.getHijo(1);
-//            operador = expresion.getOperador();
-//            segundoOperando = expresion.getValor();
-//            segundoTipo = expresion.getTipo();
+//            Nodo<String> exp = n.getHijo(1);
+//            operador = exp.getOperador();
+//            segundoOperando = exp.getValor();
+//            segundoTipo = exp.getTipo();
 //            realizarOperacion(n,primerOperando,primerTipo,operador,segundoOperando,segundoTipo);
         }
         
@@ -400,7 +395,7 @@ public class Analizador_Semantico {
                         System.out.println("Error. La variable "+v+" no ha sido declarada");                        
                     }
                     else{
-                        e.add(valor);
+                        exp.add(valor);
                     }
                 }
                 else if("NUMERO".equals(idNum.getDatos().getTipo())){
@@ -411,7 +406,7 @@ public class Analizador_Semantico {
                         tipo="ENTERO";
                     }
                     valor = idNum.getDatos().getValor();
-                    e.add(valor);
+                    exp.add(valor);
                 }
                 regla.setValor(valor);
                 regla.setTipo(tipo);
@@ -428,7 +423,7 @@ public class Analizador_Semantico {
             Nodo<Token> op = n.getHijo(0);
             String operador = op.getDatos().getValor();
             regla.setOperador(operador);
-            e.add(operador);
+            exp.add(operador);
         }
     }
     
