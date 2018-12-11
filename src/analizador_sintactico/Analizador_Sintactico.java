@@ -1096,7 +1096,7 @@ public class Analizador_Sintactico {
 		return Selse;
 	}
 
-	// Sfrom -> from (Condicion_Inicial) to (Condicion ;) inc (IdNumCadBool ;) {cuerpo}
+	// Sfrom -> from (Condicion_Inicial) to (Condicion ;) inc (Identificador ;) {cuerpo}
 	public Nodo Sfrom() {
 		//-------------------------------------------
 		Nodo<String> SFrom = new Nodo("Sfrom");
@@ -1117,7 +1117,7 @@ public class Analizador_Sintactico {
 		Nodo<Token> inc = new Nodo();
 		
 		Nodo<Token> parentesis_apertura_3 = new Nodo();
-		Nodo<String> IdNumCadBool = new Nodo();
+		Nodo<String> Identificador = new Nodo();
 		Nodo<Token> fin_sentencia_2 = new Nodo();
 		Nodo<Token> parentesis_cerradura_3 = new Nodo();
 		
@@ -1255,9 +1255,25 @@ public class Analizador_Sintactico {
 			break;
 		}
 		i++;
-		// ------------------------------------------
-		// IdNumCadBool
-		IdNumCadBool = IdNumCadBool();
+		// ----------------------------------------------------
+		// Identificador:
+		Identificador = new Nodo("Identificador");
+		tipo = getTokenType();
+		switch (tipo) {
+			case "IDENTIFICADOR":
+				// Agregamos la variable a la tabla de simbolos
+				Nodo<Token> id = new Nodo(tokens.get(i));
+				Identificador.agregarHijo(id);
+				tabla.agregarVariable(tokens.get(i).getValor());
+				variables.add(tokens.get(i).getValor());
+				System.out.print(tokens.get(i).getValor());
+				break;
+			default:
+				Nodo<String> error = error(" IDENTIFICADOR");
+				Identificador.agregarHijo(error);
+				break;
+		}
+		i++;
 		// ------------------------------------------
 		// ;
 		tipo = getTokenType();
@@ -1333,8 +1349,8 @@ public class Analizador_Sintactico {
 				
 		inc.setHermano(parentesis_apertura_3);
 				
-		parentesis_apertura_3.setHermano(IdNumCadBool);
-		IdNumCadBool.setHermano(fin_sentencia_2);
+		parentesis_apertura_3.setHermano(Identificador);
+		Identificador.setHermano(fin_sentencia_2);
 		fin_sentencia_2.setHermano(parentesis_cerradura_3);
 		parentesis_cerradura_3.setHermano(inicio_bloque);
 				
@@ -1358,7 +1374,7 @@ public class Analizador_Sintactico {
 		SFrom.agregarHijo(inc);
 				
 		SFrom.agregarHijo(parentesis_apertura_3);
-		SFrom.agregarHijo(IdNumCadBool);
+		SFrom.agregarHijo(Identificador);
 		SFrom.agregarHijo(fin_sentencia_2);
 		SFrom.agregarHijo(parentesis_cerradura_3);
 				
