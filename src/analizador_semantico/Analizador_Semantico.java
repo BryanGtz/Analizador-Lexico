@@ -565,15 +565,20 @@ public class Analizador_Semantico {
         // Tipos y Operaciones compatibles:
         switch(Tipo_1) {
         case "int":
+        case "ENTERO":
             tipo_resultante = int_tipos_compatibles(Tipo_2,Operador);
             break;
         case "dec":
+        case "DECIMAL":
             tipo_resultante = dec_tipos_compatibles(Tipo_2,Operador);
             break;
         case "string":
+        case "Cadena de caracteres":
+        case "CADENA":
             tipo_resultante = string_tipos_compatibles(Tipo_2,Operador);
             break;
         case "bool":
+        case "BOLEANO":
             tipo_resultante = bool_tipos_compatibles(Tipo_2,Operador);
             break;
         }
@@ -595,9 +600,11 @@ public class Analizador_Semantico {
                 // Tipos compatibles:
                 switch(Tipo_2) {
                 case "int":
+                case "ENTERO":
                     tipo_resultante = "int";
                     break;
                 case "dec":
+                case "DECIMAL":
                     tipo_resultante = "dec";
                     break;
                 }
@@ -625,7 +632,9 @@ public class Analizador_Semantico {
                 // Tipos compatibles:
                 switch(Tipo_2) {
                 case "int":
+                case "ENTERO":
                 case "dec":
+                case "DECIMAL":
                     tipo_resultante = "bool";
                     break;
                 }
@@ -648,7 +657,9 @@ public class Analizador_Semantico {
                 // Tipos compatibles:
                 switch(Tipo_2) {
                 case "int":
+                case "ENTERO":
                 case "dec":
+                case "DECIMAL":
                     tipo_resultante = "dec";
                     break;
                 }
@@ -657,7 +668,9 @@ public class Analizador_Semantico {
                 // Tipos compatibles:
                 switch(Tipo_2) {
                 case "int":
+                case "ENTERO":
                 case "dec":
+                case "DECIMAL":
                     tipo_resultante = "dec";
                     break;
                 }
@@ -677,7 +690,9 @@ public class Analizador_Semantico {
                 // Tipos compatibles:
                 switch(Tipo_2) {
                 case "int":
+                case "ENTERO":
                 case "dec":
+                case "DECIMAL":
                     tipo_resultante = "bool";
                     break;
                 }
@@ -696,9 +711,14 @@ public class Analizador_Semantico {
                 // Tipos compatibles:
                 switch(Tipo_2) {
                 case "string":
-                //case "int":
-                //case "dec":
-                //case "bool":
+                case "Cadena de caracteres":
+                case "CADENA":
+                case "int":
+                case "ENTERO":
+                case "dec":
+                case "DECIMAL":
+                case "bool":
+                case "BOLEANO":
                     tipo_resultante = "string";
                     break;
                 }
@@ -707,6 +727,8 @@ public class Analizador_Semantico {
                 // Tipos compatibles:
                 switch(Tipo_2) {
                 case "string":
+                case "Cadena de caracteres":
+                case "CADENA":
                     tipo_resultante = "string";
                     break;
                 }
@@ -744,6 +766,7 @@ public class Analizador_Semantico {
                 // Tipos compatibles:
                 switch(Tipo_2) {
                 case "bool":
+                case "BOLEANO":
                     tipo_resultante = "bool";
                     break;
                 }
@@ -756,6 +779,7 @@ public class Analizador_Semantico {
                 // Tipos compatibles:
                 switch(Tipo_2) {
                 case "bool":
+                case "BOLEANO":
                     tipo_resultante = "bool";
                     break;
                 }
@@ -771,6 +795,7 @@ public class Analizador_Semantico {
                 // Tipos compatibles:
                 switch(Tipo_2) {
                 case "bool":
+                case "BOLEANO":
                     tipo_resultante = "bool";
                     break;
                 }
