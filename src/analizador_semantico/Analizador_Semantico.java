@@ -32,8 +32,15 @@ public class Analizador_Semantico {
     
     public void recorrer(Nodo n){
         if(n.esTerminal()&&n.getHijos().isEmpty()){
+            if(n.getDatos() instanceof Token){
+                Nodo<Token> hoja = n;
+                if(hoja.getDatos().getTipo().equals("IGUAL")){
+                    exp.clear();
+                }
+            }
             return;
         }
+        //Agregar atributos heredados (pasar el tipo de dato a mas declaraciones y de ahi a sus hijos)
         if(n.getDatos() instanceof String){
             Nodo<String> regla = n;
             switch (regla.getDatos()) {
@@ -68,15 +75,17 @@ public class Analizador_Semantico {
     
     public void determinarRegla(Nodo n){
         String regla;
-        if(n.getDatos() instanceof Token){
-            Nodo<Token> aux = n;
-            regla = aux.getDatos().getValor();
+        if(n.getDatos() instanceof Token||n.getDatos().equals("Vacio")){
+            //Si el nodo tiene un token o la palabra Vacio, 
+            //entonces no le corresponde regla alguna
+            return;
         }
         else{
+            //Casteo de Object a String del contenido del nodo
             Nodo<String> aux = n;
             regla = aux.getDatos();
         }
-        //System.out.println(regla);
+        
         switch(regla){
             case "Sstarto":
                 reglaStarto(n);
@@ -102,14 +111,11 @@ public class Analizador_Semantico {
             case "Cadena de caracteres":
                 reglaExpCadena(n);
                 break;
-            case "Boleano":
+            case "Booleano":
                 reglaBoleano(n);
                 break;
             case "Asignacion":
                 reglaAsignacion(n);
-                break;
-            case "Valor":
-                reglaValor(n);
                 break;
             case "Expresion_individual":
                 reglaExpIndividual(n);
@@ -117,14 +123,15 @@ public class Analizador_Semantico {
             case "Expresion":
                 reglaExpresion(n);
                 break;
-            case "Mas_Expresion":
+            case "Mas_Expresiones":
                 reglaMasExpresiones(n);
                 break;
             case "IdNumCadBool":
                 reglaIdNumCadBool(n);
                 break;
-            case "OPERADOR_ARITMETICO":
+            case "Op_arit":
                 reglaOperadorAritmetico(n);
+                break;
             case "Mas_declaraciones":
                 reglaMasDeclaraciones(n);
                 break;
@@ -134,7 +141,7 @@ public class Analizador_Semantico {
             case "Contenido":
                 reglaContenido(n);
                 break;
-            case "Mas_contenido":
+            case "Mas_Contenido":
                 reglaMasContenido(n);
                 break;
             case "SOperacion":
@@ -146,9 +153,14 @@ public class Analizador_Semantico {
             case "Condicion":
                 reglaCondicion(n);
                 break;
-            case "Operador_relacional":
+            case "Op_Not":
+                break;
+            case "Op_rel":
                 reglaOperadorRelacional(n);
                 break;
+            case "Op_log":
+                reglaOperadorLogico(n);
+                break;    
             case "Mas_Condiciones":
                 reglaMasCondiciones(n);
                 break;
@@ -218,7 +230,13 @@ public class Analizador_Semantico {
                 System.out.println("Error. La variable "+id+" ya ha sido declarada");
             }
             //Se comprueba que el valor que se quiere asignar corresponda con el tipo de dato indicado
-            if(!"".equals(tipoAsig)){
+            String tipo = comprobarTipo(tipoDato,tipoAsig,"=");
+            if(tipo.equals("error")){
+                System.out.println("ERROR. Tipos de datos no compatibles");
+            }
+            regla.setTipo(tipo);
+            System.out.println("Tipo: "+regla.getTipo());
+            /*if(!"".equals(tipoAsig)){
                 if(tipoDato.equals(tipoAsig)){                
                     ts.agregarValor(id, tipoAsig, valor);
                 }
@@ -228,7 +246,7 @@ public class Analizador_Semantico {
                 else{
                     System.out.println("Error. No se puede asignar "+tipoAsig+" a una variable "+tipoDato);
                 }
-            }
+            }*/
             
         }        
     }
@@ -262,7 +280,7 @@ public class Analizador_Semantico {
         
     }
         
-    public void reglaValor(Nodo n){
+    /*public void reglaValor(Nodo n){
         if(n.getDatos() instanceof Token){
             Nodo<Token> hijo = n.getHijo(0);
             String valor = hijo.getDatos().getValor();
@@ -272,7 +290,7 @@ public class Analizador_Semantico {
         }
         System.out.println(n.getTipo());   
         System.out.println(n.getValor());
-    }
+    }*/
     
     public void reglaTipoDato(Nodo n){
         String tipo;
@@ -284,35 +302,61 @@ public class Analizador_Semantico {
         System.out.println("===TIPO DE DATO====");
         System.out.println("Tipo: "+n.getTipo());
     }
-    //Expresion_individual -> idNum Expresion
+    //Expresion_individual -> idNumCadBool Expresion
     public void reglaExpIndividual(Nodo n) {
         System.out.println("===Expresion individual===");
-//        String primerOperando="";
-//        String primerTipo="";
-//        String operador="";
-//        String segundoOperando="";
-//        String segundoTipo="";
+        String primerOperando="";
+        String primerTipo="";
+        String operador="";
+        String segundoOperando="";
+        String segundoTipo="";
         if(n.getHijos().size()==2){
             Nodo<String> regla = n;
             Nodo<String> idNumCadBool = n.getHijo(0);
-            String tipo = idNumCadBool.getTipo();
-            if(tipo!=null){
-                System.out.println("--------------------Arreglo---------------------");
-                for (int i = 0; i < exp.size(); i++) {
-                    System.out.print(exp.get(i));
-                }
-                if(exp.size()%2==1){
-                    System.out.println("\nEvaluando la expresion anterior: ");
-                    EvaludadorExpresion e_e = new EvaludadorExpresion(exp,tipo);
-                    regla.setValor(e_e.getValor());
-                    System.out.println(e_e.getValor());
+            primerTipo = idNumCadBool.getTipo();
+            primerOperando = idNumCadBool.getValor();
+            Nodo<String> expresion = n.getHijo(1);
+            operador = expresion.getOperador();
+            segundoTipo = expresion.getTipo();
+            segundoOperando = expresion.getValor();
+            if(primerTipo!=null&&!"".equals(primerTipo)){
+                if(!"".equals(operador)&&!"".equals(segundoTipo)){
+                    String tipo = comprobarTipo(primerTipo,segundoTipo,operador);
+                    regla.setTipo((!"error".equals(tipo.toLowerCase()))?tipo:"");
                 }
                 else{
-                    System.out.println("ERROR EN EL VALOR QUE SE DESEA ASIGNAR. NO SE PUEDE REALIZAR LA OPERACION");
+                    regla.setTipo(primerTipo);
                 }
-                regla.setTipo(tipo);
-                exp.clear();
-                //regla.setValor(e_e.getValor());
+                System.out.println("Tipo: "+regla.getTipo());
+                if(regla.getTipo().equals("CADENA")
+                        ||regla.getTipo().equals("Cadena de caracteres")){
+                    String v = concatenarCadenas(primerOperando,segundoOperando);
+                    regla.setValor(v);
+                }
+                else if("".equals(regla.getTipo())){
+                    System.out.println("ERROR. Tipos de datos no compatibles");
+                }
+                else if(regla.getTipo().equals("VERDADERO")||regla.getTipo().equals("FALSO")){
+                    regla.setTipo("BOLEANO");
+                    regla.setValor(primerOperando);
+                }
+                else{
+                    System.out.println("--------------------Arreglo---------------------");
+                    for (int i = 0; i < exp.size(); i++) {
+                        System.out.print(exp.get(i));
+                    }
+                    if(exp.size()%2==1){
+                        System.out.println("\nEvaluando la expresion anterior: ");
+                        EvaludadorExpresion e_e = new EvaludadorExpresion(exp,primerTipo);
+                        regla.setValor(e_e.getValor());
+                        System.out.println("Valor: "+e_e.getValor());
+                        System.out.println("Tipo: "+regla.getTipo());
+                    }
+                    else{
+                        System.out.println("\nERROR EN EL VALOR QUE SE DESEA ASIGNAR. NO SE PUEDE REALIZAR LA OPERACION");
+                    }
+                    exp.clear();
+                }
             }
             else{
                 System.out.println("Error. La variable "+idNumCadBool.getHijo(0).getDatos()+" no ha sido declarada");
@@ -345,7 +389,7 @@ public class Analizador_Semantico {
 //        System.out.println(segundoTipo);
     }
     
-    //Expresion -> Operador_aritmetico IdNum Mas_expresiones | E
+    //Expresion -> Operador_aritmetico IdNumCadBool Mas_expresiones | E
     public void reglaExpresion(Nodo n){        
         if(n.getHijos().size()==3){
             System.out.println("======Expresion======");
@@ -396,8 +440,13 @@ public class Analizador_Semantico {
             Nodo<String> hijo = regla.getHijo(0);
             regla.setTipo(hijo.getTipo());
             regla.setValor(hijo.getValor());
+            regla.setVar(hijo.getVar());
+            exp.add(hijo.getValor());
             System.out.println("Valor: "+regla.getValor());
             System.out.println("Tipo: "+regla.getTipo());
+            if(!regla.getVar().equals("")){
+                System.out.println("Variable: "+regla.getVar());
+            }            
         }
     }
     
@@ -408,8 +457,8 @@ public class Analizador_Semantico {
             if(n.getHijo(0).getDatos() instanceof Token){                
                 Nodo<Token> numero = n.getHijo(0);
                 String valor = numero.getDatos().getValor();
-                String tipo = (valor.contains("\\."))? "DECIMAL": "ENTERO";
-                exp.add(valor);
+                String tipo = (valor.contains("."))? "DECIMAL": "ENTERO";
+                //exp.add(valor);
                 regla.setValor(valor);
                 regla.setTipo(tipo);
                 System.out.println("Valor: "+valor);
@@ -480,24 +529,83 @@ public class Analizador_Semantico {
         }     
     }
     
+    //Souto -> outo (contenido);
     public void reglaOuto(Nodo n){
-        
+        System.out.println("=======SOuto========");
+        Nodo<String> regla = n;
+        if(regla.getHijos().size()==5){
+            try{
+                Nodo<String> contenido = n.getHijo(2);
+                if(!contenido.getTipo().equals("Cadena de caracteres")
+                        &&!contenido.getTipo().equals("CADENA")){
+                    System.out.println("ERROR. Tipo de dato esperado: CADENA."
+                            + " Tipo de dato recibido: "+contenido.getTipo());
+                }
+                else{
+                    regla.setTipo(contenido.getTipo());
+                    System.out.println("Tipo: "+regla.getTipo());
+                }
+            }catch (Exception ex) {
+                
+            }
+            exp.clear();
+        }
     }
     
+    //Contenido -> IdNumCadBool Mas_contenido
     public void reglaContenido(Nodo n){
-        
+        System.out.println("=======Contenido========");
+        Nodo<String> regla = n;
+        if(regla.getHijos().size()==2){
+            Nodo<String> idnumcadbool = regla.getHijo(0);
+            regla.setTipo(idnumcadbool.getTipo());
+            if(idnumcadbool.getTipo().equals("")){
+                System.err.println("ERROR. Variable: "+idnumcadbool.getVar()+" no declarada");
+            }
+            else{
+                System.err.println(idnumcadbool.getTipo());
+            }
+            Nodo<String> mas_c = regla.getHijo(1);
+            regla.setValor(concatenarCadenas(idnumcadbool.getValor(),mas_c.getValor()));
+            System.out.println("Tipo: "+regla.getTipo());
+        }
     }
     
+    //mas_contenido -> +contenido|E
     public void reglaMasContenido(Nodo n){
-        
+        System.out.println("=======Mas contenido========");
+        Nodo<String> regla = n;
+        if(regla.getHijos().size()==2){
+            Nodo<String> contenido = regla.getHijo(1);
+            regla.setTipo(contenido.getTipo());
+            Nodo<String> mas_c = regla.getHijo(1);
+            regla.setValor(concatenarCadenas(contenido.getValor(),mas_c.getValor()));
+            System.out.println("Tipo "+regla.getTipo());
+        }
     }
     
+    // SOperacion -> Identificador = Expresion_individual ;
     public void reglaOperacion(Nodo n){
-        
+        System.out.println("=======Operacion========");
+        Nodo<String> regla = n;
+        if(regla.getHijos().size()==4){
+            Nodo<String> identificador = regla.getHijo(0);
+            String tipoId = identificador.getTipo();
+            Nodo<String> expresion = regla.getHijo(2);
+            String tipoExp = expresion.getTipo();
+            String tipo = comprobarTipo(tipoId,tipoExp,"=");
+            if("error".equals(tipo.toLowerCase())){
+                System.out.println("ERROR. Tipos de datos no compatibles");
+            }
+            else{
+                regla.setTipo(tipo);
+            }            
+            System.out.println("Tipo "+regla.getTipo());
+        }
     }
     
     public void reglaIf(Nodo n){
-        
+        System.out.println("======If==========");
     }
     
     // Condicion -> Expresion_individual Operador_relacional Expresion_individual Mas_Condiciones
@@ -514,28 +622,24 @@ public class Analizador_Semantico {
             Nodo<String> mas_cond = regla.getHijo(3);
             Nodo<String> op_rel = n.getHijo(1);
             String op = op_rel.getValor();
-            switch (op) {
-                case ">":
-                case "<":
-                case ">=":
-                case "<=":
-                    if("ENTERO".equals(primerTipo)||"DECIMAL".equals(primerTipo)){
-                        if("ENTERO".equals(segundoTipo)||"DECIMAL".equals(segundoTipo)){
-                            
-                        }
-                    }
-                    break;
-                case "==":
-                    
-                    break;
-                default:
-                    break;
-            }
+            String tipo = comprobarTipo(primerTipo,segundoTipo,op);
+            System.out.println("Tipo: "+tipo);
+            regla.setTipo(tipo);
             
         }
     }
 
     public void reglaOperadorRelacional(Nodo n){
+        System.out.println("====Operador relacional=====");
+        if(n.getHijos().size()==1&&n.getHijo(0).getDatos() instanceof Token){
+            Nodo<Token> hijo = n.getHijo(0);
+            String valor = hijo.getDatos().getValor();
+            n.setValor(valor);
+        }
+    }
+       
+    public void reglaOperadorLogico(Nodo n) {
+        System.out.println("====Operador logico=====");
         if(n.getHijos().size()==1&&n.getHijo(0).getDatos() instanceof Token){
             Nodo<Token> hijo = n.getHijo(0);
             String valor = hijo.getDatos().getValor();
@@ -564,16 +668,16 @@ public class Analizador_Semantico {
 
         // Tipos y Operaciones compatibles:
         switch(Tipo_1) {
-        case "int":
+        case "int": case "ENTERO":
             tipo_resultante = int_tipos_compatibles(Tipo_2,Operador);
             break;
-        case "dec":
+        case "dec": case "DECIMAL":
             tipo_resultante = dec_tipos_compatibles(Tipo_2,Operador);
             break;
-        case "string":
+        case "string": case "CADENA": case "Cadena de caracteres":
             tipo_resultante = string_tipos_compatibles(Tipo_2,Operador);
             break;
-        case "bool":
+        case "bool": case "VERDADERO": case "FALSO": case "Booleano":
             tipo_resultante = bool_tipos_compatibles(Tipo_2,Operador);
             break;
         }
@@ -594,10 +698,10 @@ public class Analizador_Semantico {
             case "%":
                 // Tipos compatibles:
                 switch(Tipo_2) {
-                case "int":
+                case "int": case "ENTERO":
                     tipo_resultante = "int";
                     break;
-                case "dec":
+                case "dec": case "DECIMAL":
                     tipo_resultante = "dec";
                     break;
                 }
@@ -605,7 +709,7 @@ public class Analizador_Semantico {
             case "=":
                 // Tipos compatibles:
                 switch(Tipo_2) {
-                case "int":
+                case "int": case "ENTERO":
                     tipo_resultante = "int";
                     break;
                 }
@@ -624,8 +728,8 @@ public class Analizador_Semantico {
             case "!=":
                 // Tipos compatibles:
                 switch(Tipo_2) {
-                case "int":
-                case "dec":
+                case "int": case "ENTERO":
+                case "dec": case "DECIMAL":
                     tipo_resultante = "bool";
                     break;
                 }
@@ -647,8 +751,8 @@ public class Analizador_Semantico {
             case "%":
                 // Tipos compatibles:
                 switch(Tipo_2) {
-                case "int":
-                case "dec":
+                case "int": case "ENTERO":
+                case "dec": case "DECIMAL":
                     tipo_resultante = "dec";
                     break;
                 }
@@ -656,8 +760,8 @@ public class Analizador_Semantico {
             case "=":
                 // Tipos compatibles:
                 switch(Tipo_2) {
-                case "int":
-                case "dec":
+                case "int": case "ENTERO":
+                case "dec": case "DECIMAL":
                     tipo_resultante = "dec";
                     break;
                 }
@@ -676,8 +780,8 @@ public class Analizador_Semantico {
             case "!=":
                 // Tipos compatibles:
                 switch(Tipo_2) {
-                case "int":
-                case "dec":
+                case "int": case "ENTERO":
+                case "dec": case "DECIMAL":
                     tipo_resultante = "bool";
                     break;
                 }
@@ -695,7 +799,7 @@ public class Analizador_Semantico {
             case "+":
                 // Tipos compatibles:
                 switch(Tipo_2) {
-                case "string":
+                case "string": case "CADENA": case "Cadena de caracteres":
                 //case "int":
                 //case "dec":
                 //case "bool":
@@ -706,7 +810,7 @@ public class Analizador_Semantico {
             case "=":
                 // Tipos compatibles:
                 switch(Tipo_2) {
-                case "string":
+                case "string": case "CADENA": case "Cadena de caracteres":
                     tipo_resultante = "string";
                     break;
                 }
@@ -778,6 +882,11 @@ public class Analizador_Semantico {
         }
         
         return tipo_resultante;
+    }
+    
+    public String concatenarCadenas(String cadena1, String cadena2){
+        if(cadena2.isEmpty()) return cadena1;
+        else return cadena1+cadena2;
     }
     
     private void realizarOperacion(Nodo regla, String primerValor, String primerTipo, String operador, String segundoValor, String segundoTipo){
