@@ -14,7 +14,7 @@ public class Analizador_Sintactico {
 	// Arbol semantico
 	public Arbol_Sintactico as;
 	// Fila de errores
-	Queue<String> errores = new LinkedList<>();
+	public Queue<String> errores = new LinkedList<>();
 	// Fila de variables detectadas
 	Queue<String> variables = new LinkedList<>();
 	// Tabla de simbolos
@@ -707,7 +707,7 @@ public class Analizador_Sintactico {
 		String tipo = getTokenType();
 		switch (tipo) {
 			case "IDENTIFICADOR":
-				Nodo<String> id = new Nodo(tokens.get(i).getValor());
+				Nodo<String> id = new Nodo(tokens.get(i));
 				System.out.print(" " + tokens.get(i).getValor());
 				tabla.agregarVariable(tokens.get(i).getValor());
 				variables.add(tokens.get(i).getValor());
@@ -725,7 +725,7 @@ public class Analizador_Sintactico {
 		tipo = getTokenType();
 		switch (tipo) {
 		case "IGUAL":
-			igual = new Nodo(tokens.get(i).getValor());
+			igual = new Nodo(tokens.get(i));
 			System.out.print(" " + tokens.get(i).getValor());
 			i++;
 			break;
