@@ -848,6 +848,7 @@ public class Analizador_Semantico {
                 // Tipos compatibles:
                 switch(Tipo_2) {
                 case "bool":
+                case "BOLEANO":
                     tipo_resultante = "bool";
                     break;
                 }
@@ -860,6 +861,7 @@ public class Analizador_Semantico {
                 // Tipos compatibles:
                 switch(Tipo_2) {
                 case "bool":
+                case "BOLEANO":
                     tipo_resultante = "bool";
                     break;
                 }
@@ -875,6 +877,7 @@ public class Analizador_Semantico {
                 // Tipos compatibles:
                 switch(Tipo_2) {
                 case "bool":
+                case "BOLEANO":
                     tipo_resultante = "bool";
                     break;
                 }
