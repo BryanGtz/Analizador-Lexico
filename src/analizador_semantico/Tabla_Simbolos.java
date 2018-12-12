@@ -56,16 +56,37 @@ public class Tabla_Simbolos{
     }
     
     /**
-     * Metodo para buscar una variable en la tabla y agregarle el tipo de dato
+     * Metodo para agregarle a una variable el tipo de dato, asi como un valor
+     * por defecto acorde al tipo de dato
      * @param variable nombre de la variable a buscar en el mapa
      * @param tipo tipo de dato a agregar
-     * @return false si no existe la variable en el mapa
+     * @return false si no existe la variable en el mapa o ya tiene tipo de dato
      * true si se pudo cambiar el tipo, false en caso contrario
      */
     public boolean agregarTipo(String variable, String tipo){
+        //Se obtiene la variable para cambiarle su tipo y valor
         Simbolo var = variables.get(variable);
-        if(var!=null){
+        //si existe la variable y no tiene tipo de dato
+        if(var!=null&&"".equals(var.getTipo_dato())){
             var.setTipo_dato(tipo);
+            //Establecer valor por defecto
+            switch (tipo) {
+                case "ENTERO":
+                    var.setValor("0");
+                    break;
+                case "DECIMAL":
+                    var.setValor("0.0");
+                    break;
+                case "BOLEANO":
+                    var.setValor("false");
+                    break;
+                case "CADENA":
+                    var.setValor("");
+                    break;
+                default:
+                    System.out.println("Tipo de dato no reconocido "+tipo);
+                    break;
+            }
             return (tipo.equals(var.getTipo_dato()));
         }
         else{
@@ -73,13 +94,20 @@ public class Tabla_Simbolos{
         }
     }
     
-    public String agregarValor(String variable, String tipo_valor, Object valor){
-        Simbolo var = variables.get(variable);
-        if(var==null){
-            return "Error. La variable "+ variable+ " no ha sido declarada";
-        }
-        else{
-            return "";
-        }
-    }    
+    public void agregarValor(String variable, String tipo_valor, Object valor){
+        Simbolo var = variables.get(variable);            
+        System.out.print("Se le asigna el valor de "+valor);
+        System.out.println(" a la variable "+variable);
+        var.setValor((String) valor);   
+    }
+    
+    public String getValor(String variable){
+        String aux = variables.get(variable).getValor();
+        return (aux==null)?"":aux;
+    }
+    
+    public String getTipoDato(String variable){
+        String aux = variables.get(variable).getTipo_dato();
+        return (aux==null)?"":aux;
+    }
 }

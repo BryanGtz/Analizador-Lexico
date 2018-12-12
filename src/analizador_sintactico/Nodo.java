@@ -20,11 +20,12 @@ public class Nodo<T> {
     Nodo hermano; 
     
     //Atributos necesarios para el recorrido en el analizador semantico
-    String tipo;
-    String nombre;
-    Object valor;
+    String tipo="";
+    String valor="";
     Object h;
     Object s;
+    String operador="";
+    String var = "";
     
     //Constructor
     public Nodo(T t){
@@ -90,6 +91,54 @@ public class Nodo<T> {
     public void setHermano(Nodo hermano) {
         this.hermano = hermano;
     }     
+
+    public Object getH() {
+        return h;
+    }
+
+    public void setH(Object h) {
+        this.h = h;
+    }
+
+    public Object getS() {
+        return s;
+    }
+
+    public void setS(Object s) {
+        this.s = s;
+    }
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
+    }
+
+    public String getValor() {
+        return valor;
+    }
+
+    public void setValor(String valor) {
+        this.valor = valor;
+    }
+
+    public String getOperador() {
+        return operador;
+    }
+
+    public void setOperador(String operador) {
+        this.operador = operador;
+    }
+
+    public String getVar() {
+        return var;
+    }
+
+    public void setVar(String var) {
+        this.var = var;
+    }
 
     @Override
     public String toString() {

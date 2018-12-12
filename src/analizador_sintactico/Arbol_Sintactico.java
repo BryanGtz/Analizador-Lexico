@@ -53,7 +53,7 @@ public class Arbol_Sintactico {
                 aux.add(hijoActual);
                 if(hijoActual.getDatos() instanceof Token){
                     Nodo<Token> nodo_aux = new Nodo(hijoActual);
-                    texto+=nodo_aux.getDatos().getTipo()+" ";
+                    texto+=nodo_aux.getDatos().getValor()+" ";
                 }
                 else{
                     texto+=hijoActual.getDatos()+" ";

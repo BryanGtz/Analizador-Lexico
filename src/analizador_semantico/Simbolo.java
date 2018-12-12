@@ -14,15 +14,15 @@ import java.util.Objects;
 public class Simbolo {
 	String nombre;
 	String tipo_dato;
-	Object valor;
+	String valor;
   
   public Simbolo(String nombre){
       this.nombre = nombre;
-      this.tipo_dato = null;
-      this.valor = null;
+      this.tipo_dato = "";
+      this.valor = "";
   }
 
-	public Simbolo(String nombre, String tipo_dato, Object valor) {
+	public Simbolo(String nombre, String tipo_dato, String valor) {
 		this.nombre = nombre;
 		this.tipo_dato = tipo_dato;
 		this.valor = valor;
@@ -50,11 +50,11 @@ public class Simbolo {
 		this.tipo_dato = tipo_dato;
 	}
 
-	public Object getValor() {
+	public String getValor() {
 		return valor;
 	}
 
-	public void setValor(Object valor) {
+	public void setValor(String valor) {
 		this.valor = valor;
 	}
 
