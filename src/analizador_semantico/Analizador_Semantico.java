@@ -719,7 +719,17 @@ public class Analizador_Semantico {
     }
     
     public void reglaMasCondiciones(Nodo n){
-        
+        System.out.println("====Mas condiciones=====");
+        if(n.getHijos().size()==2){
+            Nodo<Token> op_log = n.getHijo(0);
+            String op = op_log.getDatos().getValor();
+            n.setOperador(op);
+            System.out.println("Operador: "+n.getOperador());
+            Nodo<String> cond = n.getHijo(1);
+            String tipo = cond.getTipo();
+            n.setTipo(tipo);
+            System.out.println("Tipo: "+n.getTipo());
+        }
     }
     
     public void reglaElse(Nodo n){
