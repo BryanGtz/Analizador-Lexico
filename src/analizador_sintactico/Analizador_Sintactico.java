@@ -1072,7 +1072,7 @@ public class Analizador_Sintactico {
 						fin_bloque = error(" {");
 						break;
 				}
-
+                                i++;
 				// Hermanos:
 				elsee.setHermano(inicio_bloque);
 				inicio_bloque.setHermano(cuerpo);
