@@ -25,7 +25,7 @@ public class EvaludadorExpresion {
 	}	
 
 	public String getValor() {
-		if(tipo.equals("Entero"))
+		if(tipo.equals("ENTERO"))
 			return(Integer.toString((int)this.valor));
 		else
 			return Double.toString(this.valor);
