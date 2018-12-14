@@ -23,10 +23,17 @@ public class Analizador_Semantico {
         as = a_l.as;
         ts = a_l.tabla;
         if(a_l.errores.isEmpty()){
-            System.out.println("========================");
-            System.out.println("Inicia análisis semantico");
+            System.out.println("==================================");
+            System.out.println("Comienza el analizador semantico:");
+            System.out.println("----------------------------------");
             Nodo<String> raiz = as.getRaiz();
             recorrer(raiz);
+            System.out.println("\n----------------------------------");
+            System.out.println("Finaliza el analizador Sintactico:");
+            System.out.println("==================================");
+            // Imprimimos los errores detectados
+            System.out.println(errores.toString().replaceAll(",", "\n"));
+            System.out.println("==================================");
         }
     }
     
@@ -88,15 +95,6 @@ public class Analizador_Semantico {
         }
         
         switch(regla){
-            case "Sstarto":
-                reglaStarto(n);
-                break;
-            case "Cuerpo":
-                reglaCuerpo(n);
-                break;
-            case "Mas_instrucciones":
-                reglaMasInstrucciones(n);
-                break;
             case "SDeclaracion":
                 reglaDeclaracion(n);
                 break;
@@ -178,19 +176,7 @@ public class Analizador_Semantico {
                 break;
         }
     }
-    
-    public void reglaStarto(Nodo n){
-        
-    }
-    
-    public void reglaCuerpo(Nodo n){        
-        
-    }
-    
-    public void reglaMasInstrucciones(Nodo n){
-        
-    }
-    
+
     //Identificador -> ID {Identificador.valor = ID.valor;Identificador.tipo = ID.tipo}
     public void reglaIdentificador(Nodo n){
         Nodo<String> regla = n;
@@ -232,7 +218,7 @@ public class Analizador_Semantico {
             //si no, agregarle el tipo de dato
             //Si la variable ya tiene tipo de dato se imprime un mensaje de error
             if(!ts.agregarTipo(id, tipoDato)){
-                System.out.println("Error. La variable "+id+" ya ha sido declarada");
+                errores.add("Error. La variable "+id+" ya ha sido declarada");
             }
             else{
                 System.out.println("Se asignó el tipo de dato "+tipoDato+ " a la variable "+id);
@@ -241,7 +227,7 @@ public class Analizador_Semantico {
                     String tipo = comprobarTipo(tipoDato,tipoAsig,"=");
                     regla.setTipo(tipo);
                     if(tipo.equals("error")){
-                        System.out.println("ERROR. "
+                        errores.add("ERROR. "
                                 + "Tipos de datos "+ tipoDato + " y " + tipoAsig +" no compatibles");
                     }
                     else{
@@ -287,18 +273,6 @@ public class Analizador_Semantico {
         }
         
     }
-        
-    /*public void reglaValor(Nodo n){
-        if(n.getDatos() instanceof Token){
-            Nodo<Token> hijo = n.getHijo(0);
-            String valor = hijo.getDatos().getValor();
-            String tipo = hijo.getDatos().getTipo();
-            n.setValor(valor);
-            n.setTipo(tipo);
-        }
-        System.out.println(n.getTipo());   
-        System.out.println(n.getValor());
-    }*/
     
     //Tipo_dato -> id|numero|boleano|cadena
     //{Tipo_Dato.tipo = id.tipo|numero.tipo|boleano.tipo|cadena.tipo}
@@ -345,7 +319,7 @@ public class Analizador_Semantico {
                         regla.setValor(v);
                         break;
                     case "":
-                        System.out.println("ERROR. Tipos de datos no compatibles");
+                        errores.add("ERROR. Tipos de datos no compatibles");
                         break;
                     case "VERDADERO":
                     case "FALSO":
@@ -371,34 +345,9 @@ public class Analizador_Semantico {
                 }
             }
             else{
-                System.out.println("Error. La variable "+idNumCadBool.getVar()+" no ha sido declarada");
+                errores.add("Error. La variable "+idNumCadBool.getVar()+" no ha sido declarada");
             }
-            
-//            if("NUMERO".equals(tipo)){
-//                primerOperando = idNum.getValor();
-//                primerTipo = idNum.getTipo();
-//            }
-//            else if("IDENTIFICADOR".equals(tipo)){
-//                String valor = ts.getValor(aux.getValor());
-//                idNum.setValor(valor);
-//                primerOperando = valor;
-//                String tipoDato = ts.getTipoDato(aux.getValor());
-//                idNum.setTipo(tipoDato);
-//                primerTipo = tipoDato;
-//            }
-//            Nodo<String> exp = n.getHijo(1);
-//            operador = exp.getOperador();
-//            segundoOperando = exp.getValor();
-//            segundoTipo = exp.getTipo();
-//            realizarOperacion(n,primerOperando,primerTipo,operador,segundoOperando,segundoTipo);
         }
-        
-        
-//        System.out.println(primerOperando);
-//        System.out.println(primerTipo);
-//        System.out.println(operador);
-//        System.out.println(segundoOperando);
-//        System.out.println(segundoTipo);
     }
     
     //Expresion -> Operador_aritmetico IdNumCadBool Mas_expresiones | E
@@ -435,7 +384,7 @@ public class Analizador_Semantico {
                         regla.setValor(v);
                         break;
                     case "error":
-                        System.out.println("ERROR. Tipos de datos no compatibles");
+                        errores.add("ERROR. Tipos de datos no compatibles");
                         break;
                     case "VERDADERO":
                     case "FALSO":
@@ -461,7 +410,7 @@ public class Analizador_Semantico {
                 }
             }
             else{
-                System.out.println("Error. La variable "+idNumCadBool.getVar()+" no ha sido declarada");
+                errores.add("Error. La variable "+idNumCadBool.getVar()+" no ha sido declarada");
             }
             /*if("BOLEANO".equals(primerTipo)){
                 System.out.println("Error. No se admiten operaciones con variables boleanas");
@@ -491,8 +440,7 @@ public class Analizador_Semantico {
             System.out.println("Tipo: "+tipo);
             System.out.println("Valor: "+valor);
             System.out.println("Operador: "+operador);
-        }
-            
+        }    
     }
         
     public void reglaIdNumCadBool(Nodo n) {
@@ -576,7 +524,7 @@ public class Analizador_Semantico {
             //Revisar si la variable ya fue declarada
             //si no, agregarle el tipo de dato
             if(!ts.agregarTipo(id, tipoDato)){
-                System.out.println("Error. La variable "+id+" ya ha sido declarada");
+                errores.add("Error. La variable "+id+" ya ha sido declarada");
             }
             else{
                 System.out.println("Se asignó el tipo de dato "+tipoDato+ " a la variable "+id);
@@ -584,7 +532,7 @@ public class Analizador_Semantico {
                 String tipo = comprobarTipo(tipoDato,tipoAsig,"=");
                 regla.setTipo(tipo);
                 if(tipo.equals("error")){
-                    System.out.println("ERROR. "
+                    errores.add("ERROR. "
                             + "Tipos de datos "+ tipoDato + " y " + tipoAsig +" no compatibles");
                 }
                 else{
@@ -603,7 +551,7 @@ public class Analizador_Semantico {
                 Nodo<String> contenido = n.getHijo(2);
                 if(!contenido.getTipo().equals("Cadena de caracteres")
                         &&!contenido.getTipo().equals("CADENA")){
-                    System.out.println("ERROR. Tipo de dato esperado: CADENA."
+                    errores.add("ERROR. Tipo de dato esperado: CADENA."
                             + " Tipo de dato recibido: "+contenido.getTipo());
                 }
                 else{
@@ -625,7 +573,7 @@ public class Analizador_Semantico {
             Nodo<String> idnumcadbool = regla.getHijo(0);
             regla.setTipo(idnumcadbool.getTipo());
             if(idnumcadbool.getTipo().equals("")){
-                System.out.println("ERROR. Variable: "+idnumcadbool.getVar()+" no declarada");
+                errores.add("ERROR. Variable: "+idnumcadbool.getVar()+" no declarada");
             }
             Nodo<String> mas_c = regla.getHijo(1);
             regla.setValor(concatenarCadenas(idnumcadbool.getValor(),mas_c.getValor()));
@@ -658,7 +606,7 @@ public class Analizador_Semantico {
             String tipoExp = expresion.getTipo();
             String tipo = comprobarTipo(tipoId,tipoExp,"=");
             if("error".equals(tipo.toLowerCase())){
-                System.out.println("ERROR. Tipos de datos no compatibles");
+                errores.add("ERROR. Tipos de datos no compatibles");
             }
             else{
                 regla.setTipo(tipo);
