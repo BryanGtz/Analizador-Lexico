@@ -371,7 +371,7 @@ public class Analizador_Semantico {
                 }
             }
             else{
-                System.out.println("Error. La variable "+idNumCadBool.getHijo(0).getDatos()+" no ha sido declarada");
+                System.out.println("Error. La variable "+idNumCadBool.getVar()+" no ha sido declarada");
             }
             
 //            if("NUMERO".equals(tipo)){
@@ -721,8 +721,8 @@ public class Analizador_Semantico {
     public void reglaMasCondiciones(Nodo n){
         System.out.println("====Mas condiciones=====");
         if(n.getHijos().size()==2){
-            Nodo<Token> op_log = n.getHijo(0);
-            String op = op_log.getDatos().getValor();
+            Nodo<String> op_log = n.getHijo(0);
+            String op = op_log.getValor();
             n.setOperador(op);
             System.out.println("Operador: "+n.getOperador());
             Nodo<String> cond = n.getHijo(1);
@@ -733,15 +733,15 @@ public class Analizador_Semantico {
     }
     
     public void reglaElse(Nodo n){
-        
+        System.out.println("====Else====");
     }
     
     public void reglaFrom(Nodo n){
-        
+        System.out.println("======From=====");
     }
     
     public void reglaCondicionInicial(Nodo n){
-        
+        System.out.println("=======Condicion inicial======");
     }
     
     public String comprobarTipo(String Tipo_1, String Tipo_2, String Operador) {
