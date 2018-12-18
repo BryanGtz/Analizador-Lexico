@@ -39,6 +39,7 @@ public class Arbol_Sintactico {
 //        return raiz.toString();
 //    }
     
+    
     @Override
     public String toString(){
         String texto = "";

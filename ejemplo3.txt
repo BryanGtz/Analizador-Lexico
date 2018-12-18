@@ -9,46 +9,42 @@
 	# Entero:
 	 int b2 = true + false + 3;
 	 int a1 = 1+"5"-a2, b2 = true;
-	# int a4=1+2-3*4/5;
-	# int a;
-	# int b;
-	# EJEMPLOS QUE CAUSAN ERRORES
-	# int 3 = 3;
-	# int 3 = 3++;
-	# int a = 5++b;
-	# int a = 5+$;
+	 int a4=1+2-3*4/5;
+	 int a;
+	 int b;
 	# -----------------
 	# Cadena:
-	# string t1 = "Ana"+"Victoria", t2 = "Cavazos";
-	# string t3 = t1 + t2;
+	 string t1 = "Ana"+"Victoria", t2 = "Cavazos";
+	 string t3 = t1 + t2;
 	# -----------------
 	# Decimal: 
-	# dec a1 = 1.3+2+a;
-	# dec a2 = a1+3.5-a3*a4;
+	 dec a1 = 1.3+2+a;
+	 dec a2 = a1+3.5-a3*a4;
 	# -----------------
 	# Booleanos:
-	# bool c = true + 5;
-	# bool a = true, b=false;
-	# bool b = 2, c=2.0;
+	
+	 bool c = true + 5;
+	 bool a = true, b=false;
+	 bool b = 2, c=2.0;
 	# ====================================================
 	# Operaciones: 
-	# a1 = 1 + "5" - a2 / true;
-	# c = 1+2;
-	# a = 1+2-3*5/10;
-	# b = a+2/5+"";
+	 a1 = 1 + "5" - a2 / true;
+	 c = 1+2;
+	 a = 1+2-3*5/10;
+	 b = a+2/5+"";
 	# ====================================================
 	# If-else:
-	# if(a == 1){b=3;}
-	# if(a1 < a2 or a1==3){ int a;}
-	# else{outo("a");}
-	# if(a2 == a3){outo("a2 es igual a a3");}
-	# if(a3 >= a1){outo("a3 es mayor o igual que a1");}
-	# if(a2 != a3){outo("a2 es diferente que a3");}
+	 if(a == 1){b=3;}
+	 if(a1 < a2 or a1==3){ int a;}
+	 else{outo("a");}
+	 if(a2 == a3){outo("a2 es igual a a3");}
+	 if(a3 >= a1){outo("a3 es mayor o igual que a1");}
+	 if(a2 != a3){outo("a2 es diferente que a3");}
 	# ====================================================
 	# From:
-	# from(i=1;) to (i< 10;) inc (i;) { int a; } 
-	# from(i=i+3;)to(a1<=a2;) inc(a1;){
-	#	a3 = a3;
-	# }
+	 from(i=1;) to (i< 10;) inc (i;) { int a; } 
+	 from(i=i+3;)to(a1<=a2;) inc(a1;){
+		a3 = a3;
+	 }
 	# ====================================================
 	}

@@ -19,6 +19,7 @@ public class Analizador_Semantico {
     //Bandera para saber si la expresion que se está evaluando tiene algun error o no
     boolean error = false;
     
+    
     public void analizar(Analizador_Sintactico a_l){
         as = a_l.as;
         ts = a_l.tabla;
@@ -782,6 +783,14 @@ public class Analizador_Semantico {
         switch(Operador) {
             // Aritmeticos:
             case "+":
+            	switch (Tipo_2) {
+                case "CADENA":
+                case "Cadena de caracteres":
+                    tipo_resultante = "Cadena de caracteres";
+                    break;
+                default:
+                    break;
+            	}
             case "-":
             case "*":
             case "/":

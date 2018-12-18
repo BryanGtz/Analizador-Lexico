@@ -94,6 +94,7 @@ public class Tabla_Simbolos{
         }
     }
     
+    
     public void agregarValor(String variable, Object valor){
         Simbolo var = variables.get(variable);            
         System.out.print("Se le asigna el valor de "+valor);
