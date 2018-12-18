@@ -11,6 +11,7 @@ import java.util.Objects;
  *
  * @author User
  */
+
 public class Simbolo {
 	String nombre;
 	String tipo_dato;

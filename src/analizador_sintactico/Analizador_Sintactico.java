@@ -29,7 +29,7 @@ public class Analizador_Sintactico {
 		tokens = a_l.tokens;
 		// Inicializamos el contador de tokens.
 		i = 0;
-		//
+		//inicializa la tabla de simbolos
 		tabla = new Tabla_Simbolos();
 		if (tokens.size() != 0) {
 			// Comenzamos con la primer regla.
@@ -54,6 +54,7 @@ public class Analizador_Sintactico {
 		System.out.println(variables.toString().replaceAll(",", "\n"));
 	}
 
+	
 	// Sstarto -> starto () {cuerpo}
 	public Nodo Sstarto() {
 		Nodo<String> regla = new Nodo("Sstarto");

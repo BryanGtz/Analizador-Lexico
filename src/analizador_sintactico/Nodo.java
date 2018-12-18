@@ -41,6 +41,7 @@ public class Nodo<T> {
         esTerminal = false;
     }
     
+    
     //constructor copia
     public Nodo(Nodo<T> n){
         this.datos = n.datos;
